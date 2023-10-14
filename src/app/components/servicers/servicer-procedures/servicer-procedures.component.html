@@ -1,0 +1,101 @@
+<div class="container mx-auto p-4">
+  <h2 class="text-2xl font-semibold mb-4">Service Verification</h2>
+  <div class="text-red-700 text-center" *ngIf="message">{{ message }}</div>
+  <form
+    [formGroup]="verificationForm"
+    (ngSubmit)="verifyService()"
+    enctype="multipart/form-data"
+  >
+    <div class="mb-4">
+      <label class="text-gray-700 text-sm font-bold" for="serviceName"
+        >Service Name:</label
+      >
+      <span
+        class="validation text-red-500"
+        *ngIf="verificationForm.get('serviceName')?.touched && verificationForm.controls['serviceName'].errors?.['required']"
+        >Service Name is Mandatory</span
+      >
+      <input
+        type="text"
+        id="serviceName"
+        name="serviceName"
+        class="w-full p-2 border rounded-lg"
+        formControlName="serviceName"
+        required
+      />
+    </div>
+    <div class="mb-4">
+      <label class="text-gray-700 text-sm font-bold" for="description"
+        >Description:</label
+      >
+      <span
+        class="validation text-red-500"
+        *ngIf="verificationForm.get('description')?.touched && verificationForm.controls['description'].errors?.['required']"
+        >Service Description Mandatory</span
+      >
+      <textarea
+        id="description"
+        name="description"
+        class="w-full p-2 border rounded-lg"
+        rows="4"
+        formControlName="description"
+        required
+      ></textarea>
+    </div>
+    <div class="mb-4">
+      <label class="text-gray-700 text-sm font-bold" for="serviceName"
+        >Service Category:</label
+      >
+      <span
+        class="validation text-red-500"
+        *ngIf="verificationForm.get('serviceName')?.touched && verificationForm.controls['serviceName'].errors?.['required']"
+        >Category is Mandatory</span
+      >
+      <select formControlName="category">
+        <option selected disabled value="">Choose here</option>        
+        <option *ngFor="let category of categories">{{category.categoryName}}</option>
+      </select>
+    </div>
+    <div class="mb-4">
+      <label class="text-gray-700 text-sm font-bold" for="amount"
+        >Amount:</label
+      >
+      <span
+        class="validation text-red-500"
+        *ngIf="verificationForm.get('amount')?.touched && verificationForm.controls['amount'].errors?.['required']"
+        >Amount Required</span
+      >
+      <input
+        type="text"
+        id="amount"
+        name="amount"
+        class="w-full p-2 border rounded-lg"
+        formControlName="amount"
+        required
+      />
+    </div>
+    <div class="mb-4">
+      <label class="text-gray-700 text-sm font-bold" for="verificationDocument"
+        >Verification Document:</label
+      >
+      <span
+        class="validation text-red-500"
+        *ngIf="verificationForm.get('files')?.touched && verificationForm.controls['files'].errors?.['required']"
+        >Verification Documents Required</span
+      >
+      <input
+        type="file"
+        id="file"
+        name="file"
+        class="w-full p-2 border rounded-lg"
+        formControlName="file"
+        multiple
+        required
+        (change)="onFileChange($event)"
+      />
+    </div>
+    <button type="submit" class="bg-blue-500 text-white p-2 rounded-lg">
+      Verify Service
+    </button>
+  </form>
+</div>
