@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from 'src/app/services/users/users.service';
 import { serviceData } from '../home/types/user.types';
-import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PickerInteractionMode } from 'igniteui-angular';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment.development';
 declare var Razorpay: any
 @Component({
   selector: 'app-servicer-details',
@@ -66,15 +66,15 @@ export class ServicerDetailsComponent {
       currency: 'INR',
       amount: reducedAmt * 100,
       name: 'Axel Services',
-      key: 'rzp_test_G1BmZFRY7zNMXT',
+      key: environment.razorKey,
       handler: (res: any) => {
         this.verifypayment(res, inserted)
       },
       image: 'https://i.pinimg.com/originals/50/e1/c7/50e1c728047b2f7a7353e196f5b2c363.png',
       prefill: {
         name: 'Axel Services',
-        email: 'sayyidsajada4s@gmail.com',
-        phone: '907464078'
+        email: environment.razorEmail,
+        phone: environment.razorPhone
       },
       theme: {
         color: '#000000'
