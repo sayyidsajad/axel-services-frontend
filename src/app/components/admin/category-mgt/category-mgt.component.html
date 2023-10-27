@@ -1,97 +1,123 @@
-<div class="flex flex-col md:flex-row">
-  <div class="w-full md:w-1/5 p-4 bg-white">
-    <app-admin> </app-admin>
-  </div>
-  <div class="w-full md:w-4/5 p-4">
-    <h1 class="text-2xl font-semibold mb-4">Category Management</h1>
-
-    <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()" class="space-y-4">
-      <div class="form-control">
-        <label class="label">Category Name</label>
+<h5
+  class="mb-4 text-2xl md:text-2xl lg:text-2xl font-extrabold leading-none my-3 mx-3 tracking-tight text-gray-900 dark:text-white"
+>
+  <span class="decoration-8 decoration-blue-400 dark:decoration-blue-600"
+    >Category Management</span
+  >
+</h5>
+<mat-grid-list cols="3" rowHeight="2:2">
+  <mat-grid-tile>
+    <form class="p-4" [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+      <span
+        class="validation text-red-500"
+        *ngIf="categoryForm.get('categoryName')?.touched && categoryForm.controls['categoryName'].errors?.['required']"
+      >
+        Category is required
+      </span>
+      <mat-form-field class="mb-6 w-full">
+        <label for="label">Category Name</label>
         <input
-          type="text"
-          placeholder="Enter Category Name"
+          matInput
           formControlName="categoryName"
-          class="input input-bordered w-full"
+          type="text"
+          id="categoryName"
+          placeholder="example (Mechanical)"
           required
         />
-        <span
-          class="validation text-red-500"
-          *ngIf="categoryForm.get('categoryName')?.touched && categoryForm.controls['categoryName'].errors?.['required']"
-        >
-          Category is required
-        </span>
-      </div>
-
-      <div class="form-control">
-        <label class="label">Description</label>
+      </mat-form-field>
+      <span
+        class="validation text-red-500"
+        *ngIf="categoryForm.get('description')?.touched && categoryForm.controls['description'].errors?.['required']"
+      >
+        Description is required
+      </span>
+      <mat-form-field class="mb-6 w-full">
+        <mat-label>Description</mat-label>
         <textarea
-          placeholder="Enter the description"
           formControlName="description"
-          class="input input-bordered w-full"
+          id="description"
+          matInput
         ></textarea>
-        <span
-          class="validation text-red-500"
-          *ngIf="categoryForm.get('description')?.touched && categoryForm.controls['description'].errors?.['required']"
-        >
-          Description is required
-        </span>
-      </div>
-
+      </mat-form-field>
       <button
         type="submit"
         [disabled]="!categoryForm.valid"
-        class="btn btn-primary w-full md:w-auto"
+        mat-raised-button
+        color="primary"
       >
         Submit
       </button>
     </form>
+  </mat-grid-tile>
+</mat-grid-list>
 
-    <div class="overflow-x-auto mt-6">
-      <table class="table table-compact">
-        <thead>
-          <tr>
-            <th>Category Id</th>
-            <th>Category Name</th>
-            <th>Description</th>
-            <th>List / Unlist</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let category of categories">
-            <td>
-                {{ category._id }}
-              </td>
-            <td>
-              <div class="flex items-center space-x-3">
-                <div>
-                  <div class="font-semibold">{{ category.categoryName }}</div>
-                </div>
-              </div>
-            </td>
-            <td>
-              {{ category.description }}
-            </td>
-            <td *ngIf="category.list === true">
-              <span
-                class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300"
-                >Listed</span
-              >
-            </td>
-            <td *ngIf="category.list === false">
-              <span
-                class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300"
-                >Unlisted</span
-              >
-            </td>
-            <th>
-              <button class="btn btn-secondary btn-xs">Edit</button>
-              <button class="btn btn-secondary btn-xs">LIst</button>
-            </th>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<mat-form-field>
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
+</mat-form-field>
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+      <td mat-cell *matCellDef="let row">{{ row._id }}</td>
+    </ng-container>
+    <ng-container matColumnDef="categoryname">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Category Name</th>
+      <td mat-cell *matCellDef="let row">{{ row.categoryName }}</td>
+    </ng-container>
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+      <td mat-cell *matCellDef="let row">{{ row.description}}</td>
+    </ng-container>
+    <ng-container matColumnDef="list">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>List</th>
+      <td mat-cell *matCellDef="let row" class="{{row.list?'text-success':'text-error'}}">
+        {{ row.list? "Listed" : "Unlisted" }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-raised-button (click)="editCategory(row._id,row.categoryName,row.description)" class="btn btn-secondary btn-xs">Edit</button>
+        <button (click)="listUnlist(row._id)"
+          class="btn mt-2 {{
+            row.list? 'btn-error' : 'btn-success'
+          }} btn-xs ms-2 text-white"
+        >
+          {{ row.list ? "Unlist" : "List" }}
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">
+        No data matching the filter "{{ input.value }}"
+      </td>
+    </tr>
+  </table>
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    aria-label="Select page of users"
+  ></mat-paginator>
 </div>
+<ng-template #callAPIDialog>
+  <h1 mat-dialog-title>Edit Category</h1>
+<div mat-dialog-content>
+<form class="example-form" [formGroup]="dialogForm">
+  <mat-form-field class="example-full-width">
+    <mat-label>Category Name</mat-label>
+    <input matInput placeholder="Ex. Mechanical" value="Mechanical" formControlName="categoryName">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Description</mat-label>
+    <textarea matInput placeholder="Ex. It makes me feel..." formControlName="description"></textarea>
+  </mat-form-field>
+</form>
+</div>
+<div mat-dialog-actions>
+  <button class="btn btn-sm btn-error text-white" mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
+  <button class="btn btn-sm btn-success text-white" mat-button mat-dialog-close="yes">Update</button>
+</div>
+</ng-template>

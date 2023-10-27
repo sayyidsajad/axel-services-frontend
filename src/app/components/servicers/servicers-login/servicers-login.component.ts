@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { ServicerService } from 'src/app/services/servicers/servicer.service';
 
 @Component({
@@ -10,33 +11,38 @@ import { ServicerService } from 'src/app/services/servicers/servicer.service';
   styleUrls: ['./servicers-login.component.css']
 })
 export class ServicersLoginComponent {
-  submit: boolean = false
   loginForm!: FormGroup
   message!: string;
+  private subscribe: Subscription = new Subscription()
+
   ngOnInit(): void {
-    this.loginForm = this.fb.group({
+    this.loginForm = this._fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(8)]],
     })
   }
-  constructor(private fb: FormBuilder, private servicerServices: ServicerService, private router: Router, private toastr: ToastrService) { }
+
+  constructor(private _fb: FormBuilder, private _servicerServices: ServicerService, private _router: Router, private _toastr: ToastrService) { }
+
   onSubmit() {
-    this.submit = true
     const user = this.loginForm.getRawValue();
     if (this.loginForm.valid) {
-      this.servicerServices.servicerLogin(user).subscribe((res) => {
-        if (res.isApproved === true && res.isVerified === true) {
-          this.router.navigate(['servicer/servicerDashboard']);
-          this.toastr.success('Registered Successfully', 'Axel Services');
-        } else {
-          this.router.navigate(['servicer/servicerOtpVerification'], { queryParams: { id: res.id } });
-        }
-      }, (err) => {
-        if (err.status) {
-          this.submit = false
-          this.message = err.error.message
-        }
-      })
+      this.subscribe.add(
+        this._servicerServices.servicerLogin(user).subscribe((res) => {
+          if (res.isApproved === true && res.isVerified === true) {
+            localStorage.setItem('servicerSecret', res.access_token.toString())
+            this._router.navigate(['servicer/main/dashboard']);
+            this._toastr.success('Logged in successfully', 'Axel Services');
+          } else {
+            this._router.navigate(['servicer/servicerOtpVerification'], { queryParams: { id: res.id } });
+          }
+        }, (err) => {
+          this._toastr.error(err.error.message);
+        }))
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscribe.unsubscribe()
   }
 }

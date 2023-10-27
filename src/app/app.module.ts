@@ -7,6 +7,9 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { InterceptorInterceptor } from './http-interceptors/interceptor.interceptor';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgIf } from '@angular/common';
+import { MaterialModuleModule } from './material-module/material-module.module';
 
 @NgModule({
   declarations: [
@@ -18,11 +21,16 @@ import { InterceptorInterceptor } from './http-interceptors/interceptor.intercep
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    ReactiveFormsModule,
+    FormsModule,
+    NgIf,
+    MaterialModuleModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS, useClass: InterceptorInterceptor, multi: true
   }],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

@@ -3,6 +3,9 @@ import { serviceData } from './types/user.types'
 import { UsersService } from 'src/app/services/users/users.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
+import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -10,47 +13,41 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
-  listServices!: string;
-  services!: Array<serviceData>;
-  filteredServices!: Array<serviceData>;
-  message!: string;
-  id!:number
-  constructor(private userServices: UsersService,private router:Router,private http:HttpClient) { }
+  featuredServices!: Array<any>;
+  categoryList!: Array<string>;
+  services!: Array<any>;
+  filteredServices!: Array<any>;
+  id!: number
+  private subscribe: Subscription = new Subscription()
+
+  constructor(private _userServices: UsersService, private _router: Router, private _toastr: ToastrService) { }
+
   ngOnInit(): void {
-    this.services = [];
-    this.filteredServices = []
     this.servicesList();
   }
   servicesList() {
-    this.userServices.servicerList().subscribe(
-      (res) => {                
+    this.subscribe.add(this._userServices.servicerList().subscribe(
+      (res) => {
         this.services = res.servicesFind;
-        this.filteredServices = this.services
-        this.filteredServices[0].filter = false
+        this.categoryList = this.services.map(item => item.categoryInfo.categoryName)
+        this.featuredServices = this.services.reverse()
       },
       (err) => {
-        if (err.status) {
-          this.message = err.error.message
-        }
+        this._toastr.error(err.error.message);
       }
-    );
+    ))
   }
-  serviceDetails(id:any){
-    this.router.navigate(['/servicerDetails',id])
+  serviceDetails(id: any) {
+    this._router.navigate(['/servicerDetails', id])
   }
-  filterByName(serviceName: any) {
-    if (serviceName === 'All') {
-      this.filteredServices = this.services
-      this.filteredServices[0].filter = false
-    } else {
-      this.filteredServices = this.services.filter((service) => service.serviceName === serviceName);
-      this.filteredServices[0].filter = true
-    }
-  }
-  book(id:any){
-    this.userServices.bookNow(id).subscribe((res)=>{
-      
-    })
+  // bookNow(id: string) {
+  //   let userId = localStorage.getItem('userSecret')
+  //   this.subscribe.add(this.userServices.bookNow(id).subscribe((res) => {
+  //     Swal.fire('Successfully Booked', '', 'success')
+  //   }))
+  // }
+  ngOnDestroy(): void {
+    this.subscribe.unsubscribe()
   }
 }
 

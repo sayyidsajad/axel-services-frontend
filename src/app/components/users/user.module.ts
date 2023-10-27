@@ -4,7 +4,7 @@ import { UserRoutingModule } from './user-routing.module';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import {
   GoogleLoginProvider
@@ -14,6 +14,21 @@ import { ServicerDetailsComponent } from './servicer-details/servicer-details.co
 import { ServicesListComponent } from './services-list/services-list.component';
 import { UsersComponent } from './users.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { FooterComponent } from './footer/footer.component';
+import { BookingsComponent } from './bookings/bookings.component';
+import { UsersService } from 'src/app/services/users/users.service';
+import { CategoriesListComponent } from './categories-list/categories-list.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { InboxComponent } from './inbox/inbox.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatStepperModule } from '@angular/material/stepper'
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { IgxIconModule, IgxInputGroupModule, IgxTimePickerModule } from 'igniteui-angular';
+import { MaterialModuleModule } from 'src/app/material-module/material-module.module';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -24,13 +39,30 @@ import { MatChipsModule } from '@angular/material/chips';
     ServicerDetailsComponent,
     ServicesListComponent,
     UsersComponent,
+    FooterComponent,
+    BookingsComponent,
+    CategoriesListComponent,
+    UserProfileComponent,
+    InboxComponent,
   ],
   imports: [
     CommonModule,
     UserRoutingModule,
     ReactiveFormsModule,
     SocialLoginModule,
-    MatChipsModule
+    FormsModule,
+    IgxTimePickerModule,
+    IgxInputGroupModule,
+    IgxIconModule,
+    MaterialModuleModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatChipsModule,
+    MatStepperModule,
+    MatInputModule,
+    MatTabsModule
   ],
   providers: [{
     provide: 'SocialAuthServiceConfig',
@@ -48,7 +80,9 @@ import { MatChipsModule } from '@angular/material/chips';
         console.error(err);
       }
     } as SocialAuthServiceConfig,
-  }],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  }, UsersService],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ]
 })
 export class UserModule { }

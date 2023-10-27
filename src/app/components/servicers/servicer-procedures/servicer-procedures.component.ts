@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ServicerService } from 'src/app/services/servicers/servicer.service';
 import { categoryData } from '../../admin/category-mgt/types/categories.types';
+import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-servicer-procedures',
@@ -12,17 +14,19 @@ import { categoryData } from '../../admin/category-mgt/types/categories.types';
 export class ServicerProceduresComponent {
   submit: boolean = false
   verificationForm!: FormGroup;
-  message!: string;
-  id!: number
+  id!: string
   categories!: Array<categoryData>;
-  constructor(private fb: FormBuilder, private servicerServices: ServicerService, private router: Router, private route: ActivatedRoute) { }
+  private subscribe: Subscription = new Subscription()
+  
+  constructor(private _fb: FormBuilder, private _servicerServices: ServicerService, private _router: Router, private _route: ActivatedRoute,private _toastr:ToastrService) { }
+
   ngOnInit(): void {
-    this.route.queryParams
+    this._route.queryParams
       .subscribe(params => {
         this.id = params['id']
       }
       );
-    this.verificationForm = this.fb.group({
+    this.verificationForm = this._fb.group({
       serviceName: ['', Validators.required],
       description: ['', Validators.required],
       category: ['', Validators.required],
@@ -31,39 +35,28 @@ export class ServicerProceduresComponent {
     })
     this.categoriesList()
   }
-  categoriesList() {
-    this.servicerServices.categoriesList().subscribe((res) => {
-      this.categories = res.categories
-    }, (err) => {
-      if (err.status) {
-        this.submit = false
-        this.message = err.error.message
-      }
-    })
-  }
-  onFileChange(event: any) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.verificationForm.patchValue({
-        fileSource: file
-      });
-    }
-  }
 
+  categoriesList() {
+    this.subscribe.add(
+      this._servicerServices.categoriesList().subscribe((res) => {
+        this.categories = res.categories
+      }, (err) => {
+        this._toastr.error(err.error.message);
+      }))
+  }
 
   verifyService() {
     const user = this.verificationForm.getRawValue();
-    this.submit = true
     if (this.verificationForm.valid) {
-      this.servicerServices.servicerVerification(user, this.id).subscribe((res) => {
-        this.router.navigate(['servicer/adminServicerApproval'], { queryParams: { id: res.id } });
+      this.subscribe.add(this._servicerServices.servicerVerification(user, this.id).subscribe((res) => {
+        this._router.navigate(['servicer/adminServicerApproval'], { queryParams: { id: res.id } });
       }, (err) => {
-        if (err.status) {
-          this.submit = false
-          this.message = err.error.message
-        }
-      })
+        this._toastr.error(err.error.message);
+      }))
     }
   }
 
+  ngOnDestroy(): void {
+    this.subscribe.unsubscribe()
+  }
 }

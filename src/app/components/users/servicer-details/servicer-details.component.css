@@ -1,0 +1,13 @@
+.example-input-wrapper {
+    margin-bottom: 16px;
+  }
+  
+  label {
+    margin-right: 4px;
+  }
+  button {
+    margin-right: 8px;
+  }
+  igx-time-picker {
+    width: 400px;
+}

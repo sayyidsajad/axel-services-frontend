@@ -12,10 +12,13 @@ export class ServicerApprovalComponent {
   isApproved: boolean = false
   message!: string;
   id!: string
-  constructor(private router: Router, private servicerServices: ServicerService, private route: ActivatedRoute) { }
+
+  constructor(private _router: Router) { }
+
   ngOnInit(): void {
     this.sendAdminApproval()
   }
+
   sendAdminApproval() {
     localStorage.removeItem('servicerSecret')
     if (this.count !== 0) {
@@ -24,7 +27,7 @@ export class ServicerApprovalComponent {
       }, 1000)
     }
     setTimeout(() => {
-      this.router.navigate(['servicer'])
+      this._router.navigate(['servicer'])
     }, 5000)
   }
 }

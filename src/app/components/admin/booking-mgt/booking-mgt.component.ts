@@ -1,6 +1,13 @@
-import { Component } from '@angular/core';
-import { bookingData } from './types/bookings.types';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { AdminService } from 'src/app/services/admin/admin.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-booking-mgt',
@@ -8,19 +15,75 @@ import { AdminService } from 'src/app/services/admin/admin.service';
   styleUrls: ['./booking-mgt.component.css']
 })
 export class BookingMgtComponent {
-  message!: string
-  bookings!: Array<bookingData>;
-  constructor(private adminServices: AdminService) { }
+  @ViewChild('callAPIDialog')
+  callAPIDialog!: TemplateRef<any>;
+  bookings!: Array<any>;
+  dialogForm!: FormGroup
+  private subscribe: Subscription = new Subscription()
+  displayedColumns: string[] = ['id', 'companyname', 'email', 'phone','actions'];
+  dataSource: MatTableDataSource<any>;
+
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
+  @ViewChild(MatSort)
+  sort!: MatSort;
+  
+  constructor(private _adminServices: AdminService, public _dialog: MatDialog, private _fb: FormBuilder,private _toastr:ToastrService) {
+    this.dataSource = new MatTableDataSource();
+  }
+  
   ngOnInit(): void {
     this.listBookings()
   }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
   listBookings() {
-    this.adminServices.listBookings().subscribe((res) => {
-      this.bookings=res.bookings      
+    this.subscribe.add(this._adminServices.listBookings().subscribe((res) => {
+      this.dataSource = res.bookings
     }, (err) => {
-      if (err.status) {
-        this.message = err.error.message
+      this._toastr.error(err.error.message);
+    }))
+  }
+  cancelReason(bookingId: string, userId: string) {
+    let dialogRef = this._dialog.open(this.callAPIDialog);
+    this.dialogForm = this._fb.group({
+      textArea: ['', Validators.required],
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        if (result === 'yes') {
+          const user = this.dialogForm.getRawValue();
+          if (user.textArea !== '') {
+            this.cancelBooking(user.textArea, bookingId, userId)
+          } else {
+            this._toastr.error('Enter the reason to cancel');
+            this.cancelReason(bookingId, userId)
+          }
+        }
       }
     })
   }
+  cancelBooking(textArea: any, bookingId: any, userId: any) {
+    this.subscribe.add(this._adminServices.cancelBooking(textArea, bookingId, userId).subscribe((res) => {
+      Swal.fire('Successfully Cancelled', '', 'success')
+    }, (err) => {
+      this._toastr.error(err.error.message);
+    }))
+  }
+  ngOnDestroy(): void {
+    this.subscribe.unsubscribe()
+  }
 }
+

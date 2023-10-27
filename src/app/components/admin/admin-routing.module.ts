@@ -1,20 +1,28 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
-import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
-import { AdminGuard } from 'src/app/guards/admin/admin.guard';
+import { AdminGuardIn, AdminGuardOut, AdminGuardConfig } from 'src/app/guards/admin/admin.guard';
 import { ServicersApprovalComponent } from './servicers-approval/servicers-approval.component';
 import { UserMgtComponent } from './user-mgt/user-mgt.component';
 import { BookingMgtComponent } from './booking-mgt/booking-mgt.component';
 import { CategoryMgtComponent } from './category-mgt/category-mgt.component';
+import { ServicersMgtComponent } from './servicers-mgt/servicers-mgt.component';
+import { AdminNavComponent } from './admin-nav/admin-nav.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
-  { path: '', title: 'Login', component: AdminLoginComponent, canActivate: [AdminGuard] },
-  { path: 'dashboard', title: 'Dashboard', component: AdminDashboardComponent },
-  { path: 'servicersApproval', title: 'Servicers Approval', component: ServicersApprovalComponent },
-  { path: 'userMgt', title: 'User Management', component: UserMgtComponent },
-  { path: 'bookingMgt', title: 'Booking Management', component: BookingMgtComponent },
-  { path: 'categoryMgt', title: 'Category Management', component: CategoryMgtComponent },
+  { path: '', title: 'Login', component: AdminLoginComponent, canActivate: [AdminGuardConfig, AdminGuardOut] },
+  {
+    path: 'main', title: 'Admin Main', component: AdminNavComponent, canActivate: [AdminGuardIn], children: [
+      { path: 'dashboard', title: 'Admin Dashboard', component: DashboardComponent, canActivate: [AdminGuardIn] },
+      { path: 'categoryMgt', title: 'Category Management', component: CategoryMgtComponent, canActivate: [AdminGuardIn] },
+      { path: 'bookingMgt', title: 'Booking Management', component: BookingMgtComponent, canActivate: [AdminGuardIn] },
+      { path: 'servicersApproval', title: 'Servicers Approval', component: ServicersApprovalComponent, canActivate: [AdminGuardIn] },
+      { path: 'servicersMgt', title: 'Servicers Management', component: ServicersMgtComponent, canActivate: [AdminGuardIn] },
+      { path: 'userMgt', title: 'User Management', component: UserMgtComponent, canActivate: [AdminGuardIn] },
+    ]
+  },
+
 ];
 
 @NgModule({

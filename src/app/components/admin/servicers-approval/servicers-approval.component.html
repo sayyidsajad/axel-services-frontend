@@ -1,35 +1,96 @@
-<div class="overflow-x-auto">
-    <table class="table">
-        <div class="text-red-700 text-center" *ngIf="message">
-            {{ message }}
-          </div>
-      <!-- head -->
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Job</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let approval of approvals">
-          <td>
-            <div class="flex items-center space-x-3">
-              <div class="avatar">
-                <div class="mask mask-squircle w-12 h-12">
-                  <img src="/tailwind-css-component-profile-2@56w.png" alt="Avatar Tailwind CSS Component" />
-                </div>
-              </div>
-              <div>
-                <div class="font-bold">{{approval.serviceName}}</div>
-                <div class="text-sm opacity-50">{{approval.description}}</div>
-              </div>
-            </div>
-          </td>
-          <td>
-            <button (click)="approve(approval._id)" class="btn btn-sm btn-success">Approve</button>
-            <button (click)="cancel(approval._id)" class="btn btn-sm btn-error">Cancel</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+<h5 class="text-xl mb-5">Servicers Approval</h5>
+<mat-form-field>
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
+</mat-form-field>
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+      <td mat-cell *matCellDef="let row">{{ row._id }}</td>
+    </ng-container>
+    <ng-container matColumnDef="companyname">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Company Name</th>
+      <td mat-cell *matCellDef="let row">{{ row.companyName }}</td>
+    </ng-container>
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+      <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+    </ng-container>
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.isBlocked ? "Blocked" : "Unblocked" }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="approvalstatus">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Approval Status</th>
+      <td mat-cell *matCellDef="let row" class="{{row.isApproved?'text-success':'text-error'}}">
+        {{row.isApproved?'Approved':'Cancelled'}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+      <td mat-cell *matCellDef="let row">
+        <button (click)="approve(row._id)"
+        class="px-4 py-2m btn-sm {{row.isApproved?'btn-error':'btn-success'}} text-white rounded-md">{{row.isApproved?'Cancel':'Approve'}}</button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">
+        No data matching the filter "{{ input.value }}"
+      </td>
+    </tr>
+  </table>
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    aria-label="Select page of users"
+  ></mat-paginator>
+</div>
+
+<!-- <div class="flowbite">
+    <div class="flex">
+      <aside class="w-64 bg-gray-50 dark:bg-gray-800">
+      </aside>
+      <main class="flex-1 p-4 overflow-x-auto">
+        <div class="min-w-full border border-gray-200">
+          <table class="w-full">
+            <thead>
+              <tr>
+                <th class="p-3 text-left">Company Name</th>
+                <th class="p-3 text-left">Email</th>
+                <th class="p-3 text-left">Phone</th>
+                <th class="p-3 text-left">Approval Status</th>
+                <th class="p-3 text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let approval of approvals" class="border-t border-gray-200">
+                <td class="p-3">
+                      <div class="font-bold">{{approval.companyName}}</div>
+                     
+                </td>
+                <td>
+                    <div class="text-sm text-gray-500">{{approval.email}}</div>
+                </td>
+                <td>
+                    <div class="text-sm text-gray-500">{{approval.phone}}</div>
+                </td>
+                <td>
+                    <div class="text-sm text-gray-500">{{approval.isApproved?'Approved':'Cancelled'}}</div>
+                </td>
+                <td class="p-3">
+                  <button (click)="approve(approval._id)"
+                    class="px-4 py-2m btn-sm {{approval.isApproved?'btn-error':'btn-success'}} text-white rounded-md">{{approval.isApproved?'Cancel':'Approve'}}</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
   </div>
+   -->
+

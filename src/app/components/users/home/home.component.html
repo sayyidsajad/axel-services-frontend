@@ -1,84 +1,119 @@
 <app-users></app-users>
-<div class="hero min-h-screen bg-slate-100">
-  <div class="hero-content flex-col lg:flex-row-reverse">
-    <div>
-      <h1 class="text-5xl font-bold">
-        Professional Services For<br />Your Home And Commercial
-      </h1>
-      <div class="flex flex-col lg:flex-row items-center">
-        <div class="grid h-20 card bg-black rounded-box place-items-center">
-          <span>
+<div class="hero min-h-screen bg-black">
+  <div class="container mx-auto">
+    <div class="hero-content flex-col lg:flex-row-reverse items-center">
+      <div class="w-full lg:w-1/2 text-center lg:text-left">
+        <h3 class="text-5xl font-bold mb-4 text-white">
+          Professional Services For<br />Your Home And Commercial
+        </h3>
+        <div class="flex flex-col lg:flex-row items-center">
+          <div class="w-full lg:w-2/3">
             <label class="text-white mx-4">What are you looking for?</label>
-            <input
-              type="text"
-              placeholder="Search"
-              class="input input-bordered w-24 md:w-auto bg-white"
-            />
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="px-5 py-5 min-h-fit text-black bg-white">
-  <h1 class="text-3xl font-bold my-4">Featured Services</h1>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    <div *ngFor="let service of services">
-      <div class="card card-compact bg-white shadow-xl">
-        <div class="card-body text-black">
-          <h2 class="card-title">{{ service.serviceName }}</h2>
-          <p>{{ service.description }}</p>
-          <p>{{ +service.amount | currency : "INR" }}</p>
-          <div class="card-actions justify-end">
-            <a
-              (click)="serviceDetails(service._id)"
-              class="btn btn-outline btn-info"
-              >View Details</a
-            >
-            <button
-              class="btn btn-outline btn-info"
-              (click)="book(service._id)"
-            >
-              Book Now
-            </button>
+            <div class="bg-black rounded-lg p-2 flex items-center">
+              <input
+                type="text"
+                placeholder="Search"
+                class="input input-bordered w-full lg:w-48 text-black bg-white"
+              />
+              <button class="btn btn-ghost hover:btn-accent ms-3">Search</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<footer class="footer p-10 bg-black text-base-content">
-  <aside>
-    <svg
-      width="50"
-      height="50"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      class="fill-current"
-    >
-      <path
-        d="M22.672 15.226l-2.432.811.841 2.515c.33 1.019-.209 2.127-1.23 2.456-1.15.325-2.148-.321-2.463-1.226l-.84-2.518-5.013 1.677.84 2.517c.391 1.203-.434 2.542-1.831 2.542-.88 0-1.601-.564-1.86-1.314l-.842-2.516-2.431.809c-1.135.328-2.145-.317-2.463-1.229-.329-1.018.211-2.127 1.231-2.456l2.432-.809-1.621-4.823-2.432.808c-1.355.384-2.558-.59-2.558-1.839 0-.817.509-1.582 1.327-1.846l2.433-.809-.842-2.515c-.33-1.02.211-2.129 1.232-2.458 1.02-.329 2.13.209 2.461 1.229l.842 2.515 5.011-1.677-.839-2.517c-.403-1.238.484-2.553 1.843-2.553.819 0 1.585.509 1.85 1.326l.841 2.517 2.431-.81c1.02-.33 2.131.211 2.461 1.229.332 1.018-.21 2.126-1.23 2.456l-2.433.809 1.622 4.823 2.433-.809c1.242-.401 2.557.484 2.557 1.838 0 .819-.51 1.583-1.328 1.847m-8.992-6.428l-5.01 1.675 1.619 4.828 5.011-1.674-1.62-4.829z"
-      ></path>
-    </svg>
-    <p>ACME Industries Ltd.<br />Providing reliable tech since 1992</p>
-  </aside>
-  <nav>
-    <header class="footer-title">Services</header>
-    <a class="link link-hover">Home</a>
-    <a class="link link-hover">About Us</a>
-    <a class="link link-hover">Explore</a>
-    <a class="link link-hover">Account</a>
-  </nav>
-  <nav>
-    <header class="footer-title">Subscribe to our newsletter</header>
-    <a>Latest news, articles, resources sent to your inbox weekly</a>
-    <input
-      type="text"
-      placeholder="Search"
-      class="input input-bordered w-24 md:w-max"
-    />
-  </nav>
-</footer>
+<div class="container mx-auto px-5 py-5 min-h-fit text-black bg-white">
+  <h4 class="text-3xl font-bold my-4 text-gray-900">Latest Services</h4>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div *ngFor="let service of services">
+      <div class="card bg-white shadow-lg rounded-lg">
+        <div class="card-body text-black">
+          <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2VydmljZXN8ZW58MHx8MHx8fDA%3D&w=1000&q=80" class="rounded-t-lg">
+          <h6 class="card-title text-2xl font-semibold mt-4">{{ service.companyName }}</h6>
+          <h6 class="card-title text-2xl font-semibold mt-4">{{ service.description }}</h6>
+          <p class="mt-2 text-lg text-gray-700">{{ +service.amount | currency : "INR" }}</p>
+          <div class="card-actions justify-end mt-4">
+            <a
+              (click)="serviceDetails(service._id)"
+              class="btn btn-outline btn-info"
+            >View Details</a>
+            <!-- <button
+              class="btn btn-outline btn-info ml-2"
+              (click)="bookNow(service._id)"
+            >
+              Book Now
+            </button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container mx-auto px-5 py-5 min-h-fit text-black bg-white">
+  <h4 class="text-3xl font-bold my-4 text-gray-900">Featured Services</h4>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div *ngFor="let feature of featuredServices">
+      <div class="card bg-white shadow-lg rounded-lg">
+        <div class="card-body text-black">
+          <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2VydmljZXN8ZW58MHx8MHx8fDA%3D&w=1000&q=80" class="rounded-t-lg">
+          <h6 class="card-title text-2xl font-semibold mt-4">Service Name: <br> {{ feature.companyName }}</h6>
+          <h6 class="card-title text-2xl font-semibold mt-4">{{ feature.description }}</h6>
+          <p class="mt-2 text-lg text-gray-700">{{ +feature.amount | currency : "INR" }}</p>
+          <div class="card-actions justify-end mt-4">
+            <a
+              (click)="serviceDetails(feature._id)"
+              class="btn btn-outline btn-info"
+            >View Details</a>
+            <!-- <button
+              class="btn btn-outline btn-info ml-2"
+              (click)="bookNow(feature._id)"
+            >
+              Book Now
+            </button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container mx-auto px-5 py-5 min-h-fit text-black bg-white">
+  <h4 class="text-3xl font-bold my-4 text-gray-900">Based On Categories</h4>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div *ngFor="let service of services">
+      <div class="card bg-white shadow-lg rounded-lg">
+        <div class="card-body text-black">
+          <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2VydmljZXN8ZW58MHx8MHx8fDA%3D&w=1000&q=80" class="rounded-t-lg">
+          <h6 class="card-title text-2xl font-semibold mt-4">Category: <br>{{ service.categoryInfo.categoryName }}</h6>
+          <h6 class="card-title text-2xl font-semibold mt-4">{{ service.description }}</h6>
+          <p class="mt-2 text-lg text-gray-700">{{ +service.amount | currency : "INR" }}</p>
+          <div class="card-actions justify-end mt-4">
+            <a
+              (click)="serviceDetails(service._id)"
+              class="btn btn-outline btn-info"
+            >View Details</a>
+            <!-- <button
+              class="btn btn-outline btn-info ml-2"
+              (click)="bookNow(service._id)"
+            >
+              Book Now
+            </button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container mx-auto w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+  <h5 class="mb-2 text-3xl font-bold text-gray-900 dark:text-white">Our Partners</h5>
+  <p class="mb-5 text-base text-gray-700 sm:text-lg dark:text-gray-400">Stay up to date and move work forward with Axel Services on Desktop. Sign up today.</p>
+  <div class="flex items-center justify-center space-x-4 sm:space-x-8">
+    <a href="#" class="bg-white hover:bg-black focus:ring-4 focus:outline-none focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center p-3 sm:p-4 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
+      <img class="w-16 h-16 rounded-full" src="https://images-platform.99static.com//5izzx5mICDKM8GVjq-fDbXrLqyU=/482x1354:1119x1991/fit-in/500x500/99designs-contests-attachments/124/124405/attachment_124405286" alt="Partner 1">
+    </a>
+    <a href="#" class="bg-white hover:bg-black focus:ring-4 focus:outline-none focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center p-3 sm:p-4 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
+      <img class="w-16 h-16 rounded-full" src="https://media.licdn.com/dms/image/C4D0BAQEWqmtyVtZl7Q/company-logo_200_200/0/1653839709176?e=2147483647&v=beta&t=eaj5RDhwLqt122NSrkNWoiWthTaIP4HgM5GJoHo28ws" alt="Partner 2">
+    </a>
+  </div>
+</div>
+<app-footer></app-footer>

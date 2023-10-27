@@ -1,6 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AdminService } from 'src/app/services/admin/admin.service';
 import { serviceData } from '../../users/home/types/user.types';
+import { Subscription } from 'rxjs';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-servicers-approval',
@@ -8,39 +13,55 @@ import { serviceData } from '../../users/home/types/user.types';
   styleUrls: ['./servicers-approval.component.css']
 })
 export class ServicersApprovalComponent {
-  message!: string;
-  approvals!: Array<serviceData>;
-  constructor(private adminServices: AdminService) { }
+  approvals!: Array<any>;
+  private subscribe: Subscription = new Subscription()
+  displayedColumns: string[] = ['id', 'companyname', 'email', 'phone', 'approvalstatus','actions'];
+  dataSource: MatTableDataSource<any>;
+
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
+  @ViewChild(MatSort)
+  sort!: MatSort;
+  
+  constructor(private _adminServices: AdminService,private _toastr:ToastrService) {
+    this.dataSource = new MatTableDataSource();
+  }
   ngOnInit(): void {
-    this.approvals = []
     this.approval()
   }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
   approval() {
-    this.adminServices.servicersApproval().subscribe(
-      (res) => {
-        this.approvals = res.approvals
-      },
-      (err) => {
-        if (err.status) {
-          this.message = err.error.message
+    this.subscribe.add(
+      this._adminServices.servicersApproval().subscribe(
+        (res) => {
+          this.dataSource = res.approvals          
+        },
+        (err) => {
+          this._toastr.error(err.error.message);
         }
-      }
-    );
+      ))
   }
   approve(id: any) {
-    this.adminServices.approveServices(id).subscribe((res) => {
-    },(err) => {      
-      if (err.status) {
-        this.message = err.error.message
-      }
-    })
+    this.subscribe.add(this._adminServices.approveServices(id).subscribe((res) => {
+      this.approval()
+    }, (err) => {
+      this._toastr.error(err.error.message);
+    }))
   }
-  cancel(id: any) {
-    this.adminServices.cancelApproval(id).subscribe((res) => {
-    },(err) => {      
-      if (err.status) {
-        this.message = err.error.message
-      }
-    })
+  ngOnDestroy(): void {
+    this.subscribe.unsubscribe()
   }
 }
+

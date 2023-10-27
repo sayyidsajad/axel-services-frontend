@@ -1,0 +1,126 @@
+<app-users></app-users>
+<mat-tab-group animationDuration="2000ms">
+  <mat-tab label="Profile">
+    <section class="bg-white dark:bg-gray-900">
+      <div class="max-w-2xl px-4 py-8 mx-auto lg:py-16">
+        <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
+          User Profile
+        </h2>
+        <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
+          <div class="sm:col-span-2">
+            <label
+              for="name"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Name</label
+            >
+            <input
+              type="text"
+              name="name"
+              id="name"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              value="{{ userDetails.name }}"
+              placeholder="Type product name"
+              required
+              readonly
+            />
+          </div>
+          <div class="sm:col-span-2">
+            <label
+              for="name"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Email</label
+            >
+            <input
+              type="text"
+              name="name"
+              id="name"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              value="{{ userDetails.email }}"
+              placeholder="Type product name"
+              required
+              readonly
+            />
+          </div>
+          <div class="sm:col-span-2">
+            <label
+              for="name"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Phone</label
+            >
+            <input
+              type="text"
+              name="name"
+              id="name"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              value="{{ userDetails.phone }}"
+              placeholder="Type product name"
+              required
+              readonly
+            />
+          </div>
+          <!-- Add more user profile fields as needed -->
+
+          <!-- Wallet Section -->
+          <div class="sm:col-span-2">
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white">
+              Wallet
+            </h2>
+            <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+              <div>
+                <label
+                  for="balance"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Balance</label
+                >
+                <span class="text-lg text-gray-900 dark:text-white">{{
+                  userDetails.wallet | currency : "INR"
+                }}</span>
+              </div>
+              <div>
+                <div class="space-x-2">
+                  <button class="btn btn-primary">Wallet History</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </mat-tab>
+
+  <mat-tab label="Address">
+    <div class="hero min-h-screen bg-base-200">
+      <div class="hero-content flex-col lg:flex-row">
+        <div>
+          <h1 class="text-5xl font-bold">Address</h1>
+          <!-- Display user information (name, email, etc.) -->
+          <p class="py-6">Name: John Doe</p>
+          <p>Email: john@example.com</p>
+
+          <!-- Allow editing user information -->
+          <button class="btn btn-primary">Edit Profile</button>
+
+          <!-- Other user activities -->
+          <button class="btn btn-primary">Change Password</button>
+          <button class="btn btn-primary">Activity 3</button>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Settings">
+    <div class="hero min-h-screen bg-base-200">
+      <div class="hero-content flex-col lg:flex-row">
+        <div>
+          <h1 class="text-5xl font-bold">User Profile</h1>
+          <p class="py-6">Name:</p>
+          <p>Email:</p>
+
+          <button class="btn btn-primary">Edit Profile</button>
+          <!-- Add buttons for other user activities -->
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+<app-footer></app-footer>

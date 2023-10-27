@@ -8,28 +8,38 @@ const httpOptions = {
   }),
 };
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 
 export class ServicerService {
-  constructor(private http: HttpClient) { }
-  servicerRegister(user: any): Observable<any> {
-    return this.http.post(`servicer/signup`, user, httpOptions)
+  constructor(private _http: HttpClient) { }
+  servicerRegister(user: Object): Observable<any> {
+    return this._http.post(`servicer/signup`, user, httpOptions)
   }
-  servicerLogin(user: any): Observable<any> {
-    return this.http.post(`servicer`, user, httpOptions)
+  servicerLogin(user: Object): Observable<any> {
+    return this._http.post(`servicer`, user, httpOptions)
   }
-  servicerVerification(user: any, id: number): Observable<any> {
-    return this.http.post(`servicer/servicerProcedures?id=${id}`, user, httpOptions)
+  servicerVerification(user: any, id: string): Observable<any> {
+    return this._http.post(`servicer/servicerProcedures?id=${id}`, user, httpOptions)
   }
-  sendMail(id: any): Observable<any> {
-    return this.http.get(`servicer/servicerOtpVerification?id=${id}`, httpOptions)
+  sendMail(id: string): Observable<any> {
+    return this._http.get(`servicer/servicerOtpVerification?id=${id}`, httpOptions)
   }
   servicerDashboard(id: string): Observable<any> {
-    return this.http.post('servicer/servicerDashboard', { id }, httpOptions)
+    return this._http.post('servicer/servicerDashboard', { id }, httpOptions)
   }
   categoriesList(): Observable<any> {
-    return this.http.get('servicer/categoriesList')
+    return this._http.get('servicer/categoriesList', httpOptions)
+  }
+  logOut(): Observable<any> {
+    return this._http.get('servicer/logout', httpOptions)
+  }
+  listBookings(): Observable<any> {
+    return this._http.get('servicer/listBookings', httpOptions)
+  }
+  approve(id: string): Observable<any> {
+    return this._http.post('servicer/approveBooking', { id }, httpOptions)
+  }
+  cancelBooking(textArea: string, bookingId: string, userId: string): Observable<any> {
+    return this._http.post('servicer/cancelBooking', { textArea, bookingId, userId }, httpOptions)
   }
 }

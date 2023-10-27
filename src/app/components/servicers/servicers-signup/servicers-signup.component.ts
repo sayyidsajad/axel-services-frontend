@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { ServicerService } from 'src/app/services/servicers/servicer.service';
 
 @Component({
@@ -10,31 +11,31 @@ import { ServicerService } from 'src/app/services/servicers/servicer.service';
   styleUrls: ['./servicers-signup.component.css']
 })
 export class ServicersSignupComponent {
-  submit: boolean = false
-  message!: string;
   registerForm!: FormGroup
+  private subscribe: Subscription = new Subscription()
+
   ngOnInit(): void {
-    this.registerForm = this.fb.group({
+    this.registerForm = this._fb.group({
       companyName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required]
+      password: ['', [Validators.required,Validators.minLength(8)]],
+      confirmPassword: ['', Validators.required,Validators.minLength(8)]
     })
   }
-  constructor(private fb: FormBuilder, private servicerServices: ServicerService, private router: Router, private toastr: ToastrService) { }
+  constructor(private _fb: FormBuilder, private _servicerServices: ServicerService, private _router: Router, private _toastr: ToastrService) { }
   onSubmit() {
-    this.submit = true
     const user = this.registerForm.getRawValue();
     if (this.registerForm.valid) {
-      this.servicerServices.servicerRegister(user).subscribe((res) => {
-        this.router.navigate(['servicer/procedures'], { queryParams: { id: res.id } });
+      this.subscribe.add(this._servicerServices.servicerRegister(user).subscribe((res) => {
+        this._router.navigate(['servicer/servicerProcedures'], { queryParams: { id: res.id } });
       }, (err) => {
-        if (err.status) {
-          this.submit = false
-          this.message = err.error.message
-        }
-      })
+        this._toastr.error(err.error.message);
+      }))
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscribe.unsubscribe()
   }
 }
