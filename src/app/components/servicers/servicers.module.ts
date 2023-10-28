@@ -31,6 +31,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MaterialModuleModule } from 'src/app/material-module/material-module.module';
 import { ChartModule } from 'primeng/chart';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { ChartModule } from 'primeng/chart';
     UserRoutingModule,
     ReactiveFormsModule,
     MaterialModuleModule,
+    HttpClientModule,
     MatToolbarModule,
     MatSidenavModule,
     MatIconModule,

@@ -20,8 +20,6 @@ import { UsersService } from 'src/app/services/users/users.service';
 import { CategoriesListComponent } from './categories-list/categories-list.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { InboxComponent } from './inbox/inbox.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatStepperModule } from '@angular/material/stepper'
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -29,6 +27,11 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { IgxIconModule, IgxInputGroupModule, IgxTimePickerModule } from 'igniteui-angular';
 import { MaterialModuleModule } from 'src/app/material-module/material-module.module';
 import {MatTabsModule} from '@angular/material/tabs';
+import {NgIf} from '@angular/common';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +47,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     CategoriesListComponent,
     UserProfileComponent,
     InboxComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     CommonModule,
@@ -62,7 +67,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatChipsModule,
     MatStepperModule,
     MatInputModule,
-    MatTabsModule
+    MatTabsModule,
+    NgIf
   ],
   providers: [{
     provide: 'SocialAuthServiceConfig',

@@ -10,6 +10,8 @@ import { ServicesListComponent } from './services-list/services-list.component';
 import { BookingsComponent } from './bookings/bookings.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { InboxComponent } from './inbox/inbox.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const routes: Routes = [
   { path: '', title: 'Login', component: LoginComponent, canActivate: [UserGuardConfig, UserGuardIn] },
@@ -21,6 +23,8 @@ const routes: Routes = [
   { path: 'bookings', title: 'Bookings', component: BookingsComponent, canActivate: [UserGuardOut] },
   { path: 'userProfile', title: 'User Profile', component: UserProfileComponent, canActivate: [UserGuardOut] },
   { path: 'inbox', title: 'User Inbox', component: InboxComponent, canActivate: [UserGuardOut] },
+  { path: 'forgotPassword', title: 'Forgot Password', component: ForgotPasswordComponent, canActivate: [UserGuardIn] },
+  { path: 'resetPassword', title: 'Reset Password', component: ResetPasswordComponent, canActivate: [UserGuardIn] },
 ];
 
 @NgModule({

@@ -12,7 +12,7 @@ const httpOptions = {
 
 export class UsersService {
   constructor(private _http: HttpClient) { }
-  userRegister(name: string, email: string, phone: number, password: string, confirmPassword: string): Observable<any> {    
+  userRegister(name: string, email: string, phone: number, password: string, confirmPassword: string): Observable<any> {
     return this._http.post('signup', { name, email, phone, password, confirmPassword }, httpOptions)
   }
   userLogin(user: Object): Observable<any> {
@@ -53,5 +53,11 @@ export class UsersService {
   }
   userProfile(): Observable<any> {
     return this._http.get('userProfile', httpOptions)
+  }
+  forgotPassword(email: string): Observable<any> {
+    return this._http.post('forgotPassword', { email }, httpOptions)
+  }
+  verifyConfirmPassword(id:string,newPassword: string, newConfirmPassword: string): Observable<any> {
+    return this._http.post(`verifyConfirmPassword?id=${id}`, { newPassword, newConfirmPassword }, httpOptions)
   }
 }

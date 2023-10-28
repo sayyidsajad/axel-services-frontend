@@ -17,8 +17,8 @@ export class ServicerProceduresComponent {
   id!: string
   categories!: Array<categoryData>;
   private subscribe: Subscription = new Subscription()
-  
-  constructor(private _fb: FormBuilder, private _servicerServices: ServicerService, private _router: Router, private _route: ActivatedRoute,private _toastr:ToastrService) { }
+
+  constructor(private _fb: FormBuilder, private _servicerServices: ServicerService, private _router: Router, private _route: ActivatedRoute, private _toastr: ToastrService) { }
 
   ngOnInit(): void {
     this._route.queryParams
@@ -46,9 +46,9 @@ export class ServicerProceduresComponent {
   }
 
   verifyService() {
-    const user = this.verificationForm.getRawValue();
+    const servicer = this.verificationForm.getRawValue();
     if (this.verificationForm.valid) {
-      this.subscribe.add(this._servicerServices.servicerVerification(user, this.id).subscribe((res) => {
+      this.subscribe.add(this._servicerServices.servicerVerification(servicer.serviceName, servicer.description, +servicer.amount, servicer.category, servicer.file, this.id).subscribe((res) => {
         this._router.navigate(['servicer/adminServicerApproval'], { queryParams: { id: res.id } });
       }, (err) => {
         this._toastr.error(err.error.message);

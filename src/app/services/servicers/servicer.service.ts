@@ -12,14 +12,14 @@ const httpOptions = {
 
 export class ServicerService {
   constructor(private _http: HttpClient) { }
-  servicerRegister(user: Object): Observable<any> {
-    return this._http.post(`servicer/signup`, user, httpOptions)
+  servicerRegister(companyName: string, email: string, phone: number, password: string, confirmPassword: string): Observable<any> {
+    return this._http.post('servicer/signup', { companyName, email, phone, password, confirmPassword }, httpOptions)
   }
   servicerLogin(user: Object): Observable<any> {
     return this._http.post(`servicer`, user, httpOptions)
   }
-  servicerVerification(user: any, id: string): Observable<any> {
-    return this._http.post(`servicer/servicerProcedures?id=${id}`, user, httpOptions)
+  servicerVerification(serviceName: string, description: string, amount: number, category: string, file: string, id: string): Observable<any> {
+    return this._http.post(`servicer/servicerProcedures?id=${id}`, { serviceName, description, amount, category, file }, httpOptions)
   }
   sendMail(id: string): Observable<any> {
     return this._http.get(`servicer/servicerOtpVerification?id=${id}`, httpOptions)
