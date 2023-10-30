@@ -12,6 +12,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { InboxComponent } from './inbox/inbox.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ChatComponent } from './chat/chat.component';
 
 const routes: Routes = [
   { path: '', title: 'Login', component: LoginComponent, canActivate: [UserGuardConfig, UserGuardIn] },
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'inbox', title: 'User Inbox', component: InboxComponent, canActivate: [UserGuardOut] },
   { path: 'forgotPassword', title: 'Forgot Password', component: ForgotPasswordComponent, canActivate: [UserGuardIn] },
   { path: 'resetPassword', title: 'Reset Password', component: ResetPasswordComponent, canActivate: [UserGuardIn] },
+  { path: 'messages', title: 'Chat Page', component: ChatComponent, canActivate: [UserGuardOut] },
 ];
 
 @NgModule({

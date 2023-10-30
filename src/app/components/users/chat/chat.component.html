@@ -1,0 +1,5 @@
+<p *ngFor="let m of messages">{{m}}</p>
+<form #form="ngForm" (ngSubmit)="onSubmit()">
+<input ngModel type="text" name="message" ngModel>
+<button type="submit">Send Message</button>
+</form>

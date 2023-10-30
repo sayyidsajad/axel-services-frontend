@@ -26,12 +26,14 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { IgxIconModule, IgxInputGroupModule, IgxTimePickerModule } from 'igniteui-angular';
 import { MaterialModuleModule } from 'src/app/material-module/material-module.module';
-import {MatTabsModule} from '@angular/material/tabs';
-import {NgIf} from '@angular/common';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatTabsModule } from '@angular/material/tabs';
+import { NgIf } from '@angular/common';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { MessagingService } from 'src/app/services/messaging/messaging.service';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     InboxComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
+    ChatComponent
   ],
   imports: [
     CommonModule,
@@ -86,7 +89,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
         console.error(err);
       }
     } as SocialAuthServiceConfig,
-  }, UsersService],
+  }, UsersService, MessagingService],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ]

@@ -10,7 +10,8 @@ import { InterceptorInterceptor } from './http-interceptors/interceptor.intercep
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { MaterialModuleModule } from './material-module/material-module.module';
-
+import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,12 +26,13 @@ import { MaterialModuleModule } from './material-module/material-module.module';
     ReactiveFormsModule,
     FormsModule,
     NgIf,
-    MaterialModuleModule
+    MaterialModuleModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS, useClass: InterceptorInterceptor, multi: true
   }],
-  schemas:[CUSTOM_ELEMENTS_SCHEMA],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
 export class AppModule {
