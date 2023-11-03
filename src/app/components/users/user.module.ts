@@ -51,7 +51,7 @@ import { ChatComponent } from './chat/chat.component';
     InboxComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    ChatComponent
+    ChatComponent,
   ],
   imports: [
     CommonModule,

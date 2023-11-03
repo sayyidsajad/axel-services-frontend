@@ -10,26 +10,26 @@ import { InterceptorInterceptor } from './http-interceptors/interceptor.intercep
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { MaterialModuleModule } from './material-module/material-module.module';
-import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+import { SocketIoConfig } from 'ngx-socket-io';
+import { MessagingService } from './services/messaging/messaging.service';
+const config: SocketIoConfig = { url: 'localhost:3000', options: {} };
 @NgModule({
   declarations: [
     AppComponent,
     PageNotFoundComponent,
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    ToastrModule.forRoot(),
-    ReactiveFormsModule,
-    FormsModule,
     NgIf,
+    FormsModule,
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
     MaterialModuleModule,
-    SocketIoModule.forRoot(config)
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule,
   ],
-  providers: [{
+  providers: [MessagingService,{
     provide: HTTP_INTERCEPTORS, useClass: InterceptorInterceptor, multi: true
   }],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

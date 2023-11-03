@@ -27,7 +27,7 @@ export class ServicerDetailsComponent {
   thirdFormGroup!: FormGroup
   bookingSummary!: FormGroup
   ngOnInit(): void {
-    this.id = this._route.snapshot.paramMap.get("id");
+    this.id = this._route.snapshot.paramMap.get("id"); 
     this.servicerDetails()
     this.firstFormGroup = this._fb.group({ date: ['', Validators.required] });
     this.secondFormGroup = this._fb.group({ time: ['', Validators.required] });

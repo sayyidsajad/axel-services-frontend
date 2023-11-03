@@ -1,13 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserRegister } from './types/user-types';
 const httpOptions = {
   headers: new HttpHeaders({
     'content-Type': 'application/json',
   }),
 };
-
 @Injectable()
 
 export class UsersService {
@@ -57,7 +55,10 @@ export class UsersService {
   forgotPassword(email: string): Observable<any> {
     return this._http.post('forgotPassword', { email }, httpOptions)
   }
-  verifyConfirmPassword(id:string,newPassword: string, newConfirmPassword: string): Observable<any> {
+  verifyConfirmPassword(id: string, newPassword: string, newConfirmPassword: string): Observable<any> {
     return this._http.post(`verifyConfirmPassword?id=${id}`, { newPassword, newConfirmPassword }, httpOptions)
+  }
+  getRecentChats(id: string): Observable<any> {
+    return this._http.get(`getRecentChats?id=${id}`, httpOptions)
   }
 }
