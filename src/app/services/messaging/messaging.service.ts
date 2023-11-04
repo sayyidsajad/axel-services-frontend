@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Socket, io } from 'socket.io-client';
 import { environment } from 'src/environments/environment.development';
 import { DefaultEventsMap } from '@socket.io/component-emitter';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,19 +9,22 @@ import { Observable } from 'rxjs';
 export class MessagingService {
   socket!: Socket<DefaultEventsMap, DefaultEventsMap>;
   constructor() { }
-  setupSocketConnection(servicerId: string) {
-    this.socket = io(environment.socket_endPoint, { query: { id: servicerId } })
+  setupSocketConnection(Roomid: string) {
+    this.socket = io(environment.socket_endPoint, { query: { Roomid: Roomid } })
   }
-  join(roomName: string) {
+  join(roomName: string, Roomid: string) {
     if (this.socket) {
-      this.socket.emit('join', { name: roomName })
+      this.socket.emit('join', { name: roomName, Roomid: Roomid })
     }
   }
-  subscribeToMessage(cb: (err: any, data: any) => void, room: string) {
-    this.socket.on('new-messge', (data) => cb(null, data))
-  }
-  sendMessage(id: string, message: string) {    
-    this.socket.emit('new-message', { data: message, id: id })
+  subscribeToMessages = (cb: (err: any, data: { sender: string, text: string, recever: string, data: any }) => void) => {
+    this.socket.on('new-message', (msg: { sender: string, text: string, recever: string, data: any }) => {
+      cb(null, msg);
+    });
+    return true;
+  };
+  sendMessage(id: string, message: string, servicerId: string, userId: string, senderType: string, receiverType: string) {
+    this.socket.emit('new-message', { data: message, id: id, servicerId: servicerId, userId: userId, senderType: senderType, receiverType: receiverType })
   }
   disconnect() {
     if (this.socket) {

@@ -12,6 +12,7 @@ import { NgIf } from '@angular/common';
 import { MaterialModuleModule } from './material-module/material-module.module';
 import { SocketIoConfig } from 'ngx-socket-io';
 import { MessagingService } from './services/messaging/messaging.service';
+import { NbThemeModule } from '@nebular/theme';
 const config: SocketIoConfig = { url: 'localhost:3000', options: {} };
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ const config: SocketIoConfig = { url: 'localhost:3000', options: {} };
     MaterialModuleModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
-  ],
+    NbThemeModule.forRoot({ name: 'default' }),  ],
   providers: [MessagingService,{
     provide: HTTP_INTERCEPTORS, useClass: InterceptorInterceptor, multi: true
   }],

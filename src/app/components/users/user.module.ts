@@ -34,6 +34,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { MessagingService } from 'src/app/services/messaging/messaging.service';
 import { ChatComponent } from './chat/chat.component';
+import { NbChatModule, NbLayoutModule } from '@nebular/theme';
+import { ChatModule } from "@progress/kendo-angular-conversational-ui";
 
 @NgModule({
   declarations: [
@@ -51,7 +53,7 @@ import { ChatComponent } from './chat/chat.component';
     InboxComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    ChatComponent,
+    ChatComponent
   ],
   imports: [
     CommonModule,
@@ -71,7 +73,10 @@ import { ChatComponent } from './chat/chat.component';
     MatStepperModule,
     MatInputModule,
     MatTabsModule,
-    NgIf
+    NgIf,
+    NbChatModule,
+    NbLayoutModule,
+    ChatModule
   ],
   providers: [{
     provide: 'SocialAuthServiceConfig',
