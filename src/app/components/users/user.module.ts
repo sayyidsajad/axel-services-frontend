@@ -34,8 +34,6 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { MessagingService } from 'src/app/services/messaging/messaging.service';
 import { ChatComponent } from './chat/chat.component';
-import { NbChatModule, NbLayoutModule } from '@nebular/theme';
-import { ChatModule } from "@progress/kendo-angular-conversational-ui";
 
 @NgModule({
   declarations: [
