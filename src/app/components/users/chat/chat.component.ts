@@ -24,7 +24,7 @@ export class ChatComponent {
   messageForm!: FormGroup
   Roomid!: string;
   userId: any;
-  constructor(private _socketService: MessagingService, private _route: ActivatedRoute, private _fb: FormBuilder, private _toastr: ToastrService, private _userServices: UsersService) { }
+  constructor(private _socketService: MessagingService, private _route:ActivatedRoute, private _fb: FormBuilder, private _toastr: ToastrService, private _userServices: UsersService) { }
   ngOnInit(): void {
     this._route.queryParams
       .subscribe(params => {

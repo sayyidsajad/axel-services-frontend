@@ -34,6 +34,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { MessagingService } from 'src/app/services/messaging/messaging.service';
 import { ChatComponent } from './chat/chat.component';
+import { NbChatModule, NbThemeModule } from '@nebular/theme';
 
 @NgModule({
   declarations: [
@@ -73,8 +74,6 @@ import { ChatComponent } from './chat/chat.component';
     MatTabsModule,
     NgIf,
     NbChatModule,
-    NbLayoutModule,
-    ChatModule
   ],
   providers: [{
     provide: 'SocialAuthServiceConfig',
