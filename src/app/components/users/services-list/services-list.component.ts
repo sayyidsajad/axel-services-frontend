@@ -22,10 +22,10 @@ export class ServicesListComponent {
     { name: 'Accent', color: 'accent' },
     { name: 'Warn', color: 'warn' },
   ];
-  constructor(private userServices: UsersService, private router: Router,private _toastr:ToastrService) { }
+  constructor(private userServices: UsersService, private router: Router, private _toastr: ToastrService) { }
   services!: Array<serviceData>;
   private subscribe: Subscription = new Subscription()
-  
+
   ngOnInit(): void {
     this.servicesList();
   }
@@ -41,7 +41,7 @@ export class ServicesListComponent {
         }
       ))
   }
-  
+
   serviceDetails(id: any) {
     this.router.navigate(['/servicerDetails', id])
   }

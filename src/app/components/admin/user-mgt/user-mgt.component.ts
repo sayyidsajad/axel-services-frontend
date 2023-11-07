@@ -16,13 +16,12 @@ export class UserMgtComponent {
   private subscribe: Subscription = new Subscription()
   displayedColumns: string[] = ['name', 'phone', 'isblocked', 'actions'];
   dataSource: MatTableDataSource<any>;
-
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private _adminServices: AdminService,private _toastr:ToastrService) {
+  constructor(private _adminServices: AdminService, private _toastr: ToastrService) {
     this.dataSource = new MatTableDataSource();
   }
 

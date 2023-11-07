@@ -12,7 +12,9 @@ import { UsersService } from 'src/app/services/users/users.service';
 export class UsersComponent {
   message!: string
   private subscribe: Subscription = new Subscription()
+
   constructor(private _router: Router, private _userServices: UsersService,private _toastr:ToastrService) { }
+
   logOut() {
     this.subscribe.add(this._userServices.logOut().subscribe((res) => {
       localStorage.removeItem('userSecret')
@@ -21,6 +23,7 @@ export class UsersComponent {
       this._toastr.error(err.error.message);
     }))
   }
+  
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

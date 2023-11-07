@@ -8,7 +8,7 @@ import { initFlowbite } from 'flowbite';
 })
 export class AppComponent {
   title = 'axelServices';
-  ngOnInit():void{
+  ngOnInit(): void {
     initFlowbite();
   }
 }

@@ -37,9 +37,11 @@
     >
       Resend OTP
     </button>
-    <br>
+    <br />
     <div class="mb-6">
-     <p class="text-center text-red-500" *ngIf="count && count!==10">00:0{{count}}</p>
+      <p class="text-center text-red-500" *ngIf="count && count !== 10">
+        00:0{{ count }}
+      </p>
     </div>
   </form>
 </div>

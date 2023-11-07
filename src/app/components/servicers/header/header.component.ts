@@ -13,7 +13,7 @@ export class HeaderComponent {
   message!: string
   private subscribe: Subscription = new Subscription()
 
-  constructor(private _servicerServices: ServicerService, private _router: Router,private _toastr:ToastrService) { }
+  constructor(private _servicerServices: ServicerService, private _router: Router, private _toastr: ToastrService) { }
 
   logOut() {
     this.subscribe.add(

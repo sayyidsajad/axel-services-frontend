@@ -20,18 +20,17 @@ export class ServicerBookingsComponent {
   bookings!: Array<any>;
   dialogForm!: FormGroup
   private subscribe: Subscription = new Subscription()
-  displayedColumns: string[] = ['id', 'companyname', 'email', 'phone','actions'];
+  displayedColumns: string[] = ['id', 'companyname', 'email', 'phone', 'actions'];
   dataSource: MatTableDataSource<any>;
-
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
-  
-  constructor(private _servicerServices: ServicerService, public _dialog: MatDialog, private _fb: FormBuilder,private _toastr:ToastrService) {
+
+  constructor(private _servicerServices: ServicerService, public _dialog: MatDialog, private _fb: FormBuilder, private _toastr: ToastrService) {
     this.dataSource = new MatTableDataSource();
   }
-  
+
   ngOnInit(): void {
     this.listBookings()
   }
@@ -44,11 +43,11 @@ export class ServicerBookingsComponent {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
+
   listBookings() {
     this.subscribe.add(this._servicerServices.listBookings().subscribe((res) => {
       this.dataSource = res.bookings
@@ -56,12 +55,13 @@ export class ServicerBookingsComponent {
       this._toastr.error(err.error.message);
     }))
   }
+
   cancelReason(bookingId: string, userId: string) {
     let dialogRef = this._dialog.open(this.callAPIDialog);
     this.dialogForm = this._fb.group({
       textArea: ['', Validators.required],
     })
-    dialogRef.afterClosed().subscribe(result => {
+    this.subscribe.add(dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
         if (result === 'yes') {
           const user = this.dialogForm.getRawValue();
@@ -73,8 +73,9 @@ export class ServicerBookingsComponent {
           }
         }
       }
-    })
+    }))
   }
+
   cancelBooking(textArea: any, bookingId: any, userId: any) {
     this.subscribe.add(this._servicerServices.cancelBooking(textArea, bookingId, userId).subscribe((res) => {
       Swal.fire('Successfully Cancelled', '', 'success')
@@ -82,6 +83,7 @@ export class ServicerBookingsComponent {
       this._toastr.error(err.error.message);
     }))
   }
+  
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

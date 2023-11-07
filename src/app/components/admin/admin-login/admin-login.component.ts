@@ -11,16 +11,19 @@ import { AdminService } from 'src/app/services/admin/admin.service';
   styleUrls: ['./admin-login.component.css']
 })
 export class AdminLoginComponent {
+  private subscribe: Subscription = new Subscription()
   loginForm!: FormGroup;
   message!: string;
-  private subscribe: Subscription = new Subscription()
+
   constructor(private _fb: FormBuilder, private _adminServices: AdminService, private _router: Router, private _toastr: ToastrService) { }
+
   ngOnInit(): void {
     this.loginForm = this._fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required,Validators.minLength(8)]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
     })
   }
+
   onSubmit() {
     const user = this.loginForm.getRawValue();
     if (this.loginForm.valid) {
@@ -33,6 +36,7 @@ export class AdminLoginComponent {
       }))
     }
   }
+  
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

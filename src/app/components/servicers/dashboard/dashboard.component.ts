@@ -1,6 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { ServicerService } from 'src/app/services/servicers/servicer.service';
 
 export interface PeriodicElement {
   name: string;
@@ -18,6 +21,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent {
+  private subscribe: Subscription = new Subscription()
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = ELEMENT_DATA;
   private breakpointObserver = inject(BreakpointObserver);
@@ -25,12 +29,13 @@ export class DashboardComponent {
   basicOptions: any;
   data: any;
   options: any
+  
   ngOnInit() {
+    this.getReports()
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-
     this.basicData = {
       labels: ['Q1', 'Q2', 'Q3', 'Q4'],
       datasets: [
@@ -43,7 +48,6 @@ export class DashboardComponent {
         }
       ]
     };
-
     this.basicOptions = {
       plugins: {
         legend: {
@@ -74,10 +78,8 @@ export class DashboardComponent {
         }
       }
     };
-
-
     this.data = {
-      labels: ['A', 'B', 'C'],
+      labels: ['Booked', 'Cancelled', 'Pending'],
       datasets: [
         {
           data: [300, 50, 100],
@@ -86,8 +88,6 @@ export class DashboardComponent {
         }
       ]
     };
-
-
     this.options = {
       cutout: '50%',
       plugins: {
@@ -124,6 +124,14 @@ export class DashboardComponent {
     })
   );
 
-}
+  constructor(private _toastr: ToastrService, private _servicerServices: ServicerService) { }
 
+  getReports() {
+    this.subscribe.add(
+      this._servicerServices.dashboardReports().subscribe((res) => {
+      }, (err) => {
+        this._toastr.error(err.error.message);
+      }))
+  }
+}
 

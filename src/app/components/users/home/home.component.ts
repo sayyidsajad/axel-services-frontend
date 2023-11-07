@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -13,18 +14,28 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
+  selected!: Date | null;
   featuredServices!: Array<any>;
   categoryList!: Array<string>;
   services!: Array<any>;
   filteredServices!: Array<any>;
   id!: number
+  firstFormGroup!: FormGroup
+  secondFormGroup!: FormGroup
   private subscribe: Subscription = new Subscription()
 
-  constructor(private _userServices: UsersService, private _router: Router, private _toastr: ToastrService) { }
+  constructor(private _userServices: UsersService, private _router: Router, private _toastr: ToastrService, private _fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this._fb.group({
+      firstCtrl: ['', Validators.required],
+    });
+    this._fb.group({
+      secondCtrl: ['', Validators.required],
+    });
     this.servicesList();
   }
+
   servicesList() {
     this.subscribe.add(this._userServices.servicerList().subscribe(
       (res) => {
@@ -37,15 +48,11 @@ export class HomeComponent {
       }
     ))
   }
+
   serviceDetails(id: any) {
     this._router.navigate(['/servicerDetails', id])
   }
-  // bookNow(id: string) {
-  //   let userId = localStorage.getItem('userSecret')
-  //   this.subscribe.add(this.userServices.bookNow(id).subscribe((res) => {
-  //     Swal.fire('Successfully Booked', '', 'success')
-  //   }))
-  // }
+  
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

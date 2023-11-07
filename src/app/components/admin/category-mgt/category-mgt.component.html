@@ -67,21 +67,32 @@
     </ng-container>
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
-      <td mat-cell *matCellDef="let row">{{ row.description}}</td>
+      <td mat-cell *matCellDef="let row">{{ row.description }}</td>
     </ng-container>
     <ng-container matColumnDef="list">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>List</th>
-      <td mat-cell *matCellDef="let row" class="{{row.list?'text-success':'text-error'}}">
-        {{ row.list? "Listed" : "Unlisted" }}
+      <td
+        mat-cell
+        *matCellDef="let row"
+        class="{{ row.list ? 'text-success' : 'text-error' }}"
+      >
+        {{ row.list ? "Listed" : "Unlisted" }}
       </td>
     </ng-container>
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
       <td mat-cell *matCellDef="let row">
-        <button mat-raised-button (click)="editCategory(row._id,row.categoryName,row.description)" class="btn btn-secondary btn-xs">Edit</button>
-        <button (click)="listUnlist(row._id)"
+        <button
+          mat-raised-button
+          (click)="editCategory(row._id, row.categoryName, row.description)"
+          class="btn btn-secondary btn-xs"
+        >
+          Edit
+        </button>
+        <button
+          (click)="listUnlist(row._id)"
           class="btn mt-2 {{
-            row.list? 'btn-error' : 'btn-success'
+            row.list ? 'btn-error' : 'btn-success'
           }} btn-xs ms-2 text-white"
         >
           {{ row.list ? "Unlist" : "List" }}
@@ -103,21 +114,43 @@
 </div>
 <ng-template #callAPIDialog>
   <h1 mat-dialog-title>Edit Category</h1>
-<div mat-dialog-content>
-<form class="example-form" [formGroup]="dialogForm">
-  <mat-form-field class="example-full-width">
-    <mat-label>Category Name</mat-label>
-    <input matInput placeholder="Ex. Mechanical" value="Mechanical" formControlName="categoryName">
-  </mat-form-field>
+  <div mat-dialog-content>
+    <form class="example-form" [formGroup]="dialogForm">
+      <mat-form-field class="example-full-width">
+        <mat-label>Category Name</mat-label>
+        <input
+          matInput
+          placeholder="Ex. Mechanical"
+          value="Mechanical"
+          formControlName="categoryName"
+        />
+      </mat-form-field>
 
-  <mat-form-field class="example-full-width">
-    <mat-label>Description</mat-label>
-    <textarea matInput placeholder="Ex. It makes me feel..." formControlName="description"></textarea>
-  </mat-form-field>
-</form>
-</div>
-<div mat-dialog-actions>
-  <button class="btn btn-sm btn-error text-white" mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
-  <button class="btn btn-sm btn-success text-white" mat-button mat-dialog-close="yes">Update</button>
-</div>
+      <mat-form-field class="example-full-width">
+        <mat-label>Description</mat-label>
+        <textarea
+          matInput
+          placeholder="Ex. It makes me feel..."
+          formControlName="description"
+        ></textarea>
+      </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <button
+      class="btn btn-sm btn-error text-white"
+      mat-button
+      mat-dialog-close
+      cdkFocusInitial
+    >
+      Cancel
+    </button>
+    <button
+      class="btn btn-sm btn-success text-white"
+      mat-button
+      mat-dialog-close="yes"
+    >
+      Update
+    </button>
+  </div>
 </ng-template>

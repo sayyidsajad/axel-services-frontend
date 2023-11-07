@@ -13,7 +13,9 @@ import { UsersService } from 'src/app/services/users/users.service';
 export class ForgotPasswordComponent {
   resetForm!: FormGroup
   private subscribe: Subscription = new Subscription()
+
   constructor(private _fb: FormBuilder, private _toastr: ToastrService, private _userServices: UsersService, private _router: Router) { }
+
   ngOnInit(): void {
     this.resetForm = this._fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -30,6 +32,7 @@ export class ForgotPasswordComponent {
       }))
     }
   }
+  
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

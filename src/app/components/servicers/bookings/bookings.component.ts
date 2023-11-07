@@ -10,10 +10,10 @@ import Swal from 'sweetalert2';
   styleUrls: ['./bookings.component.css']
 })
 export class BookingsComponent {
-  bookings!: Array<any>;
   private subscribe: Subscription = new Subscription()
+  bookings!: Array<any>;
 
-  constructor(private _servicerServices: ServicerService,private _toastr:ToastrService) { }
+  constructor(private _servicerServices: ServicerService, private _toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.listBookings()

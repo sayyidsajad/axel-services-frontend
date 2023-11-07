@@ -1,10 +1,13 @@
 <div class="hero min-h-screen bg-base-200">
-    <div class="hero-content text-center">
-      <div class="max-w-md">
-        <div class="text-red-700 text-center" *ngIf="message">{{ message }}</div>
-        <h1 class="text-5xl font-bold">Hello Servicer</h1>
-        <p class="py-6">Your request has been prioritized,please check your email to know more about the approval.</p>
-        <p>You will be redirected to login page in {{count}} seconds</p>
-      </div>
+  <div class="hero-content text-center">
+    <div class="max-w-md">
+      <div class="text-red-700 text-center" *ngIf="message">{{ message }}</div>
+      <h1 class="text-5xl font-bold">Hello Servicer</h1>
+      <p class="py-6">
+        Your request has been prioritized,please check your email to know more
+        about the approval.
+      </p>
+      <p>You will be redirected to login page in {{ count }} seconds</p>
     </div>
   </div>
+</div>

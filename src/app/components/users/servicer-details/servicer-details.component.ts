@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from 'src/app/services/users/users.service';
 import { serviceData } from '../home/types/user.types';
 import { Subscription } from 'rxjs';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PickerInteractionMode } from 'igniteui-angular';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment.development';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 declare var Razorpay: any
 @Component({
   selector: 'app-servicer-details',
@@ -27,7 +27,7 @@ export class ServicerDetailsComponent {
   thirdFormGroup!: FormGroup
   bookingSummary!: FormGroup
   ngOnInit(): void {
-    this.id = this._route.snapshot.paramMap.get("id"); 
+    this.id = this._route.snapshot.paramMap.get("id");
     this.servicerDetails()
     this.firstFormGroup = this._fb.group({ date: ['', Validators.required] });
     this.secondFormGroup = this._fb.group({ time: ['', Validators.required] });
@@ -45,6 +45,7 @@ export class ServicerDetailsComponent {
       }
     ))
   }
+
   Done() {
     const firstField = this.firstFormGroup.getRawValue()
     const secondField = this.secondFormGroup.getRawValue()
@@ -59,6 +60,7 @@ export class ServicerDetailsComponent {
       }))
     }
   }
+
   bookNow(date: Date, time: any, inserted: any) {
     let reducedAmt = inserted['reducedAmt'] ? (+this.services[0].amount - this.wallet) : +this.services[0].amount
     const RazorpayOptions = {
@@ -88,13 +90,12 @@ export class ServicerDetailsComponent {
     const successCallback = (paymentid: any) => {
       console.log(paymentid);
     }
-
     const failureCallback = (e: any) => {
       this._toastr.error(e)
     }
     Razorpay.open(RazorpayOptions, successCallback, failureCallback)
-
   }
+
   verifypayment(response: any, inserted: any) {
     this._userServices.verifyPayment(response, inserted)
       .subscribe((res) => {
@@ -104,6 +105,7 @@ export class ServicerDetailsComponent {
         this._toastr.error(err.error.message)
       })
   }
+
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

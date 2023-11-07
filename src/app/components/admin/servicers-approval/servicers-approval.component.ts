@@ -13,23 +13,23 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./servicers-approval.component.css']
 })
 export class ServicersApprovalComponent {
-  approvals!: Array<any>;
+  displayedColumns: string[] = ['id', 'companyname', 'email', 'phone', 'approvalstatus', 'actions'];
   private subscribe: Subscription = new Subscription()
-  displayedColumns: string[] = ['id', 'companyname', 'email', 'phone', 'approvalstatus','actions'];
   dataSource: MatTableDataSource<any>;
-
-  @ViewChild(MatPaginator)
   paginator!: MatPaginator;
+  @ViewChild(MatPaginator)
+  approvals!: Array<any>;
   @ViewChild(MatSort)
   sort!: MatSort;
-  
-  constructor(private _adminServices: AdminService,private _toastr:ToastrService) {
+
+  constructor(private _adminServices: AdminService, private _toastr: ToastrService) {
     this.dataSource = new MatTableDataSource();
   }
+
   ngOnInit(): void {
     this.approval()
   }
-
+  
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -42,17 +42,19 @@ export class ServicersApprovalComponent {
       this.dataSource.paginator.firstPage();
     }
   }
+
   approval() {
     this.subscribe.add(
       this._adminServices.servicersApproval().subscribe(
         (res) => {
-          this.dataSource = res.approvals          
+          this.dataSource = res.approvals
         },
         (err) => {
           this._toastr.error(err.error.message);
         }
       ))
   }
+
   approve(id: any) {
     this.subscribe.add(this._adminServices.approveServices(id).subscribe((res) => {
       this.approval()
@@ -60,6 +62,7 @@ export class ServicersApprovalComponent {
       this._toastr.error(err.error.message);
     }))
   }
+
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

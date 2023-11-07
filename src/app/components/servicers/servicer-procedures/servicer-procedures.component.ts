@@ -21,11 +21,11 @@ export class ServicerProceduresComponent {
   constructor(private _fb: FormBuilder, private _servicerServices: ServicerService, private _router: Router, private _route: ActivatedRoute, private _toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this._route.queryParams
+    this.subscribe.add(this._route.queryParams
       .subscribe(params => {
         this.id = params['id']
       }
-      );
+      ))
     this.verificationForm = this._fb.group({
       serviceName: ['', Validators.required],
       description: ['', Validators.required],

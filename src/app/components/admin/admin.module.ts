@@ -28,7 +28,6 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MaterialModuleModule } from 'src/app/material-module/material-module.module';
 
 @NgModule({
   declarations: [
@@ -48,7 +47,6 @@ import { MaterialModuleModule } from 'src/app/material-module/material-module.mo
     NgApexchartsModule,
     FormsModule,
     NgIf,
-    MaterialModuleModule,
     MatToolbarModule,
     MatSidenavModule,
     MatIconModule,

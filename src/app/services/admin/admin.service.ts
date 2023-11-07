@@ -11,7 +11,9 @@ const httpOptions = {
 @Injectable()
 
 export class AdminService {
+
   constructor(private _http: HttpClient) { }
+
   adminLogin(user: Object): Observable<any> {
     return this._http.post('admin', user, httpOptions)
   }

@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 export class AdminGuardOut implements CanActivate {
 
   constructor(public _router: Router) { }
+
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
     const token = localStorage.getItem('adminSecret')
     if (token) {
@@ -26,10 +27,10 @@ export class AdminGuardOut implements CanActivate {
 })
 
 export class AdminGuardIn implements CanActivate {
+
   constructor(public _router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
-
     const token = localStorage.getItem('adminSecret')
     if (!token) {
       this._router.navigate(['/admin'])

@@ -4,7 +4,6 @@ import { UserRoutingModule } from './user-routing.module';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import {
   GoogleLoginProvider
@@ -25,7 +24,6 @@ import { MatStepperModule } from '@angular/material/stepper'
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { IgxIconModule, IgxInputGroupModule, IgxTimePickerModule } from 'igniteui-angular';
-import { MaterialModuleModule } from 'src/app/material-module/material-module.module';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgIf } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
@@ -34,7 +32,11 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { MessagingService } from 'src/app/services/messaging/messaging.service';
 import { ChatComponent } from './chat/chat.component';
-import { NbChatModule, NbThemeModule } from '@nebular/theme';
+import { NbChatModule } from '@nebular/theme';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
+import { HomepageComponent } from './homepage/homepage.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -52,18 +54,17 @@ import { NbChatModule, NbThemeModule } from '@nebular/theme';
     InboxComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    ChatComponent
+    ChatComponent,
+    HomepageComponent,
   ],
   imports: [
     CommonModule,
     UserRoutingModule,
     ReactiveFormsModule,
-    SocialLoginModule,
     FormsModule,
     IgxTimePickerModule,
     IgxInputGroupModule,
     IgxIconModule,
-    MaterialModuleModule,
     MatFormFieldModule,
     MatButtonModule,
     MatDatepickerModule,
@@ -74,6 +75,8 @@ import { NbChatModule, NbThemeModule } from '@nebular/theme';
     MatTabsModule,
     NgIf,
     NbChatModule,
+    MatGridListModule,
+    MatCardModule,
   ],
   providers: [{
     provide: 'SocialAuthServiceConfig',

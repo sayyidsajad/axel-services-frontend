@@ -5,7 +5,7 @@ export interface serviceData {
     phone: number;
     serviceName: String,
     description: String,
-    category:string,
+    category: string,
     amount: String,
     files: Array<File>,
     filter?: boolean

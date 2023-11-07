@@ -52,8 +52,10 @@
         >Category is Mandatory</span
       >
       <select formControlName="category">
-        <option selected disabled value="">Choose here</option>        
-        <option *ngFor="let category of categories">{{category.categoryName}}</option>
+        <option selected disabled value="">Choose here</option>
+        <option *ngFor="let category of categories">
+          {{ category.categoryName }}
+        </option>
       </select>
     </div>
     <div class="mb-4">

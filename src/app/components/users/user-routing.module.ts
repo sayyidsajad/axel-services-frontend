@@ -13,12 +13,14 @@ import { InboxComponent } from './inbox/inbox.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ChatComponent } from './chat/chat.component';
+import { HomepageComponent } from './homepage/homepage.component';
 
 const routes: Routes = [
   { path: '', title: 'Login', component: LoginComponent, canActivate: [UserGuardConfig, UserGuardIn] },
   { path: 'signup', title: 'Sign Up', component: SignupComponent, canActivate: [UserGuardConfig, UserGuardIn] },
   { path: 'otpVerification', title: 'Otp Verification', component: OtpVerificationComponent, canActivate: [UserGuardConfig, UserGuardIn] },
   { path: 'home', title: 'Home', component: HomeComponent, canActivate: [UserGuardOut] },
+  { path: 'homepage', title: 'Home', component: HomepageComponent, canActivate: [UserGuardOut] },
   { path: 'servicerDetails/:id', title: 'Service Details', component: ServicerDetailsComponent, canActivate: [UserGuardOut] },
   { path: 'servicesList', title: 'Services List', component: ServicesListComponent, canActivate: [UserGuardOut] },
   { path: 'bookings', title: 'Bookings', component: BookingsComponent, canActivate: [UserGuardOut] },

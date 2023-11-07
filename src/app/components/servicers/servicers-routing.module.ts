@@ -9,6 +9,7 @@ import { ServicersOtpVerificationComponent } from './servicers-otp-verification/
 import { ServicerNavComponent } from './servicer-nav/servicer-nav.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ServicerBookingsComponent } from './servicer-bookings/servicer-bookings.component';
+import { ChatComponent } from './chat/chat.component';
 
 const routes: Routes = [
   { path: '', title: 'Login', component: ServicersLoginComponent, canActivate: [ServicerGuardOut, ServicerGuardConfig] },
@@ -19,10 +20,10 @@ const routes: Routes = [
   {
     path: 'main', title: 'Servicer Main', component: ServicerNavComponent, canActivate: [ServicerGuardIn], children: [
       { path: 'dashboard', title: 'Servicer Dashboard', component: DashboardComponent, canActivate: [ServicerGuardIn] },
-      { path: 'bookings', title: 'Servicer Bookings', component: ServicerBookingsComponent, canActivate: [ServicerGuardIn] }
+      { path: 'bookings', title: 'Servicer Bookings', component: ServicerBookingsComponent, canActivate: [ServicerGuardIn] },
+      { path: 'chat', title: 'Chat', component: ChatComponent, canActivate: [ServicerGuardIn] }
     ]
   },
-
 ];
 
 @NgModule({

@@ -29,7 +29,6 @@ export class ServicerGuardIn {
   constructor(private _router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-
     const token = localStorage.getItem('servicerSecret')
     if (!token) {
       this._router.navigate(['/servicer'])
@@ -51,7 +50,6 @@ export class ServicerGuardConfig implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     const adminToken = localStorage.getItem('adminSecret')
     const userToken = localStorage.getItem('userSecret')
-
     if (adminToken) {
       this._router.navigate(['/admin'])
       return false

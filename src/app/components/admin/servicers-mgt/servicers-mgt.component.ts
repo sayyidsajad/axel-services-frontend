@@ -13,14 +13,14 @@ import { AdminService } from 'src/app/services/admin/admin.service';
 })
 export class ServicersMgtComponent {
   displayedColumns: string[] = ['id', 'servicename', 'email', 'block', 'actions'];
+  private subscribe: Subscription = new Subscription()
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
-  private subscribe: Subscription = new Subscription()
 
-  constructor(private _adminServices: AdminService,private _toastr:ToastrService) {
+  constructor(private _adminServices: AdminService, private _toastr: ToastrService) {
     this.dataSource = new MatTableDataSource();
   }
 

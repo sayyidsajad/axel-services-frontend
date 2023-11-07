@@ -15,22 +15,22 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./category-mgt.component.css']
 })
 export class CategoryMgtComponent {
-  categoryForm!: FormGroup
-  categories!: Array<categoryData>;
   displayedColumns: string[] = ['id', 'categoryname', 'description', 'list', 'action'];
+  private subscribe: Subscription = new Subscription()
   dataSource: MatTableDataSource<any>;
+  categories!: Array<categoryData>;
+  callAPIDialog!: TemplateRef<any>;
+  categoryForm!: FormGroup
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
   @ViewChild('callAPIDialog')
-  callAPIDialog!: TemplateRef<any>;
   dialogForm!: FormGroup
-  private subscribe: Subscription = new Subscription()
   categoryName!: string;
   description!: string;
 
-  constructor(private _adminServices: AdminService, private _fb: FormBuilder, public _dialog: MatDialog,private _toastr:ToastrService) {
+  constructor(private _adminServices: AdminService, private _fb: FormBuilder, public _dialog: MatDialog, private _toastr: ToastrService) {
     this.dataSource = new MatTableDataSource();
   }
 
@@ -67,14 +67,13 @@ export class CategoryMgtComponent {
       this._toastr.error(err.error.message);
     }))
   }
-
   editCategory(id: string, categoryName: string, description: string) {
     let dialogRef = this._dialog.open(this.callAPIDialog);
     this.dialogForm = this._fb.group({
       categoryName: [categoryName, Validators.required],
       description: [description, Validators.required],
     })
-    dialogRef.afterClosed().subscribe(result => {
+    this.subscribe.add(dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
         if (result === 'yes') {
           const categ = this.dialogForm.getRawValue();
@@ -86,7 +85,7 @@ export class CategoryMgtComponent {
           }
         }
       }
-    })
+    }))
   }
 
   updateCategory(id: string, categoryName: string, description: string) {

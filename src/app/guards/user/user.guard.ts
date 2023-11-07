@@ -24,6 +24,7 @@ export class UserGuardIn implements CanActivate {
   providedIn: 'root'
 })
 export class UserGuardOut implements CanActivate {
+  
   constructor(public _router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {

@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { UsersService } from 'src/app/services/users/users.service';
@@ -13,7 +11,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./bookings.component.css']
 })
 export class BookingsComponent {
-  constructor(private _userServices: UsersService, private _router: Router, private _fb: FormBuilder, public _dialog: MatDialog, private _toastr: ToastrService) { }
+  constructor(private _userServices: UsersService, public _dialog: MatDialog, private _toastr: ToastrService) { }
   bookings!: Array<any>;
   private subscribe: Subscription = new Subscription()
 

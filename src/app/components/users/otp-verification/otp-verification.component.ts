@@ -32,7 +32,7 @@ export class OtpVerificationComponent implements OnInit {
     this.timer()
     this.sendMail(this.email)
     this.otpVerification = this._fb.group({
-      otpCode: ['', [Validators.required,Validators.minLength(4),Validators.maxLength(4)]],
+      otpCode: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(4)]],
     })
   }
 
@@ -79,11 +79,11 @@ export class OtpVerificationComponent implements OnInit {
         this._toastr.success('Registered Successfully', 'Axel Services');
         this._router.navigate(['home']);
       }, (err) => {
-          this.verified = false
-          this._toastr.error(err.error.message);
+        this.verified = false
+        this._toastr.error(err.error.message);
       }))
     } else {
-      this._toastr.error('Invalid OTP','Axel Services');
+      this._toastr.error('Invalid OTP', 'Axel Services');
     }
   }
 

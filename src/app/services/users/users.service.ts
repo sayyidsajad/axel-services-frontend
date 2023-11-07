@@ -10,6 +10,7 @@ const httpOptions = {
 
 export class UsersService {
   constructor(private _http: HttpClient) { }
+  
   userRegister(name: string, email: string, phone: number, password: string, confirmPassword: string): Observable<any> {
     return this._http.post('signup', { name, email, phone, password, confirmPassword }, httpOptions)
   }

@@ -8,7 +8,9 @@ import { DefaultEventsMap } from '@socket.io/component-emitter';
 })
 export class MessagingService {
   socket!: Socket<DefaultEventsMap, DefaultEventsMap>;
+
   constructor() { }
+
   setupSocketConnection(Roomid: string) {
     this.socket = io(environment.socket_endPoint, { query: { Roomid: Roomid } })
   }

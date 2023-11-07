@@ -19,7 +19,7 @@ export class ServicersOtpVerificationComponent {
   resendActive: boolean = false;
   resendCount: number = 0
   private subscribe: Subscription = new Subscription()
-  
+
   constructor(private _fb: FormBuilder, private _servicerServices: ServicerService, private _router: Router, private _toastr: ToastrService, private _route: ActivatedRoute) { }
 
   ngOnInit(): void {

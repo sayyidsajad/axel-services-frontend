@@ -18,7 +18,7 @@ export class LoginComponent {
   ngOnInit(): void {
     this.loginForm = this._fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required,Validators.minLength(8)]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
     })
   }
 
@@ -36,7 +36,7 @@ export class LoginComponent {
       }))
     }
   }
-  
+
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

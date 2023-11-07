@@ -29,9 +29,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MaterialModuleModule } from 'src/app/material-module/material-module.module';
 import { ChartModule } from 'primeng/chart';
 import { HttpClientModule } from '@angular/common/http';
+import { ChatComponent } from './chat/chat.component';
 
 
 @NgModule({
@@ -46,12 +46,12 @@ import { HttpClientModule } from '@angular/common/http';
     ServicerNavComponent,
     DashboardComponent,
     ServicerBookingsComponent,
+    ChatComponent,
   ],
   imports: [
     CommonModule,
     UserRoutingModule,
     ReactiveFormsModule,
-    MaterialModuleModule,
     HttpClientModule,
     MatToolbarModule,
     MatSidenavModule,

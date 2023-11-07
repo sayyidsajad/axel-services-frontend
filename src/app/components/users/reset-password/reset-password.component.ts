@@ -44,11 +44,9 @@ export class ResetPasswordComponent {
       this._toastr.error('Your try limit has been exceeded, Please resend your email again');
       this._router.navigate(['forgotPassword'])
     }
-
   }
 
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }
-
 }

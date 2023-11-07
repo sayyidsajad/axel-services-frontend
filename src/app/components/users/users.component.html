@@ -1,36 +1,69 @@
-<div class="navbar bg-black">
-    <div class="flex-1">
-      <a routerLink="/home" class="text-white normal-case text-xl">Axel</a>
-      <ul class="menu menu-horizontal px-1 text-white">
+<div class="navbar bg-black text-white">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <label tabindex="0" class="btn btn-ghost lg:hidden">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h8m-8 6h16"
+          />
+        </svg>
+      </label>
+      <ul
+        tabindex="0"
+        class="menu menu-sm dropdown-content text-black mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+      >
         <li><a routerLink="/home">Home</a></li>
-        <li>
-            <a routerLink="/servicesList">Services</a>
-        </li>
+        <li><a routerLink="/servicesList">Services</a></li>
+        <li><a>About</a></li>
       </ul>
     </div>
-    <ul class="menu menu-horizontal px-1 text-white">
-      <button routerLink="/inbox" class="btn btn-sm">
-        Inbox
-        <div class="badge">+99</div>
-      </button>
+    <a routerLink="/home" class="btn btn-ghost normal-case text-xl">A X E L</a>
+  </div>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1">
+      <li>
+        <a routerLink="/home" class="hover:underline underline-offset-8"
+          >Home</a
+        >
+      </li>
+      <li tabindex="0">
+        <summary
+          routerLink="/servicesList"
+          class="hover:underline underline-offset-8"
+        >
+          Services
+        </summary>
+      </li>
+      <li><a class="hover:underline underline-offset-8">About</a></li>
     </ul>
-    <div class="dropdown dropdown-end text-black">
+  </div>
+  <div class="navbar-end">
+    <div class="dropdown dropdown-end">
       <label tabindex="0" class="btn btn-ghost btn-circle avatar">
         <div class="w-10 rounded-full">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSov5DzyatJ9FhCHYAd6pndqI6TISpQR5QHv4aZIzVmZTOH7-xbEQTUMVBU_gk0csE9Pvg&usqp=CAU" />
+          <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
         </div>
       </label>
       <ul
         tabindex="0"
-        class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-white rounded-box w-52"
+        class="text-black menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
       >
-      <li>
-        <a routerLink="/bookings" class="justify-between">Bookings</a>
-      </li>
         <li>
-          <a routerLink="/userProfile" class="justify-between">Profile</a>
+          <a routerLink="/userProfile" class="justify-between"> Profile </a>
         </li>
+        <li><a routerLink="/inbox">Inbox</a></li>
+        <li><a routerLink="/bookings">Bookings</a></li>
         <li><a (click)="logOut()">Logout</a></li>
       </ul>
     </div>
   </div>
+</div>
