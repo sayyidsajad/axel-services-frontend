@@ -21,23 +21,22 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { InboxComponent } from './inbox/inbox.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatStepperModule } from '@angular/material/stepper'
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { IgxIconModule, IgxInputGroupModule, IgxTimePickerModule } from 'igniteui-angular';
+import { IgxDatePickerModule, IgxIconModule, IgxInputGroupModule, IgxTimePickerModule } from 'igniteui-angular';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgIf } from '@angular/common';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { MessagingService } from 'src/app/services/messaging/messaging.service';
 import { ChatComponent } from './chat/chat.component';
-import { NbChatModule } from '@nebular/theme';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { HomepageComponent } from './homepage/homepage.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { environment } from 'src/environments/environment.development';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 @NgModule({
   declarations: [
     LoginComponent,
@@ -65,18 +64,20 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     IgxTimePickerModule,
     IgxInputGroupModule,
     IgxIconModule,
-    MatFormFieldModule,
     MatButtonModule,
-    MatDatepickerModule,
     MatNativeDateModule,
+    MatDatepickerModule,
     MatChipsModule,
     MatStepperModule,
-    MatInputModule,
     MatTabsModule,
     NgIf,
-    NbChatModule,
     MatGridListModule,
-    MatCardModule,
+    MatCardModule,  
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule,
+    IgxDatePickerModule,
+    SocialLoginModule
   ],
   providers: [{
     provide: 'SocialAuthServiceConfig',
@@ -86,7 +87,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         {
           id: GoogleLoginProvider.PROVIDER_ID,
           provider: new GoogleLoginProvider(
-            '916587595257-8fqlt0henbsrp739bo6j2kpsh37rm9nb.apps.googleusercontent.com'
+            environment.googleProvider
           )
         }
       ],
@@ -94,7 +95,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         console.error(err);
       }
     } as SocialAuthServiceConfig,
-  }, UsersService, MessagingService],
+  }, UsersService, MessagingService,
+  MatDatepickerModule,
+    MatNativeDateModule  
+],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ]

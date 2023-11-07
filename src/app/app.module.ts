@@ -10,7 +10,6 @@ import { InterceptorInterceptor } from './http-interceptors/interceptor.intercep
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { MessagingService } from './services/messaging/messaging.service';
-import { NbThemeModule } from '@nebular/theme';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,8 +23,7 @@ import { NbThemeModule } from '@nebular/theme';
     AppRoutingModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(),
-    BrowserAnimationsModule,
-    NbThemeModule.forRoot({ name: 'default' }),],
+    BrowserAnimationsModule],
   providers: [MessagingService, {
     provide: HTTP_INTERCEPTORS, useClass: InterceptorInterceptor, multi: true
   }],

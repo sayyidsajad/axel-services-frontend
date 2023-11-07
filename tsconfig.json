@@ -1,7 +1,8 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "typeRoots": [
+    "allowSyntheticDefaultImports": true,
+        "typeRoots": [
       "node_modules/@types"
     ],
     "types": [
