@@ -30,7 +30,7 @@ export class ChatComponent {
 
   recentUsersList() {
     this.subscribe.add(this._servicerServices.getRecentUsers().subscribe((res) => {
-      this.usersList = res.message
+      this.usersList = res.message      
     }))
   }
 
@@ -42,7 +42,7 @@ export class ChatComponent {
     this.subscribe.add(this._servicerServices.getRecentChats(id).subscribe((res) => {
       this.Roomid = res.id
       this.servicerId = res.servicerId
-      this.messages = res.message.messages
+      this.messages = res.message.messages      
       this._socketService.setupSocketConnection(this.Roomid);
       this._socketService.join(this.id, this.Roomid)
     }))
@@ -57,7 +57,7 @@ export class ChatComponent {
   }
 
   handleMessage(data: any) {
-    this.messages = data
+    this.messages = data.messages
   }
 
   ngOnDestroy() {

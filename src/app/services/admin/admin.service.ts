@@ -14,7 +14,7 @@ export class AdminService {
 
   constructor(private _http: HttpClient) { }
 
-  adminLogin(user: Object): Observable<any> {
+  adminLogin(user: object): Observable<any> {
     return this._http.post('admin', user, httpOptions)
   }
   servicersApproval(): Observable<any> {
@@ -29,7 +29,7 @@ export class AdminService {
   blockUnblockUser(id: string): Observable<any> {
     return this._http.post('admin/blockUnblockUser', { id }, httpOptions)
   }
-  addCategory(category: Object): Observable<any> {
+  addCategory(category: object): Observable<any> {
     return this._http.post('admin/addCategory', category, httpOptions)
   }
   listCategories(): Observable<any> {

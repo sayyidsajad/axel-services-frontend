@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SocialAuthService } from "@abacritt/angularx-social-login";
 import { SocialUser } from "@abacritt/angularx-social-login";
 import { Subscription } from 'rxjs';
-import { UserRegister } from 'src/app/services/users/types/user-types';
+import { Space, WhiteSpace, confirmPasswordValidator } from '../../validators/custom-validators';
 
 @Component({
   selector: 'app-signup',
@@ -30,12 +30,16 @@ export class SignupComponent {
     }))
 
     this.registerForm = this._fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(8)]]
-    })
+      name: ['', [WhiteSpace.validate, Validators.required]],
+      email: ['', [Space.noSpaceAllowed, Validators.required, Validators.email, Validators.pattern("^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$")]],
+      phone: ['', [Validators.required,
+      Validators.minLength(10),
+      Validators.maxLength(10),
+      Validators.pattern(/^[0-9]+$/),
+      Space.noSpaceAllowed]],
+      password: ['', [Validators.required, Validators.minLength(8), Space.noSpaceAllowed]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(8), Space.noSpaceAllowed]]
+    }, { validators: confirmPasswordValidator })
   }
 
   constructor(private _fb: FormBuilder, private _userServices: UsersService, private _router: Router, private _toastr: ToastrService, private _authService: SocialAuthService) { }

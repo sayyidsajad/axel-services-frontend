@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { ServicerService } from 'src/app/services/servicers/servicer.service';
+import { Space } from '../../validators/custom-validators';
 
 @Component({
   selector: 'app-servicers-login',
@@ -17,8 +18,8 @@ export class ServicersLoginComponent {
 
   ngOnInit(): void {
     this.loginForm = this._fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      email: ['', [Space.noSpaceAllowed, Validators.required, Validators.email, Validators.pattern("^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$")]],
+      password: ['', [Validators.required, Validators.minLength(8), Space.noSpaceAllowed]],
     })
   }
 

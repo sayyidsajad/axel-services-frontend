@@ -82,12 +82,31 @@
       </button>
     </div>
   </div>
-  <div
+  <div *ngIf="messages.length>0"
     id="messages"
     class="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
   >
-    <div class="chat-message" *ngIf="messages[0].senderType === 'User'">
-      <div class="flex items-end justify-end" *ngFor="let msg of messages">
+  <div class="chat-message" *ngFor="let msg of messages">
+    <div class="flex items-end" *ngIf="msg.senderType === 'Servicer'">
+      <div
+        class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start"
+      >
+        <div>
+          <span
+            class="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600"
+            >{{ msg.text }}</span
+          >
+        </div>
+      </div>
+      <img
+        src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
+        alt="My profile"
+        class="w-6 h-6 rounded-full order-1"
+      />
+    </div>
+  </div>
+    <div class="chat-message" *ngFor="let msg of messages">
+      <div class="flex items-end justify-end" *ngIf="msg.senderType === 'User'">
         <div
           class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end"
         >
@@ -102,25 +121,6 @@
           src="https://images.unsplash.com/photo-1590031905470-a1a1feacbb0b?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
           alt="My profile"
           class="w-6 h-6 rounded-full order-2"
-        />
-      </div>
-    </div>
-    <div class="chat-message" *ngIf="messages[0].senderType[0] === 'Servicer'">
-      <div class="flex items-end" *ngFor="let msg of messages">
-        <div
-          class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start"
-        >
-          <div>
-            <span
-              class="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600"
-              >{{ msg.text }}</span
-            >
-          </div>
-        </div>
-        <img
-          src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
-          alt="My profile"
-          class="w-6 h-6 rounded-full order-1"
         />
       </div>
     </div>

@@ -24,8 +24,13 @@
             />
             <span
               class="validation text-red-500"
-              *ngIf="(loginForm.get('email')?.touched|| loginForm.get('email')?.dirty) && loginForm.controls['email'].errors?.['required']"
+              *ngIf="loginForm.get('email')?.touched && loginForm.controls['email'].errors?.['required']"
               >Email is required</span
+            >
+            <span
+              class="validation text-red-500"
+              *ngIf="loginForm.get('email')?.hasError('noSpaceAllowed')"
+              >Spaces not allowed</span
             >
           </div>
           <div class="form-control">
@@ -43,6 +48,11 @@
               class="validation text-red-500"
               *ngIf="loginForm.get('password')?.touched && loginForm.controls['password'].errors?.['required']"
               >Password is required</span
+            >
+            <span
+              class="validation text-red-500"
+              *ngIf="loginForm.get('password')?.hasError('noSpaceAllowed')"
+              >Spaces not allowed</span
             >
           </div>
           <div class="form-control">

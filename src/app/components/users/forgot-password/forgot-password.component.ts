@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { UsersService } from 'src/app/services/users/users.service';
+import { Space } from '../../validators/custom-validators';
 
 @Component({
   selector: 'app-forgot-password',
@@ -18,7 +19,7 @@ export class ForgotPasswordComponent {
 
   ngOnInit(): void {
     this.resetForm = this._fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: ['',  [Space.noSpaceAllowed, Validators.required, Validators.email, Validators.pattern("^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$")]],
     })
   }
   onSubmit() {

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { ServicerService } from 'src/app/services/servicers/servicer.service';
+import { Space } from '../../validators/custom-validators';
 
 @Component({
   selector: 'app-servicers-otp-verification',
@@ -33,7 +34,8 @@ export class ServicersOtpVerificationComponent {
     this.timer()
     this.sendMail(this.id)
     this.otpVerification = this._fb.group({
-      otpCode: ['', Validators.required],
+      otpCode: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern(/^[0-9]+$/),
+      Space.noSpaceAllowed]],
     })
   }
 

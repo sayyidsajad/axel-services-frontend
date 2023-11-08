@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { UsersService } from 'src/app/services/users/users.service';
+import { Space } from '../../validators/custom-validators';
 
 @Component({
   selector: 'app-otp-verification',
@@ -32,7 +33,8 @@ export class OtpVerificationComponent implements OnInit {
     this.timer()
     this.sendMail(this.email)
     this.otpVerification = this._fb.group({
-      otpCode: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(4)]],
+      otpCode: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern(/^[0-9]+$/),
+      Space.noSpaceAllowed]],
     })
   }
 
@@ -74,7 +76,7 @@ export class OtpVerificationComponent implements OnInit {
     const user = this.otpVerification.getRawValue();
     if (this.otpVerification.valid && +this.otp === +user.otpCode) {
       this.verified = true
-      this.subscribe.add(this._userServices.loadHome().subscribe((res) => {
+      this.subscribe.add(this._userServices.loadHome(this.email).subscribe((res) => {
         localStorage.setItem('userSecret', this.token)
         this._toastr.success('Registered Successfully', 'Axel Services');
         this._router.navigate(['home']);

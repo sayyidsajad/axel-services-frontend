@@ -96,7 +96,7 @@ export class ServicerDetailsComponent {
     Razorpay.open(RazorpayOptions, successCallback, failureCallback)
   }
 
-  verifypayment(response: any, inserted: any) {
+  verifypayment(response: object, inserted: object) {    
     this._userServices.verifyPayment(response, inserted)
       .subscribe((res) => {
         this._toastr.success("Payment success");

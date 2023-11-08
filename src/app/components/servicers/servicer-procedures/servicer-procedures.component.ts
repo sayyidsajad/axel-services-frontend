@@ -5,6 +5,7 @@ import { ServicerService } from 'src/app/services/servicers/servicer.service';
 import { categoryData } from '../../admin/category-mgt/types/categories.types';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { Space, WhiteSpace } from '../../validators/custom-validators';
 
 @Component({
   selector: 'app-servicer-procedures',
@@ -27,10 +28,12 @@ export class ServicerProceduresComponent {
       }
       ))
     this.verificationForm = this._fb.group({
-      serviceName: ['', Validators.required],
-      description: ['', Validators.required],
+      serviceName: ['', [Validators.required, WhiteSpace.validate]],
+      description: ['', [Validators.required, WhiteSpace.validate]],
       category: ['', Validators.required],
-      amount: ['', Validators.required],
+      amount: ['', [Validators.required,
+      Validators.pattern(/^[0-9]+$/),
+      Space.noSpaceAllowed]],
       file: ['', Validators.required],
     })
     this.categoriesList()

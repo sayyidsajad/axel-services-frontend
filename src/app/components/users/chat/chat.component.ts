@@ -44,7 +44,7 @@ export class ChatComponent {
     this.subscribe.add(this._userServices.getRecentChats(this.id).subscribe((res) => {
       this.Roomid = res.id
       this.userId = res.userId
-      this.messages = res.message
+      this.messages = res.message      
     }))
   }
 
@@ -58,6 +58,8 @@ export class ChatComponent {
 
   handleMessage(data: any) {
     this.messages = data.messages
+    console.log(this.messages,'this is in the frontend');
+    
   }
 
   ngOnDestroy() {
