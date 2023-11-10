@@ -28,6 +28,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ChartModule } from 'primeng/chart';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatCheckboxModule,
     MatListModule,
     MatInputModule,
+    ChartModule
   ],
   providers: [AdminService],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AdminModule { }

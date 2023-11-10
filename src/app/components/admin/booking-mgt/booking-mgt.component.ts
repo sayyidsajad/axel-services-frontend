@@ -57,7 +57,7 @@ export class BookingMgtComponent {
   }
 
   cancelReason(bookingId: string, userId: string) {
-    let dialogRef = this._dialog.open(this.callAPIDialog);
+    const dialogRef = this._dialog.open(this.callAPIDialog);
     this.dialogForm = this._fb.group({
       textArea: ['', Validators.required],
     })
@@ -79,6 +79,7 @@ export class BookingMgtComponent {
   cancelBooking(textArea: any, bookingId: any, userId: any) {
     this.subscribe.add(this._adminServices.cancelBooking(textArea, bookingId, userId).subscribe((res) => {
       Swal.fire('Successfully Cancelled', '', 'success')
+      this.listBookings()
     }, (err) => {
       this._toastr.error(err.error.message);
     }))

@@ -25,7 +25,12 @@
             <span
               class="validation text-red-500"
               *ngIf="registerForm.get('companyName')?.touched && registerForm.controls['companyName'].errors?.['required']"
-              >Company Name is required</span
+              >Name is required</span
+            >
+            <span
+              class="validation text-red-500"
+              *ngIf="registerForm.get('companyName')?.hasError('whitespace')"
+              >White Spaces Not Allowed</span
             >
           </div>
           <div class="form-control">
@@ -40,10 +45,15 @@
               required
             />
             <span
-              class="validation text-red-500"
-              *ngIf="registerForm.get('email')?.touched && registerForm.controls['email'].errors?.['required']"
-              >Email is required</span
-            >
+            class="validation text-red-500"
+            *ngIf="registerForm.get('email')?.touched && registerForm.controls['email'].errors?.['required']"
+            >Email is required</span
+          >
+          <span
+            class="validation text-red-500"
+            *ngIf="registerForm.get('email')?.hasError('noSpaceAllowed')"
+            >Spaces not allowed</span
+          >
           </div>
           <div class="form-control">
             <label class="label">
@@ -58,13 +68,32 @@
             />
             <span
               class="validation text-red-500"
-              *ngIf="registerForm.get('phone')?.touched && registerForm.controls['phone'].errors?.['required']"
+              *ngIf="
+                registerForm.get('phone')?.hasError('required') &&
+                registerForm.get('phone')?.touched
+              "
               >Phone is required</span
             >
             <span
               class="validation text-red-500"
-              *ngIf="registerForm.get('phone')?.touched && registerForm.controls['phone'].errors?.['minlength']"
-              >Min 10 digits required</span
+              *ngIf="registerForm.get('phone')?.hasError('pattern')"
+              >Digits only allowed</span
+            >
+            <span
+              class="validation text-red-500"
+              *ngIf="registerForm.get('phone')?.hasError('minLength')"
+            >
+              Phone must be at least 10 characters long.
+            </span>
+            <span
+              class="validation text-red-500"
+              *ngIf="registerForm.get('phone')?.hasError('maxLength')"
+              >*Numbers should only contain 10 digits</span
+            >
+            <span
+              class="validation text-red-500"
+              *ngIf="registerForm.get('phone')?.hasError('noSpaceAllowed')"
+              >Spaces not allowed</span
             >
           </div>
           <div class="form-control">
@@ -72,7 +101,7 @@
               <span class="label-text">Password</span>
             </label>
             <input
-              type="text"
+              type="password"
               placeholder="Enter your password"
               class="input input-bordered"
               formControlName="password"
@@ -83,31 +112,40 @@
               *ngIf="registerForm.get('password')?.touched && registerForm.controls['password'].errors?.['required']"
               >Password is required</span
             >
+            <span
+              class="validation text-red-500"
+              *ngIf="registerForm.get('password')?.hasError('noSpaceAllowed')"
+              >Spaces not allowed</span
+            >
           </div>
           <div class="form-control">
             <label class="label">
               <span class="label-text">Confirm Password</span>
             </label>
             <input
-              type="text"
+              type="password"
               placeholder="Enter confirm password"
               class="input input-bordered"
               formControlName="confirmPassword"
               required
             />
-            <span
-              class="validation text-red-500"
-              *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.controls['confirmPassword'].errors?.['required']"
-              >Confirm Password is required</span
-            >
           </div>
           <span
-            class="validation text-sm text-red-500"
+            class="validation text-red-500"
+            *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.controls['confirmPassword'].errors?.['required']"
+            >Confirm Password is required</span
+          >
+          <span
+            class="validation text-red-500"
             *ngIf="
-              registerForm.get('confirmPassword')?.value !==
-              registerForm.get('password')?.value
+              registerForm.get('confirmPassword')?.hasError('noSpaceAllowed')
             "
-            >Password and Confirm Password doesn't match</span
+            >Spaces not allowed</span
+          >
+          <span
+            class="validation text-red-500"
+            *ngIf="registerForm.hasError('PasswordNoMatch')"
+            >Passwords doesn't match</span
           >
           <div class="form-control mt-6">
             <button

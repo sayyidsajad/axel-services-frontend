@@ -23,7 +23,8 @@ import { MessagingService } from './services/messaging/messaging.service';
     AppRoutingModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(),
-    BrowserAnimationsModule],
+    BrowserAnimationsModule,
+  ],
   providers: [MessagingService, {
     provide: HTTP_INTERCEPTORS, useClass: InterceptorInterceptor, multi: true
   }],

@@ -55,9 +55,10 @@ export class ServicersApprovalComponent {
       ))
   }
 
-  approve(id: any) {
+  approve(id: string) {
     this.subscribe.add(this._adminServices.approveServices(id).subscribe((res) => {
       this.approval()
+      res.message === "Not Approved"?this._toastr.warning('Servicer Approval has been cancelled'):this._toastr.success('Servicer has been approved')
     }, (err) => {
       this._toastr.error(err.error.message);
     }))

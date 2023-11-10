@@ -13,7 +13,12 @@
       <span
         class="validation text-red-500"
         *ngIf="verificationForm.get('serviceName')?.touched && verificationForm.controls['serviceName'].errors?.['required']"
-        >Service Name is Mandatory</span
+        >Service Name is required</span
+      >
+      <span
+        class="validation text-red-500"
+        *ngIf="verificationForm.get('serviceName')?.hasError('whitespace')"
+        >White Spaces Not Allowed</span
       >
       <input
         type="text"
@@ -32,6 +37,11 @@
         class="validation text-red-500"
         *ngIf="verificationForm.get('description')?.touched && verificationForm.controls['description'].errors?.['required']"
         >Service Description Mandatory</span
+      >
+      <span
+        class="validation text-red-500"
+        *ngIf="verificationForm.get('description')?.hasError('whitespace')"
+        >White Spaces Not Allowed</span
       >
       <textarea
         id="description"
@@ -66,6 +76,16 @@
         class="validation text-red-500"
         *ngIf="verificationForm.get('amount')?.touched && verificationForm.controls['amount'].errors?.['required']"
         >Amount Required</span
+      >
+      <span
+        class="validation text-red-500"
+        *ngIf="verificationForm.get('amount')?.hasError('whitespace')"
+        >White Spaces Not Allowed</span
+      >
+      <span
+        class="validation text-red-500"
+        *ngIf="verificationForm.get('amount')?.hasError('pattern')"
+        >Only Digits Allowed</span
       >
       <input
         type="text"

@@ -30,13 +30,18 @@
               *ngIf="loginForm.get('email')?.touched && loginForm.controls['email'].errors?.['required']"
               >Email is required</span
             >
+            <span
+              class="validation text-red-500"
+              *ngIf="loginForm.get('email')?.hasError('noSpaceAllowed')"
+              >Spaces not allowed</span
+            >
           </div>
           <div class="form-control">
             <label class="label">
               <span class="label-text">Password</span>
             </label>
             <input
-              type="text"
+              type="password"
               placeholder="Enter your password"
               class="input input-bordered"
               formControlName="password"
@@ -46,6 +51,11 @@
               class="validation text-red-500"
               *ngIf="loginForm.get('password')?.touched && loginForm.controls['password'].errors?.['required']"
               >Password is required</span
+            >
+            <span
+              class="validation text-red-500"
+              *ngIf="loginForm.get('password')?.hasError('noSpaceAllowed')"
+              >Spaces not allowed</span
             >
           </div>
           <div class="form-control">

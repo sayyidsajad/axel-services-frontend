@@ -26,8 +26,8 @@ export class UsersService {
   loadHome(email: string): Observable<any> {
     return this._http.patch('home', { email }, httpOptions)
   }
-  servicerDetails(id: string): Observable<any> {
-    return this._http.get(`servicerDetails/?id=${id}`, httpOptions)
+  servicerDetails(id: string): Observable<any> {    
+    return this._http.get(`servicerDetails?id=${id}`, httpOptions)
   }
   bookNow(id: string, date: Date, time: string, walletChecked?: number) {
     return this._http.post(`bookNow`, { id, date, time, walletChecked }, httpOptions)

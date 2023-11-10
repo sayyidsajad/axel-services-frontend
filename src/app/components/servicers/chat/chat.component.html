@@ -11,10 +11,10 @@
             class="h-full w-full"
           />
         </div>
-        <div class="text-sm font-semibold mt-2">Aminos Co</div>
+        <div class="text-sm font-semibold mt-2">{{this.usersList[0].name}}</div>
         <div class="text-xs text-gray-500">Lead UI/UX Designer</div>
       </div>
-      <div class="flex flex-col mt-8">
+      <div class="flex flex-col mt-8" *ngIf="usersList">
         <div
           class="flex flex-col space-y-1 mt-4 -mx-2 h-48 overflow-y-auto"
           *ngIf="this.usersList"
@@ -40,20 +40,19 @@
       >
         <div class="flex flex-col h-full overflow-x-auto mb-4">
           <div class="flex flex-col h-full">
-            <div class="grid grid-cols-12 gap-y-2">
+            <div class="grid grid-cols-12 gap-y-2" *ngFor="let msg of messages">
               <div
                 class="col-start-1 col-end-8 p-3 rounded-lg"
-                *ngIf="this.messages[0].senderType === 'User'"
+                *ngIf="msg.senderType === 'User'"
               >
                 <div
                   class="flex flex-row items-center"
-                  *ngFor="let msg of messages"
                 >
                   <div
                     class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
                   >
-                    A
-                  </div>
+                  A
+                </div>
                   <div
                     class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl"
                   >
@@ -66,12 +65,10 @@
 
               <div
                 class="col-start-6 col-end-13 p-3 rounded-lg"
-                *ngIf="this.messages[0].senderType === 'Servicer'"
+                *ngIf="msg.senderType === 'Servicer'"
               >
                 <div
-                  class="flex items-center justify-start flex-row-reverse"
-                  *ngFor="let msg of messages"
-                >
+                  class="flex items-center justify-start flex-row-reverse"                >
                   <div
                     class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
                   >

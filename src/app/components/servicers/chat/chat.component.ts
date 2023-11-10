@@ -19,7 +19,7 @@ export class ChatComponent {
   messageForm!: FormGroup
   usersList!: Array<any>
   Roomid!: string;
-  servicerId: any;
+  servicerId!: string;
   userId!: string
 
   constructor(private _socketService: MessagingService, private _route: ActivatedRoute, private _fb: FormBuilder, private _toastr: ToastrService, private _servicerServices: ServicerService) { }
@@ -30,7 +30,9 @@ export class ChatComponent {
 
   recentUsersList() {
     this.subscribe.add(this._servicerServices.getRecentUsers().subscribe((res) => {
-      this.usersList = res.message      
+      this.usersList = res.message
+      console.log(this.usersList,'in the frontend');
+           
     }))
   }
 

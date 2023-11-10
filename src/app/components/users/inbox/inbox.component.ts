@@ -22,6 +22,7 @@ export class InboxComponent {
     this.subscribe.add(this.userServices.userInbox().subscribe(
       (res) => {
         if (!res.inbox.length) {
+          this.inboxData = []
           this._toastr.error('Your Inbox Empty');
         } else {
           this.inboxData = res.inbox
@@ -37,7 +38,7 @@ export class InboxComponent {
   clearAll() {
     this.subscribe.add(this.userServices.clearAll().subscribe(
       (res) => {
-        this.ngOnInit()
+        this.userInbox()
       },
       (err) => {
         this._toastr.error(err.error.message);

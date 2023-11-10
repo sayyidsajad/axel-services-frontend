@@ -17,7 +17,21 @@
         placeholder="Enter OTP Code"
       />
     </div>
-
+    <span
+    class="validation text-red-500"
+    *ngIf="otpVerification.get('otpCode')?.touched && otpVerification.controls['otpCode'].errors?.['required']"
+    >OTP is required</span
+  >
+  <span
+    class="validation text-red-500"
+    *ngIf="otpVerification.get('otpCode')?.hasError('noSpaceAllowed')"
+    >Spaces not allowed</span
+  >
+  <span
+    class="validation text-red-500"
+    *ngIf="otpVerification.get('otpCode')?.hasError('pattern')"
+    >Only digits allowed</span
+  >
     <div class="mb-6">
       <button
         class="w-full bg-indigo-500 text-white font-bold py-2 px-4 rounded-lg focus:outline-none hover:bg-indigo-700"

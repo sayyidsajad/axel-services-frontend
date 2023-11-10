@@ -26,6 +26,7 @@ export class ServicerDetailsComponent {
   secondFormGroup!: FormGroup;
   thirdFormGroup!: FormGroup
   bookingSummary!: FormGroup
+  
   ngOnInit(): void {
     this.id = this._route.snapshot.paramMap.get("id");
     this.servicerDetails()
@@ -61,8 +62,8 @@ export class ServicerDetailsComponent {
     }
   }
 
-  bookNow(date: Date, time: any, inserted: any) {
-    let reducedAmt = inserted['reducedAmt'] ? (+this.services[0].amount - this.wallet) : +this.services[0].amount
+  bookNow(date: Date, time: any, inserted: any) {    
+    let reducedAmt = inserted['reducedAmt'] ? (+this.services[0].amount - this.wallet) : +this.services[0].amount      
     const RazorpayOptions = {
       description: 'Sample Razorpay Demo',
       currency: 'INR',

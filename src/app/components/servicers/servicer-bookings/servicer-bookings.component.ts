@@ -79,6 +79,7 @@ export class ServicerBookingsComponent {
   cancelBooking(textArea: any, bookingId: any, userId: any) {
     this.subscribe.add(this._servicerServices.cancelBooking(textArea, bookingId, userId).subscribe((res) => {
       Swal.fire('Successfully Cancelled', '', 'success')
+      this.listBookings()
     }, (err) => {
       this._toastr.error(err.error.message);
     }))

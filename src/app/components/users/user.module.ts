@@ -38,6 +38,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { HttpClientModule } from '@angular/common/http';
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [
     LoginComponent,
@@ -80,6 +81,7 @@ import { HttpClientModule } from '@angular/common/http';
     IgxDatePickerModule,
     SocialLoginModule,
     HttpClientModule,
+    MatDialogModule
   ],
   providers: [{
     provide: 'SocialAuthServiceConfig',

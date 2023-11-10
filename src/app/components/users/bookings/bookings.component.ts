@@ -22,7 +22,7 @@ export class BookingsComponent {
   bookingsList() {
     this.subscribe.add(this._userServices.bookingsList().subscribe(
       (res) => {
-        this.bookings = res.bookings;
+        this.bookings = res.bookings;        
       },
       (err) => {
         this._toastr.error(err.error.message);

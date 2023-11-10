@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { UsersService } from 'src/app/services/users/users.service';
+import { Space, confirmPasswordValidator } from '../../validators/custom-validators';
 
 @Component({
   selector: 'app-reset-password',
@@ -22,8 +23,9 @@ export class ResetPasswordComponent {
       }
       ))
     this.resetPassForm = this._fb.group({
-      newPassword: ['', [Validators.required, Validators.minLength(8)]],
-      newConfirmPassword: ['', [Validators.required, Validators.minLength(8)]],
+      newPassword: ['', [Validators.required, Validators.minLength(8), Space.noSpaceAllowed]],
+      newConfirmPassword: ['', [Validators.required, Validators.minLength(8), Space.noSpaceAllowed],
+        { validators: confirmPasswordValidator }],
     })
   }
   constructor(private _fb: FormBuilder, private _userServices: UsersService, private _route: ActivatedRoute, private _toastr: ToastrService, private _router: Router) { }

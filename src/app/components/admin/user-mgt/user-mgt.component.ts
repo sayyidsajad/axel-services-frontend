@@ -48,10 +48,11 @@ export class UserMgtComponent {
     }))
   }
 
-  blockUnblockUser(id: any) {
+  blockUnblockUser(id: string) {
     this.subscribe.add(
       this._adminServices.blockUnblockUser(id).subscribe((res) => {
         this.userList()
+        res.message === 'Blocked' ? this._toastr.warning('User has been blocked') : this._toastr.success('User has been unblocked');
       }, (err) => {
         this._toastr.error(err.error.message);
       }))

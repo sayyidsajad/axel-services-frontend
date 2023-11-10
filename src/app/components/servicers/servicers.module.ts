@@ -71,7 +71,8 @@ import { ChatComponent } from './chat/chat.component';
     MatInputModule,
     ChartModule
   ],
-  providers: [ServicerService],
+  providers: [ServicerService,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ServicersModule { }

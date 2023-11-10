@@ -16,6 +16,16 @@
         formControlName="otpCode"
         placeholder="Enter OTP Code"
       />
+      <span
+        class="validation text-red-500"
+        *ngIf="otpVerification.get('otpCode')?.hasError('noSpaceAllowed')"
+        >Spaces not allowed</span
+      >
+      <span
+        class="validation text-red-500"
+        *ngIf="otpVerification.get('otpCode')?.hasError('pattern')"
+        >Only digits allowed</span
+      >
     </div>
 
     <div class="mb-6">

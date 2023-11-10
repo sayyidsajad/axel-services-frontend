@@ -57,9 +57,7 @@ export class ChatComponent {
   }
 
   handleMessage(data: any) {
-    this.messages = data.messages
-    console.log(this.messages,'this is in the frontend');
-    
+    this.messages = data.messages    
   }
 
   ngOnDestroy() {

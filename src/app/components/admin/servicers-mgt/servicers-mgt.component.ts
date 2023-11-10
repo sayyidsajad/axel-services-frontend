@@ -46,6 +46,7 @@ export class ServicersMgtComponent {
     this.subscribe.add(
       this._adminServices.blockServicer(id).subscribe((res) => {
         this.listServices()
+        res.message === 'Blocked' ? this._toastr.warning('Servicer has been blocked') : this._toastr.success('Servicer has been unblocked');
       }, (err) => {
         this._toastr.error(err.error.message);
       }))

@@ -43,6 +43,8 @@ export class OtpVerificationComponent implements OnInit {
       this.otp = res.otp
       this.token = res.access_token.toString()
     }, (err) => {
+      console.log(err);
+      
       this._toastr.error(err.error.message);
     }))
   }

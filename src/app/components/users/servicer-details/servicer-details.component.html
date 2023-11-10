@@ -11,27 +11,30 @@
       <p class="mt-2 text-lg text-gray-700">
         {{ +service.amount | currency : "INR" }}
       </p>
-      <button
-        data-modal-target="staticModal"
-        data-modal-toggle="staticModal"
-        class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        type="button"
-      >
-        Book Now
-      </button>
-      <button
-        [routerLink]="'/chat'"
-        [queryParams]="{ id: service._id }"
-        data-modal-target="staticModal"
-        data-modal-toggle="staticModal"
-        class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        type="button"
-      >
-        Chat
-      </button>
+      <div class="flex space-x-4">
+        <button
+          data-modal-target="staticModal"
+          data-modal-toggle="staticModal"
+          class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          type="button"
+        >
+          Book Now
+        </button>
+        <button
+          [routerLink]="'/chat'"
+          [queryParams]="{ id: service._id }"
+          data-modal-target="staticModal"
+          data-modal-toggle="staticModal"
+          class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          type="button"
+        >
+          Chat
+        </button>
+      </div>
     </div>
   </div>
 </div>
+
 <div
   id="staticModal"
   data-modal-backdrop="static"

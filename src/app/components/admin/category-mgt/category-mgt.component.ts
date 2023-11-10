@@ -48,13 +48,13 @@ export class CategoryMgtComponent {
   }
 
   onSubmit() {
-    const category = this.categoryForm.getRawValue();
+    const category = this.categoryForm.getRawValue();    
     if (this.categoryForm.valid) {
-      this.subscribe.add(this._adminServices.addCategory(category).subscribe((res) => {
+      this.subscribe.add(this._adminServices.addCategory(category.categoryName,category.description).subscribe((res) => {
         this.categoryForm.reset()
         Swal.fire('Successfully Added', '', 'success')
         this.listCategories()
-      }, (err) => {
+      }, (err) => {        
         this._toastr.error(err.error.message);
       }))
     }
@@ -63,6 +63,7 @@ export class CategoryMgtComponent {
   listUnlist(id: string) {
     this.subscribe.add(this._adminServices.listUnlist(id).subscribe((res) => {
       this.listCategories()
+      res.message === 'Listed' ? this._toastr.success('Category has been listed') : this._toastr.warning('Category has been unlisted')
     }, (err) => {
       this._toastr.error(err.error.message);
     }))
