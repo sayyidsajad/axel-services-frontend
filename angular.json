@@ -76,10 +76,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "axelServices:build:production"
+              "buildTarget": "axelServices:build:production"
             },
             "development": {
-              "browserTarget": "axelServices:build:development"
+              "buildTarget": "axelServices:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -87,7 +87,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "axelServices:build"
+            "buildTarget": "axelServices:build"
           }
         },
         "test": {
