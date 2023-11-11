@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ServicerService } from 'src/app/services/servicers/servicer.service';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'app-servicer-approval',
@@ -20,7 +20,7 @@ export class ServicerApprovalComponent {
   }
 
   sendAdminApproval() {
-    localStorage.removeItem('servicerSecret')
+    localStorage.removeItem(environment.servicerSecret)
     if (this.count !== 0) {
       setInterval(() => {
         this.count--

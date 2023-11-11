@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { MatChipsModule } from '@angular/material/chips';
 import { ThemePalette } from '@angular/material/core';
 import { UsersService } from 'src/app/services/users/users.service';
 import { serviceData } from '../home/types/user.types';
@@ -32,14 +31,15 @@ export class ServicesListComponent {
 
   servicesList() {
     this.subscribe.add(
-      this.userServices.servicerList().subscribe(
-        (res) => {
-          this.services = res.servicesFind;
-        },
-        (err) => {
-          this._toastr.error(err.error.message);
-        }
-      ))
+      this.userServices.servicerList().subscribe({
+        next:
+          (res) => {
+            this.services = res.servicesFind;
+          }, error:
+          (err) => {
+            this._toastr.error(err.error.message);
+          }
+      }))
   }
 
   serviceDetails(id: any) {

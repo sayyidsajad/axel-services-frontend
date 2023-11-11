@@ -43,18 +43,24 @@ export class UserMgtComponent {
   }
 
   userList() {
-    this.subscribe.add(this._adminServices.userMgt().subscribe((res) => {
-      this.dataSource = res.users
+    this.subscribe.add(this._adminServices.userMgt().subscribe({
+      next: (res) => {
+        this.dataSource = res.users
+      }, error: (err) => {
+        this._toastr.error(err.error.message);
+      }
     }))
   }
 
   blockUnblockUser(id: string) {
     this.subscribe.add(
-      this._adminServices.blockUnblockUser(id).subscribe((res) => {
-        this.userList()
-        res.message === 'Blocked' ? this._toastr.warning('User has been blocked') : this._toastr.success('User has been unblocked');
-      }, (err) => {
-        this._toastr.error(err.error.message);
+      this._adminServices.blockUnblockUser(id).subscribe({
+        next: (res) => {
+          this.userList()
+          res.message === 'Blocked' ? this._toastr.warning('User has been blocked') : this._toastr.success('User has been unblocked');
+        }, error: (err) => {
+          this._toastr.error(err.error.message);
+        }
       }))
   }
 

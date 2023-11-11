@@ -20,19 +20,25 @@ export class BookingsComponent {
   }
 
   listBookings() {
-    this.subscribe.add(this._servicerServices.listBookings().subscribe((res) => {
-      this.bookings = res.bookings
-    }, (err) => {
-      this._toastr.error(err.error.message);
+    this.subscribe.add(this._servicerServices.listBookings().subscribe({
+      next: (res) => {
+        this.bookings = res.bookings
+      }, error: (err) => {
+        this._toastr.error(err.error.message);
+      }
     }))
   }
 
   approve(id: string) {
-    this.subscribe.add(this._servicerServices.approve(id).subscribe((res) => {
-      Swal.fire('Approved')
-      this.listBookings()
-    }, (err) => {
-      this._toastr.error(err.error.message);
+    this.subscribe.add(this._servicerServices.approve(id).subscribe({
+      next: () => {
+        this.listBookings()
+      }, error: (err) => {
+        this._toastr.error(err.error.message);
+      },
+      complete: () => {
+        Swal.fire('Approved')
+      }
     }))
   }
 

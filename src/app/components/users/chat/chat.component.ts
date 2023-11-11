@@ -23,28 +23,45 @@ export class ChatComponent {
   constructor(private _socketService: MessagingService, private _route: ActivatedRoute, private _fb: FormBuilder, private _toastr: ToastrService, private _userServices: UsersService) { }
 
   ngOnInit(): void {
-    this.subscribe.add(this._route.queryParams
-      .subscribe(params => {
-        this.id = params['id']
-        this._userServices.getRecentChats(this.id).subscribe((res) => {
-          this.Roomid = res.message._id
-          this.messages = res.message.messages
-          this.userId = res.userId
-          this._socketService.setupSocketConnection(this.Roomid);
-          this._socketService.join(this.id, this.Roomid)
-        })
-        this.messageForm = this._fb.group({
-          message: ['', Validators.required],
-        })
-      }
-      ))
+    this.subscribe.add(
+      this._route.queryParams.subscribe({
+        next: (params) => {
+          this.id = params['id'];
+        },
+        error: (err) => {
+          this._toastr.error(err.error.message);
+        },
+        complete: () => {
+          this._userServices.getRecentChats(this.id).subscribe({
+            next: (res) => {
+              this.Roomid = res.message._id;
+              this.messages = res.message.messages;
+              this.userId = res.userId;
+              this._socketService.setupSocketConnection(this.Roomid);
+              this._socketService.join(this.id, this.Roomid);
+            },
+            error: (err) => {
+              this._toastr.error(err.error.message);
+            },
+          });
+          this.messageForm = this._fb.group({
+            message: ['', Validators.required],
+          });
+        },
+      })
+    );
   }
 
   recentChat() {
-    this.subscribe.add(this._userServices.getRecentChats(this.id).subscribe((res) => {
-      this.Roomid = res.id
-      this.userId = res.userId
-      this.messages = res.message      
+    this.subscribe.add(this._userServices.getRecentChats(this.id).subscribe({
+      next: (res) => {
+        this.Roomid = res.id
+        this.userId = res.userId
+        this.messages = res.message
+      },
+      error: (err) => {
+        this._toastr.error(err.error.message);
+      }
     }))
   }
 
@@ -57,7 +74,7 @@ export class ChatComponent {
   }
 
   handleMessage(data: any) {
-    this.messages = data.messages    
+    this.messages = data.messages
   }
 
   ngOnDestroy() {

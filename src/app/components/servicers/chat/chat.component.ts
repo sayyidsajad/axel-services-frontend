@@ -30,9 +30,7 @@ export class ChatComponent {
 
   recentUsersList() {
     this.subscribe.add(this._servicerServices.getRecentUsers().subscribe((res) => {
-      this.usersList = res.message
-      console.log(this.usersList,'in the frontend');
-           
+      this.usersList = res.message           
     }))
   }
 
@@ -41,13 +39,15 @@ export class ChatComponent {
     this.messageForm = this._fb.group({
       message: ['', Validators.required],
     })
-    this.subscribe.add(this._servicerServices.getRecentChats(id).subscribe((res) => {
+    this.subscribe.add(this._servicerServices.getRecentChats(id).subscribe({next:(res) => {
       this.Roomid = res.id
       this.servicerId = res.servicerId
       this.messages = res.message.messages      
       this._socketService.setupSocketConnection(this.Roomid);
       this._socketService.join(this.id, this.Roomid)
-    }))
+    },error:(err)=>{
+      this._toastr.error(err.error.message);
+    }}))
   }
 
   sendMessage() {

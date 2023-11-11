@@ -49,10 +49,12 @@ export class BookingMgtComponent {
   }
 
   listBookings() {
-    this.subscribe.add(this._adminServices.listBookings().subscribe((res) => {
-      this.dataSource = res.bookings
-    }, (err) => {
-      this._toastr.error(err.error.message);
+    this.subscribe.add(this._adminServices.listBookings().subscribe({
+      next: (res) => {
+        this.dataSource = res.bookings
+      }, error: (err) => {
+        this._toastr.error(err.error.message);
+      }
     }))
   }
 
@@ -61,30 +63,37 @@ export class BookingMgtComponent {
     this.dialogForm = this._fb.group({
       textArea: ['', Validators.required],
     })
-    this.subscribe.add(dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined) {
-        if (result === 'yes') {
-          const user = this.dialogForm.getRawValue();
-          if (user.textArea !== '') {
-            this.cancelBooking(user.textArea, bookingId, userId)
-          } else {
-            this._toastr.error('Enter the reason to cancel');
-            this.cancelReason(bookingId, userId)
+    this.subscribe.add(dialogRef.afterClosed().subscribe({
+      next: (result) => {
+        if (result !== undefined) {
+          if (result === 'yes') {
+            const user = this.dialogForm.getRawValue();
+            if (user.textArea !== '') {
+              this.cancelBooking(user.textArea, bookingId, userId)
+            } else {
+              this._toastr.error('Enter the reason to cancel');
+              this.cancelReason(bookingId, userId)
+            }
           }
         }
+      }, error: (err) => {
+        this._toastr.error(err.error.message);
       }
     }))
   }
 
   cancelBooking(textArea: any, bookingId: any, userId: any) {
-    this.subscribe.add(this._adminServices.cancelBooking(textArea, bookingId, userId).subscribe((res) => {
-      Swal.fire('Successfully Cancelled', '', 'success')
-      this.listBookings()
-    }, (err) => {
-      this._toastr.error(err.error.message);
+    this.subscribe.add(this._adminServices.cancelBooking(textArea, bookingId, userId).subscribe({
+      next: () => {
+        this.listBookings()
+      }, error: (err) => {
+        this._toastr.error(err.error.message);
+      }, complete: () => {
+        Swal.fire('Successfully Cancelled', '', 'success')
+      }
     }))
   }
-  
+
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

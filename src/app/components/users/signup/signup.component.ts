@@ -22,11 +22,15 @@ export class SignupComponent {
   private subscribe: Subscription = new Subscription()
 
   ngOnInit(): void {
-    this.subscribe.add(this._authService.authState.subscribe((user) => {
-      this.googleUser = user
-      // if (this.googleUser !== null) {
-      //   this.googleSignIn(this.googleUser)
-      // }
+    this.subscribe.add(this._authService.authState.subscribe({
+      next: (user) => {
+        this.googleUser = user
+        // if (this.googleUser !== null) {
+        //   this.googleSignIn(this.googleUser)
+        // }
+      }, error: (err) => {
+        this._toastr.error(err.error.message);
+      }
     }))
 
     this.registerForm = this._fb.group({
@@ -53,10 +57,12 @@ export class SignupComponent {
   onSubmit() {
     const user = this.registerForm.getRawValue();
     if (this.registerForm.valid) {
-      this.subscribe.add(this._userServices.userRegister(user.name, user.email, +user.phone, user.password, user.confirmPassword).subscribe((res) => {
-        this._router.navigate(['otpVerification'], { queryParams: { email: res.email } });
-      }, (err) => {
-        this._toastr.error(err.error.message);
+      this.subscribe.add(this._userServices.userRegister(user.name, user.email, +user.phone, user.password, user.confirmPassword).subscribe({
+        next: (res) => {
+          this._router.navigate(['otpVerification'], { queryParams: { email: res.email } });
+        }, error: (err) => {
+          this._toastr.error(err.error.message);
+        }
       }))
     }
   }

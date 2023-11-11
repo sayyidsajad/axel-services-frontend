@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { ServicerService } from 'src/app/services/servicers/servicer.service';
 import { Space } from '../../validators/custom-validators';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'app-servicers-otp-verification',
@@ -26,10 +27,13 @@ export class ServicersOtpVerificationComponent {
   ngOnInit(): void {
     this.subscribe.add(
       this._route.queryParams
-        .subscribe(params => {
-          this.id = params['id']
-        }
-        )
+        .subscribe({
+          next: (params) => {
+            this.id = params['id']
+          }, error: (err) => {
+            this._toastr.error(err.error.message);
+          }
+        })
     )
     this.timer()
     this.sendMail(this.id)
@@ -40,10 +44,12 @@ export class ServicersOtpVerificationComponent {
   }
 
   sendMail(id: string) {
-    this.subscribe.add(this._servicerServices.sendMail(id).subscribe((res) => {
-      this.otp = res.otp
-    }, (err) => {
-      this._toastr.error(err.error.message);
+    this.subscribe.add(this._servicerServices.sendMail(id).subscribe({
+      next: (res) => {
+        this.otp = res.otp
+      }, error: (err) => {
+        this._toastr.error(err.error.message);
+      }
     }))
   }
 
@@ -76,12 +82,14 @@ export class ServicersOtpVerificationComponent {
     const user = this.otpVerification.getRawValue();
     if (this.otpVerification.valid && +this.otp === +user.otpCode) {
       this.verified = true
-      this.subscribe.add(this._servicerServices.servicerDashboard(this.id).subscribe((res) => {
-        localStorage.setItem('servicerSecret', res.access_token.toString())
-        this._router.navigate(['servicer/main/dashboard']);
-      }, (err) => {
-        this.verified = false
-        this._toastr.error(err.error.message);
+      this.subscribe.add(this._servicerServices.servicerDashboard(this.id).subscribe({
+        next: (res) => {
+          localStorage.setItem(environment.servicerSecret, res.access_token.toString())
+          this._router.navigate(['servicer/main/dashboard']);
+        }, error: (err) => {
+          this.verified = false
+          this._toastr.error(err.error.message);
+        }
       }))
     } else {
       this._toastr.error('Invalid OTP');

@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { UsersService } from 'src/app/services/users/users.service';
 import { Space } from '../../validators/custom-validators';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'app-otp-verification',
@@ -26,10 +27,14 @@ export class OtpVerificationComponent implements OnInit {
 
   ngOnInit(): void {
     this.subscribe.add(this._route.queryParams
-      .subscribe(params => {
-        this.email = params['email']
-      }
-      ))
+      .subscribe({
+        next: (params) => {
+          this.email = params['email']
+        },
+        error: (err) => {
+          this._toastr.error(err.error.message);
+        }
+      }))
     this.timer()
     this.sendMail(this.email)
     this.otpVerification = this._fb.group({
@@ -39,13 +44,13 @@ export class OtpVerificationComponent implements OnInit {
   }
 
   sendMail(email: string) {
-    this.subscribe.add(this._userServices.sendMail(email).subscribe((res) => {
-      this.otp = res.otp
-      this.token = res.access_token.toString()
-    }, (err) => {
-      console.log(err);
-      
-      this._toastr.error(err.error.message);
+    this.subscribe.add(this._userServices.sendMail(email).subscribe({
+      next: (res) => {
+        this.otp = res.otp
+        this.token = res.access_token.toString()
+      }, error: (err) => {
+        this._toastr.error(err.error.message);
+      }
     }))
   }
 
@@ -78,13 +83,17 @@ export class OtpVerificationComponent implements OnInit {
     const user = this.otpVerification.getRawValue();
     if (this.otpVerification.valid && +this.otp === +user.otpCode) {
       this.verified = true
-      this.subscribe.add(this._userServices.loadHome(this.email).subscribe((res) => {
-        localStorage.setItem('userSecret', this.token)
-        this._toastr.success('Registered Successfully', 'Axel Services');
-        this._router.navigate(['home']);
-      }, (err) => {
-        this.verified = false
-        this._toastr.error(err.error.message);
+      this.subscribe.add(this._userServices.loadHome(this.email).subscribe({
+        next: () => {
+          localStorage.setItem(environment.userSecret, this.token)
+          this._router.navigate(['home']);
+        }, error: (err) => {
+          this.verified = false
+          this._toastr.error(err.error.message);
+        },
+        complete: () => {
+          this._toastr.success('Registered Successfully', 'Axel Services');
+        }
       }))
     } else {
       this._toastr.error('Invalid OTP', 'Axel Services');

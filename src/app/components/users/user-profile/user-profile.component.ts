@@ -17,16 +17,17 @@ export class UserProfileComponent {
   }
 
   constructor(private _userServices: UsersService, private _toastr: ToastrService) { }
-  
+
   getUser() {
-    this.subscribe.add(this._userServices.userProfile().subscribe(
-      (res) => {
-        this.userDetails = res.user
-      },
-      (err) => {
-        this._toastr.error(err.error.message);
-      }
-    ))
+    this.subscribe.add(this._userServices.userProfile().subscribe({
+      next:
+        (res) => {
+          this.userDetails = res.user
+        }, error:
+        (err) => {
+          this._toastr.error(err.error.message);
+        }
+    }))
   }
 
   ngOnDestroy(): void {

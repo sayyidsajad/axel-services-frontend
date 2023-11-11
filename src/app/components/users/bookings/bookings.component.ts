@@ -20,24 +20,30 @@ export class BookingsComponent {
   }
 
   bookingsList() {
-    this.subscribe.add(this._userServices.bookingsList().subscribe(
-      (res) => {
-        this.bookings = res.bookings;        
+    this.subscribe.add(this._userServices.bookingsList().subscribe({
+      next: (res) => {
+        this.bookings = res.bookings;
       },
-      (err) => {
+      error: (err) => {
         this._toastr.error(err.error.message);
       }
-    ))
+    }))
   }
 
   cancel(id: string, amount: string) {
-    this.subscribe.add(this._userServices.cancel(id, amount).subscribe((res) => {
-      this.bookingsList()
-      Swal.fire('Successfully Cancelled', '', 'success')
-    }, (err) => {
-      this._toastr.error(err.error.message);
-    }))
+    this.subscribe.add(
+      this._userServices.cancel(id, amount).subscribe({
+        next: () => {
+          this.bookingsList();
+          Swal.fire('Successfully Cancelled', '', 'success');
+        },
+        error: (err) => {
+          this._toastr.error(err.error.message);
+        },
+      })
+    );
   }
+
 
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()

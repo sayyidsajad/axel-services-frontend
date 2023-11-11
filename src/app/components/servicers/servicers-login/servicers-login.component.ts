@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { ServicerService } from 'src/app/services/servicers/servicer.service';
 import { Space } from '../../validators/custom-validators';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'app-servicers-login',
@@ -29,16 +30,20 @@ export class ServicersLoginComponent {
     const user = this.loginForm.getRawValue();
     if (this.loginForm.valid) {
       this.subscribe.add(
-        this._servicerServices.servicerLogin(user).subscribe((res) => {
-          if (res.isApproved === true && res.isVerified === true) {
-            localStorage.setItem('servicerSecret', res.access_token.toString())
-            this._router.navigate(['servicer/main/dashboard']);
+        this._servicerServices.servicerLogin(user).subscribe({
+          next: (res) => {
+            if (res.isApproved === true && res.isVerified === true) {
+              localStorage.setItem(environment.servicerSecret, res.access_token.toString())
+              this._router.navigate(['servicer/main/dashboard']);
+            } else {
+              this._router.navigate(['servicer/servicerOtpVerification'], { queryParams: { id: res.id } });
+            }
+          }, error: (err) => {
+            this._toastr.error(err.error.message);
+          },
+          complete: () => {
             this._toastr.success('Logged in successfully', 'Axel Services');
-          } else {
-            this._router.navigate(['servicer/servicerOtpVerification'], { queryParams: { id: res.id } });
           }
-        }, (err) => {
-          this._toastr.error(err.error.message);
         }))
     }
   }

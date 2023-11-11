@@ -29,7 +29,7 @@ export class ServicersApprovalComponent {
   ngOnInit(): void {
     this.approval()
   }
-  
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -45,22 +45,25 @@ export class ServicersApprovalComponent {
 
   approval() {
     this.subscribe.add(
-      this._adminServices.servicersApproval().subscribe(
-        (res) => {
-          this.dataSource = res.approvals
-        },
-        (err) => {
-          this._toastr.error(err.error.message);
-        }
-      ))
+      this._adminServices.servicersApproval().subscribe({
+        next:
+          (res) => {
+            this.dataSource = res.approvals
+          }, error:
+          (err) => {
+            this._toastr.error(err.error.message);
+          }
+      }))
   }
 
   approve(id: string) {
-    this.subscribe.add(this._adminServices.approveServices(id).subscribe((res) => {
-      this.approval()
-      res.message === "Not Approved"?this._toastr.warning('Servicer Approval has been cancelled'):this._toastr.success('Servicer has been approved')
-    }, (err) => {
-      this._toastr.error(err.error.message);
+    this.subscribe.add(this._adminServices.approveServices(id).subscribe({
+      next: (res) => {
+        this.approval()
+        res.message === "Not Approved" ? this._toastr.warning('Servicer Approval has been cancelled') : this._toastr.success('Servicer has been approved')
+      }, error: (err) => {
+        this._toastr.error(err.error.message);
+      }
     }))
   }
 

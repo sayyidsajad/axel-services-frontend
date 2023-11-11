@@ -29,31 +29,33 @@ export class DashboardComponent {
   options: any
   ngOnInit() {
     this.subscribe.add(
-      this._adminServices.dashboardReports().subscribe((res) => {
-        const documentStyle = getComputedStyle(document.documentElement);
-        const textColor = documentStyle.getPropertyValue('--text-color');
-        this.data = {
-          labels: ['Pending', 'Cancelled', 'Service Completed'],
-          datasets: [
-            {
-              data: [res.approvalStatus.pending, res.approvalStatus.cancelled, res.approvalStatus.serviceCompleted],
-              backgroundColor: [documentStyle.getPropertyValue('--blue-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--green-500')],
-              hoverBackgroundColor: [documentStyle.getPropertyValue('--blue-400'), documentStyle.getPropertyValue('--yellow-400'), documentStyle.getPropertyValue('--green-400')]
-            }
-          ]
-        };
-        this.options = {
-          cutout: '50%',
-          plugins: {
-            legend: {
-              labels: {
-                color: textColor
+      this._adminServices.dashboardReports().subscribe({
+        next: (res) => {
+          const documentStyle = getComputedStyle(document.documentElement);
+          const textColor = documentStyle.getPropertyValue('--text-color');
+          this.data = {
+            labels: ['Pending', 'Cancelled', 'Service Completed'],
+            datasets: [
+              {
+                data: [res.approvalStatus.pending, res.approvalStatus.cancelled, res.approvalStatus.serviceCompleted],
+                backgroundColor: [documentStyle.getPropertyValue('--blue-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--green-500')],
+                hoverBackgroundColor: [documentStyle.getPropertyValue('--blue-400'), documentStyle.getPropertyValue('--yellow-400'), documentStyle.getPropertyValue('--green-400')]
+              }
+            ]
+          };
+          this.options = {
+            cutout: '50%',
+            plugins: {
+              legend: {
+                labels: {
+                  color: textColor
+                }
               }
             }
-          }
-        };
-      }, (err: { error: { message: string | undefined; }; }) => {
-        this._toastr.error(err.error.message);
+          };
+        }, error: (err) => {
+          this._toastr.error(err.error.message);
+        }
       }))
   }
   cardsTwo = this.breakpointObserver.observe(Breakpoints.Handset).pipe(

@@ -35,20 +35,24 @@ export class ServicersMgtComponent {
 
   listServices() {
     this.subscribe.add(
-      this._adminServices.listServices().subscribe((res) => {
-        this.dataSource = res.services
-      }, (err) => {
-        this._toastr.error(err.error.message);
+      this._adminServices.listServices().subscribe({
+        next: (res) => {
+          this.dataSource = res.services
+        }, error: (err) => {
+          this._toastr.error(err.error.message);
+        }
       }))
   }
 
   block(id: string) {
     this.subscribe.add(
-      this._adminServices.blockServicer(id).subscribe((res) => {
-        this.listServices()
-        res.message === 'Blocked' ? this._toastr.warning('Servicer has been blocked') : this._toastr.success('Servicer has been unblocked');
-      }, (err) => {
-        this._toastr.error(err.error.message);
+      this._adminServices.blockServicer(id).subscribe({
+        next: (res) => {
+          this.listServices()
+          res.message === 'Blocked' ? this._toastr.warning('Servicer has been blocked') : this._toastr.success('Servicer has been unblocked');
+        }, error: (err) => {
+          this._toastr.error(err.error.message);
+        }
       }))
   }
 

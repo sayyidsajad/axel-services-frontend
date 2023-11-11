@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { AdminService } from 'src/app/services/admin/admin.service';
 import { Space } from '../../validators/custom-validators';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'app-admin-login',
@@ -28,12 +29,15 @@ export class AdminLoginComponent {
   onSubmit() {
     const user = this.loginForm.getRawValue();
     if (this.loginForm.valid) {
-      this.subscribe.add(this._adminServices.adminLogin(user).subscribe((res) => {
-        localStorage.setItem('adminSecret', res.access_token.toString());
-        this._router.navigate(['admin/main/dashboard']);
-        this._toastr.success('LoggedIn Successfully', 'Axel Services');
-      }, (err) => {
-        this._toastr.error(err.error.message);
+      this.subscribe.add(this._adminServices.adminLogin(user).subscribe({
+        next: (res) => {
+          localStorage.setItem(environment.adminSecret, res.access_token.toString());
+          this._router.navigate(['admin/main/dashboard']);
+        }, error: (err) => {
+          this._toastr.error(err.error.message);
+        }, complete: () => {
+          this._toastr.success('LoggedIn Successfully', 'Axel Services');
+        }
       }))
     }
   }

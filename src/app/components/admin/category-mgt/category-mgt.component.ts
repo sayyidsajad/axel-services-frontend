@@ -48,53 +48,66 @@ export class CategoryMgtComponent {
   }
 
   onSubmit() {
-    const category = this.categoryForm.getRawValue();    
+    const category = this.categoryForm.getRawValue();
     if (this.categoryForm.valid) {
-      this.subscribe.add(this._adminServices.addCategory(category.categoryName,category.description).subscribe((res) => {
-        this.categoryForm.reset()
-        Swal.fire('Successfully Added', '', 'success')
-        this.listCategories()
-      }, (err) => {        
-        this._toastr.error(err.error.message);
+      this.subscribe.add(this._adminServices.addCategory(category.categoryName, category.description).subscribe({
+        next: (res) => {
+          this.categoryForm.reset()
+          this.listCategories()
+        }, error: (err) => {
+          this._toastr.error(err.error.message);
+        }, complete: () => {
+          Swal.fire('Successfully Added', '', 'success')
+        }
       }))
     }
   }
 
   listUnlist(id: string) {
-    this.subscribe.add(this._adminServices.listUnlist(id).subscribe((res) => {
-      this.listCategories()
-      res.message === 'Listed' ? this._toastr.success('Category has been listed') : this._toastr.warning('Category has been unlisted')
-    }, (err) => {
-      this._toastr.error(err.error.message);
+    this.subscribe.add(this._adminServices.listUnlist(id).subscribe({
+      next: (res) => {
+        this.listCategories()
+        res.message === 'Listed' ? this._toastr.success('Category has been listed') : this._toastr.warning('Category has been unlisted')
+      }, error: (err) => {
+        this._toastr.error(err.error.message);
+      }
     }))
   }
   editCategory(id: string, categoryName: string, description: string) {
-    let dialogRef = this._dialog.open(this.callAPIDialog);
+    const dialogRef = this._dialog.open(this.callAPIDialog);
     this.dialogForm = this._fb.group({
       categoryName: [categoryName, Validators.required],
       description: [description, Validators.required],
     })
-    this.subscribe.add(dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined) {
-        if (result === 'yes') {
-          const categ = this.dialogForm.getRawValue();
-          if (categ.categoryName !== '' && categ.description !== '') {
-            this.updateCategory(id, categ.categoryName, categ.description)
-          } else {
-            this._toastr.error('Both fields are required.');
-            this.updateCategory(id, categoryName, description)
+    this.subscribe.add(dialogRef.afterClosed().subscribe({
+      next: (result) => {
+        if (result !== undefined) {
+          if (result === 'yes') {
+            const categ = this.dialogForm.getRawValue();
+            if (categ.categoryName !== '' && categ.description !== '') {
+              this.updateCategory(id, categ.categoryName, categ.description)
+            } else {
+              this._toastr.error('Both fields are required.');
+              this.updateCategory(id, categoryName, description)
+            }
           }
         }
+      }, error: (err) => {
+        this._toastr.error(err.error.message);
       }
     }))
   }
 
   updateCategory(id: string, categoryName: string, description: string) {
-    this.subscribe.add(this._adminServices.updateCategory(id, categoryName, description).subscribe((res) => {
-      Swal.fire('Successfully Updated', '', 'success')
-      this.listCategories()
-    }, (err) => {
-      this._toastr.error(err.error.message);
+    this.subscribe.add(this._adminServices.updateCategory(id, categoryName, description).subscribe({
+      next: (res) => {
+        this.listCategories()
+      }, error: (err) => {
+        this._toastr.error(err.error.message);
+      },
+      complete: () => {
+        Swal.fire('Successfully Updated', '', 'success')
+      }
     }))
   }
 
@@ -107,10 +120,12 @@ export class CategoryMgtComponent {
   }
 
   listCategories() {
-    this.subscribe.add(this._adminServices.listCategories().subscribe((res) => {
-      this.dataSource = res.categories
-    }, (err) => {
-      this._toastr.error(err.error.message);
+    this.subscribe.add(this._adminServices.listCategories().subscribe({
+      next: (res) => {
+        this.dataSource = res.categories
+      }, error: (err) => {
+        this._toastr.error(err.error.message);
+      }
     }))
   }
 

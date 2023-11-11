@@ -19,21 +19,29 @@ export class ForgotPasswordComponent {
 
   ngOnInit(): void {
     this.resetForm = this._fb.group({
-      email: ['',  [Space.noSpaceAllowed, Validators.required, Validators.email, Validators.pattern("^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$")]],
+      email: ['', [Space.noSpaceAllowed, Validators.required, Validators.email, Validators.pattern("^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$")]],
     })
   }
+
   onSubmit() {
-    const reset = this.resetForm.getRawValue()
     if (this.resetForm.valid) {
-      this.subscribe.add(this._userServices.forgotPassword(reset.email).subscribe((res) => {
-        this._toastr.success('Resend link has been sent to your mail.');
-        this._router.navigate(['/']);
-      }, (err) => {
-        this._toastr.error(err.error.message);
-      }))
+      const email = this.resetForm.get('email')?.value;
+      this.subscribe.add(
+        this._userServices.forgotPassword(email).subscribe({
+          next: () => {
+            this._router.navigate(['/']);
+          },
+          error: (err) => {
+            this._toastr.error(err.error.message);
+          },
+          complete: () => {
+            this._toastr.success('Resend link has been sent to your mail.');
+          }
+        })
+      );
     }
   }
-  
+
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

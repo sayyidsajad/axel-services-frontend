@@ -6,6 +6,7 @@ import { UsersService } from 'src/app/services/users/users.service';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { Space } from '../../validators/custom-validators';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'app-login',
@@ -29,16 +30,20 @@ export class LoginComponent {
   onSubmit() {
     const user = this.loginForm.getRawValue();
     if (this.loginForm.valid) {
-      this.subscribe.add(this._userServices.userLogin(user).subscribe((res) => {
-        if (res.verified === false) {
-          this._router.navigate(['otpVerification'], { queryParams: { email: res.email } });
-        } else {
-          localStorage.setItem('userSecret', res.access_token.toString());
-          this._router.navigate(['home']);
+      this.subscribe.add(this._userServices.userLogin(user).subscribe({
+        next: (res) => {
+          if (res.verified === false) {
+            this._router.navigate(['otpVerification'], { queryParams: { email: res.email } });
+          } else {
+            localStorage.setItem(environment.userSecret, res.access_token.toString());
+            this._router.navigate(['home']);
+          }
+        }, error: (err) => {
+          this._toastr.error(err.error.message);
+        },
+        complete: () => {
           this._toastr.success('LoggedIn Successfully', 'Axel Services');
         }
-      }, (err) => {
-        this._toastr.error(err.error.message);
       }))
     }
   }

@@ -19,8 +19,8 @@ export class InboxComponent {
   }
 
   userInbox() {
-    this.subscribe.add(this.userServices.userInbox().subscribe(
-      (res) => {
+    this.subscribe.add(this.userServices.userInbox().subscribe({
+      next: (res) => {
         if (!res.inbox.length) {
           this.inboxData = []
           this._toastr.error('Your Inbox Empty');
@@ -28,22 +28,22 @@ export class InboxComponent {
           this.inboxData = res.inbox
           this.serviceData = res.service
         }
-      },
-      (err) => {
+      }, error: (err) => {
         this._toastr.error(err.error.message);
       }
-    ))
+    }))
   }
 
   clearAll() {
-    this.subscribe.add(this.userServices.clearAll().subscribe(
-      (res) => {
-        this.userInbox()
-      },
-      (err) => {
+    this.subscribe.add(this.userServices.clearAll().subscribe({
+      next:
+        () => {
+          this.userInbox()
+        },
+      error: (err) => {
         this._toastr.error(err.error.message);
       }
-    ))
+    }))
   }
 
   ngOnDestroy(): void {

@@ -37,22 +37,21 @@ export class HomeComponent {
   }
 
   servicesList() {
-    this.subscribe.add(this._userServices.servicerList().subscribe(
-      (res) => {
+    this.subscribe.add(this._userServices.servicerList().subscribe({
+      next: (res) => {
         this.services = res.servicesFind;
         this.categoryList = this.services.map(item => item.categoryInfo.categoryName)
         this.featuredServices = this.services.reverse()
-      },
-      (err) => {
+      }, error: (err) => {
         this._toastr.error(err.error.message);
       }
-    ))
+    }))
   }
 
   serviceDetails(id: any) {
     this._router.navigate(['/servicerDetails', id])
   }
-  
+
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

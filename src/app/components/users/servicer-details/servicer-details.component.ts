@@ -26,7 +26,7 @@ export class ServicerDetailsComponent {
   secondFormGroup!: FormGroup;
   thirdFormGroup!: FormGroup
   bookingSummary!: FormGroup
-  
+
   ngOnInit(): void {
     this.id = this._route.snapshot.paramMap.get("id");
     this.servicerDetails()
@@ -36,15 +36,15 @@ export class ServicerDetailsComponent {
   }
 
   servicerDetails() {
-    this.subscribe.add(this._userServices.servicerDetails(this.id).subscribe(
-      (res) => {
+    this.subscribe.add(this._userServices.servicerDetails(this.id).subscribe({
+      next: (res) => {
         this.services = res.servicesFind;
         this.wallet = res.wallet
-      },
-      (err) => {
-        this._toastr.error(err.error.message);
-      }
-    ))
+      }, error:
+        (err) => {
+          this._toastr.error(err.error.message);
+        }
+    }))
   }
 
   Done() {
@@ -52,18 +52,26 @@ export class ServicerDetailsComponent {
     const secondField = this.secondFormGroup.getRawValue()
     const thirdField = this.thirdFormGroup.getRawValue()
     if (thirdField.walletChecked) {
-      this.subscribe.add(this._userServices.bookNow(this.id, firstField.date, secondField.time, this.wallet).subscribe((res) => {
-        this.bookNow(firstField.date, secondField.time, res)
+      this.subscribe.add(this._userServices.bookNow(this.id, firstField.date, secondField.time, this.wallet).subscribe({
+        next: (res) => {
+          this.bookNow(firstField.date, secondField.time, res)
+        }, error: (err) => {
+          this._toastr.error(err.error.message)
+        }
       }))
     } else {
-      this.subscribe.add(this._userServices.bookNow(this.id, firstField.date, secondField.time).subscribe((res) => {
-        this.bookNow(firstField.date, secondField.time, res)
+      this.subscribe.add(this._userServices.bookNow(this.id, firstField.date, secondField.time).subscribe({
+        next: (res) => {
+          this.bookNow(firstField.date, secondField.time, res)
+        }, error: (err) => {
+          this._toastr.error(err.error.message)
+        }
       }))
     }
   }
 
-  bookNow(date: Date, time: any, inserted: any) {    
-    let reducedAmt = inserted['reducedAmt'] ? (+this.services[0].amount - this.wallet) : +this.services[0].amount      
+  bookNow(date: Date, time: any, inserted: any) {
+    const reducedAmt = inserted['reducedAmt'] ? (+this.services[0].amount - this.wallet) : +this.services[0].amount
     const RazorpayOptions = {
       description: 'Sample Razorpay Demo',
       currency: 'INR',
@@ -97,13 +105,16 @@ export class ServicerDetailsComponent {
     Razorpay.open(RazorpayOptions, successCallback, failureCallback)
   }
 
-  verifypayment(response: object, inserted: object) {    
+  verifypayment(response: object, inserted: object) {
     this._userServices.verifyPayment(response, inserted)
-      .subscribe((res) => {
-        this._toastr.success("Payment success");
-        this._router.navigate(['servicerDetails', this.id]);
-      }, (err) => {
-        this._toastr.error(err.error.message)
+      .subscribe({
+        next: () => {
+          this._router.navigate(['servicerDetails', this.id]);
+        }, error: (err) => {
+          this._toastr.error(err.error.message)
+        }, complete: () => {
+          this._toastr.success("Payment success");
+        }
       })
   }
 

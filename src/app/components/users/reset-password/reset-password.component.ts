@@ -18,10 +18,13 @@ export class ResetPasswordComponent {
   tryCount: number = 0
   ngOnInit(): void {
     this.subscribe.add(this._route.queryParams
-      .subscribe(params => {
-        this.id = params['id']
-      }
-      ))
+      .subscribe({
+        next: (params) => {
+          this.id = params['id']
+        }, error: (err) => {
+          this._toastr.error(err.error.message);
+        }
+      }))
     this.resetPassForm = this._fb.group({
       newPassword: ['', [Validators.required, Validators.minLength(8), Space.noSpaceAllowed]],
       newConfirmPassword: ['', [Validators.required, Validators.minLength(8), Space.noSpaceAllowed],
@@ -35,11 +38,15 @@ export class ResetPasswordComponent {
     if (this.tryCount < 4) {
       if (this.resetPassForm.valid) {
         this.tryCount++
-        this.subscribe.add(this._userServices.verifyConfirmPassword(this.id, resetForm.newPassword, resetForm.newConfirmPassword).subscribe((res) => {
-          this._toastr.success('Password has been successfully changed');
-          this._router.navigate(['/']);
-        }, (err) => {
-          this._toastr.error(err.error.message);
+        this.subscribe.add(this._userServices.verifyConfirmPassword(this.id, resetForm.newPassword, resetForm.newConfirmPassword).subscribe({
+          next: () => {
+            this._router.navigate(['/']);
+          }, error: (err) => {
+            this._toastr.error(err.error.message);
+          },
+          complete: () => {
+            this._toastr.success('Password has been successfully changed');
+          }
         }))
       }
     } else {

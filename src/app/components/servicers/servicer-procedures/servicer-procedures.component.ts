@@ -23,10 +23,13 @@ export class ServicerProceduresComponent {
 
   ngOnInit(): void {
     this.subscribe.add(this._route.queryParams
-      .subscribe(params => {
-        this.id = params['id']
-      }
-      ))
+      .subscribe({
+        next: (params) => {
+          this.id = params['id']
+        }, error: (err) => {
+          this._toastr.error(err.error.message);
+        }
+      }))
     this.verificationForm = this._fb.group({
       serviceName: ['', [Validators.required, WhiteSpace.validate]],
       description: ['', [Validators.required, WhiteSpace.validate]],
@@ -41,20 +44,24 @@ export class ServicerProceduresComponent {
 
   categoriesList() {
     this.subscribe.add(
-      this._servicerServices.categoriesList().subscribe((res) => {
-        this.categories = res.categories
-      }, (err) => {
-        this._toastr.error(err.error.message);
+      this._servicerServices.categoriesList().subscribe({
+        next: (res) => {
+          this.categories = res.categories
+        }, error: (err) => {
+          this._toastr.error(err.error.message);
+        }
       }))
   }
 
   verifyService() {
     const servicer = this.verificationForm.getRawValue();
     if (this.verificationForm.valid) {
-      this.subscribe.add(this._servicerServices.servicerVerification(servicer.serviceName, servicer.description, +servicer.amount, servicer.category, servicer.file, this.id).subscribe((res) => {
-        this._router.navigate(['servicer/adminServicerApproval'], { queryParams: { id: res.id } });
-      }, (err) => {
-        this._toastr.error(err.error.message);
+      this.subscribe.add(this._servicerServices.servicerVerification(servicer.serviceName, servicer.description, +servicer.amount, servicer.category, servicer.file, this.id).subscribe({
+        next: (res) => {
+          this._router.navigate(['servicer/adminServicerApproval'], { queryParams: { id: res.id } });
+        }, error: (err) => {
+          this._toastr.error(err.error.message);
+        }
       }))
     }
   }

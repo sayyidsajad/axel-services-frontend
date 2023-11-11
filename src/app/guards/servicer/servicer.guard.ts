@@ -1,63 +1,41 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { environment } from 'src/environments/environment.development';
 
-@Injectable({
-  providedIn: 'root'
-})
-
-export class ServicerGuardOut implements CanActivate {
-
-  constructor(public _router: Router) { }
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    const token = localStorage.getItem('servicerSecret')
-    if (token) {
-      this._router.navigate(['servicer/main/dashboard'])
-      return false
-    } else {
-      return true
-    }
+export const ServicerGuardOut: CanActivateFn = (route, state) => {
+  const token = localStorage.getItem(environment.servicerSecret)
+  const router = inject(Router)
+  if (token) {
+    router.navigate(['servicer/main/dashboard'])
+    return false
+  } else {
+    return true
   }
+};
 
-}
-
-@Injectable({
-  providedIn: 'root'
-})
-
-export class ServicerGuardIn {
-  constructor(private _router: Router) { }
-
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const token = localStorage.getItem('servicerSecret')
-    if (!token) {
-      this._router.navigate(['/servicer'])
-      return false
-    } else {
-      return true
-    }
+export const ServicerGuardIn: CanActivateFn = (route, state) => {
+  const token = localStorage.getItem(environment.servicerSecret)
+  const router = inject(Router)
+  if (!token) {
+    router.navigate(['/servicer'])
+    return false
+  } else {
+    return true
   }
-}
+};
 
-@Injectable({
-  providedIn: 'root'
-})
-
-export class ServicerGuardConfig implements CanActivate {
-
-  constructor(private _router: Router) { }
-
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    const adminToken = localStorage.getItem('adminSecret')
-    const userToken = localStorage.getItem('userSecret')
-    if (adminToken) {
-      this._router.navigate(['/admin'])
-      return false
-    } else if (userToken) {
-      this._router.navigate(['/'])
-      return false
-    } else {
-      return true
-    }
+export const ServicerGuardConfig: CanActivateFn = (route, state) => {
+  const adminToken = localStorage.getItem(environment.adminSecret)
+  const userToken = localStorage.getItem(environment.userSecret)
+  const router = inject(Router)
+  if (adminToken) {
+    router.navigate(['/admin'])
+    return false
+  } else if (userToken) {
+    router.navigate(['/'])
+    return false
+  } else {
+    return true
   }
-}
+};
+
