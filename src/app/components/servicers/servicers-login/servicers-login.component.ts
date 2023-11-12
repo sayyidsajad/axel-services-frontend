@@ -19,7 +19,7 @@ export class ServicersLoginComponent {
 
   ngOnInit(): void {
     this.loginForm = this._fb.group({
-      email: ['', [Space.noSpaceAllowed, Validators.required, Validators.email, Validators.pattern("^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$")]],
+      email: ['', [Space.noSpaceAllowed, Validators.required, Validators.email, Validators.pattern("^[a-z0-9](\.?[a-z0-9]){0,}@g(oogle)?mail\.com$")]],
       password: ['', [Validators.required, Validators.minLength(8), Space.noSpaceAllowed]],
     })
   }
@@ -38,8 +38,6 @@ export class ServicersLoginComponent {
             } else {
               this._router.navigate(['servicer/servicerOtpVerification'], { queryParams: { id: res.id } });
             }
-          }, error: (err) => {
-            this._toastr.error(err.error.message);
           },
           complete: () => {
             this._toastr.success('Logged in successfully', 'Axel Services');

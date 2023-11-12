@@ -20,8 +20,8 @@ export class ServicerService {
   servicerLogin(user: object): Observable<any> {
     return this._http.post('servicer', user, httpOptions)
   }
-  servicerVerification(serviceName: string, description: string, amount: number, category: string, file: string, id: string): Observable<any> {
-    return this._http.post(`servicer/servicerProcedures?id=${id}`, { serviceName, description, amount, category, file }, httpOptions)
+  servicerVerification(data: FormData, id: string): Observable<any> {
+    return this._http.post(`servicer/servicerProcedures?id=${id}`, data)
   }
   sendMail(id: string): Observable<any> {
     return this._http.get(`servicer/servicerOtpVerification?id=${id}`, httpOptions)
@@ -44,7 +44,7 @@ export class ServicerService {
   cancelBooking(textArea: string, bookingId: string, userId: string): Observable<any> {
     return this._http.post('servicer/cancelBooking', { textArea, bookingId, userId }, httpOptions)
   }
-  getRecentUsers(): Observable<any> {    
+  getRecentUsers(): Observable<any> {
     return this._http.get('servicer/getRecentUsers', httpOptions)
   }
   getRecentChats(id: string): Observable<any> {

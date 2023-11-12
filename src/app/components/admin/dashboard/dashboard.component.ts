@@ -53,8 +53,6 @@ export class DashboardComponent {
               }
             }
           };
-        }, error: (err) => {
-          this._toastr.error(err.error.message);
         }
       }))
   }

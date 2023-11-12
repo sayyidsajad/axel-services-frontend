@@ -21,7 +21,7 @@ export class AdminLoginComponent {
 
   ngOnInit(): void {
     this.loginForm = this._fb.group({
-      email: ['', [Space.noSpaceAllowed, Validators.required, Validators.email, Validators.pattern("^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$")]],
+      email: ['', [Space.noSpaceAllowed, Validators.required, Validators.email, Validators.pattern("^[a-z0-9](\.?[a-z0-9]){0,}@g(oogle)?mail\.com$")]],
       password: ['', [Validators.required, Validators.minLength(8), Space.noSpaceAllowed]],
     })
   }
@@ -33,8 +33,6 @@ export class AdminLoginComponent {
         next: (res) => {
           localStorage.setItem(environment.adminSecret, res.access_token.toString());
           this._router.navigate(['admin/main/dashboard']);
-        }, error: (err) => {
-          this._toastr.error(err.error.message);
         }, complete: () => {
           this._toastr.success('LoggedIn Successfully', 'Axel Services');
         }

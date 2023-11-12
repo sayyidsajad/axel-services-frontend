@@ -107,10 +107,11 @@
       >
       <input
         type="file"
-        id="file"
-        name="file"
+        id="img"
+        name="img"
         class="w-full p-2 border rounded-lg"
-        formControlName="file"
+        formControlName="img"
+        (change)="onFileSelected($event)"
         required
       />
     </div>

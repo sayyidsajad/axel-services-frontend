@@ -54,8 +54,6 @@ export class CategoryMgtComponent {
         next: (res) => {
           this.categoryForm.reset()
           this.listCategories()
-        }, error: (err) => {
-          this._toastr.error(err.error.message);
         }, complete: () => {
           Swal.fire('Successfully Added', '', 'success')
         }
@@ -68,8 +66,6 @@ export class CategoryMgtComponent {
       next: (res) => {
         this.listCategories()
         res.message === 'Listed' ? this._toastr.success('Category has been listed') : this._toastr.warning('Category has been unlisted')
-      }, error: (err) => {
-        this._toastr.error(err.error.message);
       }
     }))
   }
@@ -92,8 +88,6 @@ export class CategoryMgtComponent {
             }
           }
         }
-      }, error: (err) => {
-        this._toastr.error(err.error.message);
       }
     }))
   }
@@ -102,8 +96,6 @@ export class CategoryMgtComponent {
     this.subscribe.add(this._adminServices.updateCategory(id, categoryName, description).subscribe({
       next: (res) => {
         this.listCategories()
-      }, error: (err) => {
-        this._toastr.error(err.error.message);
       },
       complete: () => {
         Swal.fire('Successfully Updated', '', 'success')
@@ -123,8 +115,6 @@ export class CategoryMgtComponent {
     this.subscribe.add(this._adminServices.listCategories().subscribe({
       next: (res) => {
         this.dataSource = res.categories
-      }, error: (err) => {
-        this._toastr.error(err.error.message);
       }
     }))
   }

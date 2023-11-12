@@ -49,9 +49,6 @@ export class ServicersApprovalComponent {
         next:
           (res) => {
             this.dataSource = res.approvals
-          }, error:
-          (err) => {
-            this._toastr.error(err.error.message);
           }
       }))
   }
@@ -61,8 +58,6 @@ export class ServicersApprovalComponent {
       next: (res) => {
         this.approval()
         res.message === "Not Approved" ? this._toastr.warning('Servicer Approval has been cancelled') : this._toastr.success('Servicer has been approved')
-      }, error: (err) => {
-        this._toastr.error(err.error.message);
       }
     }))
   }

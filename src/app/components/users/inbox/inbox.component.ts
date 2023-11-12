@@ -28,8 +28,6 @@ export class InboxComponent {
           this.inboxData = res.inbox
           this.serviceData = res.service
         }
-      }, error: (err) => {
-        this._toastr.error(err.error.message);
       }
     }))
   }
@@ -39,10 +37,7 @@ export class InboxComponent {
       next:
         () => {
           this.userInbox()
-        },
-      error: (err) => {
-        this._toastr.error(err.error.message);
-      }
+        }
     }))
   }
 

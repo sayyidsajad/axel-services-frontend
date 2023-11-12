@@ -21,8 +21,6 @@ export class UsersComponent {
       next: (res) => {
         localStorage.removeItem(environment.userSecret)
         this._router.navigate(['/'])
-      }, error: (err) => {
-        this._toastr.error(err.error.message);
       }
     }))
   }

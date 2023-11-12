@@ -30,9 +30,6 @@ export class OtpVerificationComponent implements OnInit {
       .subscribe({
         next: (params) => {
           this.email = params['email']
-        },
-        error: (err) => {
-          this._toastr.error(err.error.message);
         }
       }))
     this.timer()
@@ -48,8 +45,6 @@ export class OtpVerificationComponent implements OnInit {
       next: (res) => {
         this.otp = res.otp
         this.token = res.access_token.toString()
-      }, error: (err) => {
-        this._toastr.error(err.error.message);
       }
     }))
   }
@@ -89,7 +84,6 @@ export class OtpVerificationComponent implements OnInit {
           this._router.navigate(['home']);
         }, error: (err) => {
           this.verified = false
-          this._toastr.error(err.error.message);
         },
         complete: () => {
           this._toastr.success('Registered Successfully', 'Axel Services');

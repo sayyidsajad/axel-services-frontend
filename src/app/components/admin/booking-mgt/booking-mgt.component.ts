@@ -52,8 +52,6 @@ export class BookingMgtComponent {
     this.subscribe.add(this._adminServices.listBookings().subscribe({
       next: (res) => {
         this.dataSource = res.bookings
-      }, error: (err) => {
-        this._toastr.error(err.error.message);
       }
     }))
   }
@@ -76,8 +74,6 @@ export class BookingMgtComponent {
             }
           }
         }
-      }, error: (err) => {
-        this._toastr.error(err.error.message);
       }
     }))
   }
@@ -86,8 +82,6 @@ export class BookingMgtComponent {
     this.subscribe.add(this._adminServices.cancelBooking(textArea, bookingId, userId).subscribe({
       next: () => {
         this.listBookings()
-      }, error: (err) => {
-        this._toastr.error(err.error.message);
       }, complete: () => {
         Swal.fire('Successfully Cancelled', '', 'success')
       }

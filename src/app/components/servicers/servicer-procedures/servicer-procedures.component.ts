@@ -13,6 +13,7 @@ import { Space, WhiteSpace } from '../../validators/custom-validators';
   styleUrls: ['./servicer-procedures.component.css']
 })
 export class ServicerProceduresComponent {
+  selectedFile!: File
   submit: boolean = false
   verificationForm!: FormGroup;
   id!: string
@@ -26,8 +27,6 @@ export class ServicerProceduresComponent {
       .subscribe({
         next: (params) => {
           this.id = params['id']
-        }, error: (err) => {
-          this._toastr.error(err.error.message);
         }
       }))
     this.verificationForm = this._fb.group({
@@ -37,9 +36,12 @@ export class ServicerProceduresComponent {
       amount: ['', [Validators.required,
       Validators.pattern(/^[0-9]+$/),
       Space.noSpaceAllowed]],
-      file: ['', Validators.required],
+      img: ['', Validators.required],
     })
     this.categoriesList()
+  }
+  onFileSelected(event: any) {
+    this.selectedFile = <File>event.target.files[0]
   }
 
   categoriesList() {
@@ -47,20 +49,21 @@ export class ServicerProceduresComponent {
       this._servicerServices.categoriesList().subscribe({
         next: (res) => {
           this.categories = res.categories
-        }, error: (err) => {
-          this._toastr.error(err.error.message);
         }
       }))
   }
 
   verifyService() {
-    const servicer = this.verificationForm.getRawValue();
+    const data = new FormData()    
+    data.append('serviceName', this.verificationForm?.get('serviceName')?.value);
+    data.append('description', this.verificationForm?.get('description')?.value);
+    data.append('category', this.verificationForm?.get('category')?.value);
+    data.append('amount', this.verificationForm?.get('amount')?.value);
+    data.append('img', this.selectedFile, this.selectedFile.name);
     if (this.verificationForm.valid) {
-      this.subscribe.add(this._servicerServices.servicerVerification(servicer.serviceName, servicer.description, +servicer.amount, servicer.category, servicer.file, this.id).subscribe({
+      this.subscribe.add(this._servicerServices.servicerVerification(data, this.id).subscribe({
         next: (res) => {
           this._router.navigate(['servicer/adminServicerApproval'], { queryParams: { id: res.id } });
-        }, error: (err) => {
-          this._toastr.error(err.error.message);
         }
       }))
     }

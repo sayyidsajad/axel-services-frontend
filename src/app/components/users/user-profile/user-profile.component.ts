@@ -23,9 +23,6 @@ export class UserProfileComponent {
       next:
         (res) => {
           this.userDetails = res.user
-        }, error:
-        (err) => {
-          this._toastr.error(err.error.message);
         }
     }))
   }

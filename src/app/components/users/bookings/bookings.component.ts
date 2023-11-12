@@ -23,9 +23,6 @@ export class BookingsComponent {
     this.subscribe.add(this._userServices.bookingsList().subscribe({
       next: (res) => {
         this.bookings = res.bookings;
-      },
-      error: (err) => {
-        this._toastr.error(err.error.message);
       }
     }))
   }
@@ -36,10 +33,7 @@ export class BookingsComponent {
         next: () => {
           this.bookingsList();
           Swal.fire('Successfully Cancelled', '', 'success');
-        },
-        error: (err) => {
-          this._toastr.error(err.error.message);
-        },
+        }
       })
     );
   }

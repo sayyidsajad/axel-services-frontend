@@ -31,9 +31,6 @@ export class ForgotPasswordComponent {
           next: () => {
             this._router.navigate(['/']);
           },
-          error: (err) => {
-            this._toastr.error(err.error.message);
-          },
           complete: () => {
             this._toastr.success('Resend link has been sent to your mail.');
           }

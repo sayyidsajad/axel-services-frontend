@@ -29,7 +29,7 @@ export class AdminService {
   blockUnblockUser(id: string): Observable<any> {
     return this._http.post('admin/blockUnblockUser', { id }, httpOptions)
   }
-  addCategory(categoryName: string, description: string): Observable<any> {    
+  addCategory(categoryName: string, description: string): Observable<any> {
     return this._http.post('admin/addCategory', { categoryName, description }, httpOptions)
   }
   listCategories(): Observable<any> {
@@ -56,7 +56,7 @@ export class AdminService {
   updateCategory(id: string, categoryName: string, description: string): Observable<any> {
     return this._http.patch('admin/updateCategory', { id, categoryName, description }, httpOptions)
   }
-  dashboardReports(): Observable<any>{
+  dashboardReports(): Observable<any> {
     return this._http.get('admin/dashboardReports', httpOptions)
   }
 }

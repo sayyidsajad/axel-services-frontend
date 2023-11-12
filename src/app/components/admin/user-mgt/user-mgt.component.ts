@@ -46,8 +46,6 @@ export class UserMgtComponent {
     this.subscribe.add(this._adminServices.userMgt().subscribe({
       next: (res) => {
         this.dataSource = res.users
-      }, error: (err) => {
-        this._toastr.error(err.error.message);
       }
     }))
   }
@@ -58,8 +56,6 @@ export class UserMgtComponent {
         next: (res) => {
           this.userList()
           res.message === 'Blocked' ? this._toastr.warning('User has been blocked') : this._toastr.success('User has been unblocked');
-        }, error: (err) => {
-          this._toastr.error(err.error.message);
         }
       }))
   }

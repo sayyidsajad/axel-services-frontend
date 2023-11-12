@@ -40,10 +40,7 @@ export class ServicerDetailsComponent {
       next: (res) => {
         this.services = res.servicesFind;
         this.wallet = res.wallet
-      }, error:
-        (err) => {
-          this._toastr.error(err.error.message);
-        }
+      }
     }))
   }
 
@@ -55,16 +52,12 @@ export class ServicerDetailsComponent {
       this.subscribe.add(this._userServices.bookNow(this.id, firstField.date, secondField.time, this.wallet).subscribe({
         next: (res) => {
           this.bookNow(firstField.date, secondField.time, res)
-        }, error: (err) => {
-          this._toastr.error(err.error.message)
         }
       }))
     } else {
       this.subscribe.add(this._userServices.bookNow(this.id, firstField.date, secondField.time).subscribe({
         next: (res) => {
           this.bookNow(firstField.date, secondField.time, res)
-        }, error: (err) => {
-          this._toastr.error(err.error.message)
         }
       }))
     }
@@ -110,8 +103,6 @@ export class ServicerDetailsComponent {
       .subscribe({
         next: () => {
           this._router.navigate(['servicerDetails', this.id]);
-        }, error: (err) => {
-          this._toastr.error(err.error.message)
         }, complete: () => {
           this._toastr.success("Payment success");
         }

@@ -42,8 +42,6 @@ export class HomeComponent {
         this.services = res.servicesFind;
         this.categoryList = this.services.map(item => item.categoryInfo.categoryName)
         this.featuredServices = this.services.reverse()
-      }, error: (err) => {
-        this._toastr.error(err.error.message);
       }
     }))
   }

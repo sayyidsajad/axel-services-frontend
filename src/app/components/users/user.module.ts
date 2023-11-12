@@ -4,10 +4,6 @@ import { UserRoutingModule } from './user-routing.module';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
-import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
-import {
-  GoogleLoginProvider
-} from '@abacritt/angularx-social-login';
 import { OtpVerificationComponent } from './otp-verification/otp-verification.component';
 import { ServicerDetailsComponent } from './servicer-details/servicer-details.component';
 import { ServicesListComponent } from './services-list/services-list.component';
@@ -74,35 +70,18 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatTabsModule,
     NgIf,
     MatGridListModule,
-    MatCardModule,  
+    MatCardModule,
     MatInputModule,
     MatFormFieldModule,
     FormsModule,
     IgxDatePickerModule,
-    SocialLoginModule,
     HttpClientModule,
     MatDialogModule
   ],
-  providers: [{
-    provide: 'SocialAuthServiceConfig',
-    useValue: {
-      autoLogin: false,
-      providers: [
-        {
-          id: GoogleLoginProvider.PROVIDER_ID,
-          provider: new GoogleLoginProvider(
-            environment.googleProvider
-          )
-        }
-      ],
-      onError: (err) => {
-        console.error(err);
-      }
-    } as SocialAuthServiceConfig,
-  }, UsersService, MessagingService,
-  MatDatepickerModule,
-    MatNativeDateModule  
-],
+  providers: [UsersService, MessagingService,
+    MatDatepickerModule,
+    MatNativeDateModule
+  ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ]

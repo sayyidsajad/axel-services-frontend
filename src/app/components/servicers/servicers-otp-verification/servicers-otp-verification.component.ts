@@ -30,8 +30,6 @@ export class ServicersOtpVerificationComponent {
         .subscribe({
           next: (params) => {
             this.id = params['id']
-          }, error: (err) => {
-            this._toastr.error(err.error.message);
           }
         })
     )
@@ -47,8 +45,6 @@ export class ServicersOtpVerificationComponent {
     this.subscribe.add(this._servicerServices.sendMail(id).subscribe({
       next: (res) => {
         this.otp = res.otp
-      }, error: (err) => {
-        this._toastr.error(err.error.message);
       }
     }))
   }
@@ -86,9 +82,8 @@ export class ServicersOtpVerificationComponent {
         next: (res) => {
           localStorage.setItem(environment.servicerSecret, res.access_token.toString())
           this._router.navigate(['servicer/main/dashboard']);
-        }, error: (err) => {
+        }, error: () => {
           this.verified = false
-          this._toastr.error(err.error.message);
         }
       }))
     } else {

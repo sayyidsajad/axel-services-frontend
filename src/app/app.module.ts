@@ -10,6 +10,8 @@ import { InterceptorInterceptor } from './http-interceptors/interceptor.intercep
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { MessagingService } from './services/messaging/messaging.service';
+import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { environment } from 'src/environments/environment.development';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,10 +26,28 @@ import { MessagingService } from './services/messaging/messaging.service';
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
-  ],
+    SocialLoginModule
+    ],
   providers: [MessagingService, {
     provide: HTTP_INTERCEPTORS, useClass: InterceptorInterceptor, multi: true
-  }],
+  },
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              environment.googleProvider)
+          }
+        ],
+        onError: (err) => {
+          console.error(err);
+        }
+      } as SocialAuthServiceConfig,
+    }
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })

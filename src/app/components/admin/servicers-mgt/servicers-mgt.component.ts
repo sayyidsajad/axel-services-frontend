@@ -38,8 +38,6 @@ export class ServicersMgtComponent {
       this._adminServices.listServices().subscribe({
         next: (res) => {
           this.dataSource = res.services
-        }, error: (err) => {
-          this._toastr.error(err.error.message);
         }
       }))
   }
@@ -50,8 +48,6 @@ export class ServicersMgtComponent {
         next: (res) => {
           this.listServices()
           res.message === 'Blocked' ? this._toastr.warning('Servicer has been blocked') : this._toastr.success('Servicer has been unblocked');
-        }, error: (err) => {
-          this._toastr.error(err.error.message);
         }
       }))
   }

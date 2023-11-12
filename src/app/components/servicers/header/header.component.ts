@@ -22,8 +22,6 @@ export class HeaderComponent {
         next: () => {
           localStorage.removeItem(environment.servicerSecret)
           this._router.navigate(['servicer'])
-        }, error: (err) => {
-          this._toastr.error(err.error.message);
         }
       }))
   }

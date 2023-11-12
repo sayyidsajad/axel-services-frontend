@@ -21,8 +21,6 @@ export class ResetPasswordComponent {
       .subscribe({
         next: (params) => {
           this.id = params['id']
-        }, error: (err) => {
-          this._toastr.error(err.error.message);
         }
       }))
     this.resetPassForm = this._fb.group({
@@ -41,8 +39,6 @@ export class ResetPasswordComponent {
         this.subscribe.add(this._userServices.verifyConfirmPassword(this.id, resetForm.newPassword, resetForm.newConfirmPassword).subscribe({
           next: () => {
             this._router.navigate(['/']);
-          }, error: (err) => {
-            this._toastr.error(err.error.message);
           },
           complete: () => {
             this._toastr.success('Password has been successfully changed');

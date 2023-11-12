@@ -27,11 +27,6 @@ export class ChatComponent {
       this._route.queryParams.subscribe({
         next: (params) => {
           this.id = params['id'];
-        },
-        error: (err) => {
-          this._toastr.error(err.error.message);
-        },
-        complete: () => {
           this._userServices.getRecentChats(this.id).subscribe({
             next: (res) => {
               this.Roomid = res.message._id;
@@ -39,17 +34,15 @@ export class ChatComponent {
               this.userId = res.userId;
               this._socketService.setupSocketConnection(this.Roomid);
               this._socketService.join(this.id, this.Roomid);
-            },
-            error: (err) => {
-              this._toastr.error(err.error.message);
-            },
+            }
           });
           this.messageForm = this._fb.group({
             message: ['', Validators.required],
           });
-        },
+        }
       })
     );
+
   }
 
   recentChat() {
@@ -58,9 +51,6 @@ export class ChatComponent {
         this.Roomid = res.id
         this.userId = res.userId
         this.messages = res.message
-      },
-      error: (err) => {
-        this._toastr.error(err.error.message);
       }
     }))
   }

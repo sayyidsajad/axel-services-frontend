@@ -18,11 +18,9 @@ export class AdminComponent {
 
   logOut() {
     this.subscribe.add(this._adminServices.logOut().subscribe({
-      next: (res) => {
+      next: () => {
         localStorage.removeItem(environment.adminSecret)
         this._router.navigate(['/admin'])
-      }, error: (err) => {
-        this._toastr.error(err.error.message);
       }
     })
     )
