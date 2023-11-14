@@ -28,13 +28,14 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { HomepageComponent } from './homepage/homepage.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { environment } from 'src/environments/environment.development';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AboutComponent } from './about/about.component';
+import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
 @NgModule({
   declarations: [
     LoginComponent,
@@ -53,6 +54,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ResetPasswordComponent,
     ChatComponent,
     HomepageComponent,
+    AboutComponent
   ],
   imports: [
     CommonModule,
@@ -76,7 +78,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     FormsModule,
     IgxDatePickerModule,
     HttpClientModule,
-    MatDialogModule
+    MatDialogModule,
+    GoogleSigninButtonModule,
   ],
   providers: [UsersService, MessagingService,
     MatDatepickerModule,

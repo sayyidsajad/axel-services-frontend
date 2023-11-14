@@ -12,6 +12,8 @@ import { NgIf } from '@angular/common';
 import { MessagingService } from './services/messaging/messaging.service';
 import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { environment } from 'src/environments/environment.development';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { } from '@abacritt/angularx-social-login';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,8 +28,8 @@ import { environment } from 'src/environments/environment.development';
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
-    SocialLoginModule
-    ],
+    SocialLoginModule,
+    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' })],
   providers: [MessagingService, {
     provide: HTTP_INTERCEPTORS, useClass: InterceptorInterceptor, multi: true
   },

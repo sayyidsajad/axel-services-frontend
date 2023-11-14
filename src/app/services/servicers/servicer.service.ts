@@ -20,7 +20,7 @@ export class ServicerService {
   servicerLogin(user: object): Observable<any> {
     return this._http.post('servicer', user, httpOptions)
   }
-  servicerVerification(data: FormData, id: string): Observable<any> {
+  servicerVerification(data: FormData, id: string): Observable<any> {    
     return this._http.post(`servicer/servicerProcedures?id=${id}`, data)
   }
   sendMail(id: string): Observable<any> {

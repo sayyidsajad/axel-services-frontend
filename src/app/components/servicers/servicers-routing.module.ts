@@ -10,11 +10,13 @@ import { ServicerNavComponent } from './servicer-nav/servicer-nav.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ServicerBookingsComponent } from './servicer-bookings/servicer-bookings.component';
 import { ChatComponent } from './chat/chat.component';
+import { ServicerVerificationProcessComponent } from './servicer-verification-process/servicer-verification-process.component';
 
 const routes: Routes = [
   { path: '', title: 'Login', component: ServicersLoginComponent, canActivate: [ServicerGuardOut, ServicerGuardConfig] },
   { path: 'signup', title: 'Sign Up', component: ServicersSignupComponent, canActivate: [ServicerGuardOut, ServicerGuardConfig] },
   { path: 'servicerProcedures', title: 'Procedures', component: ServicerProceduresComponent, canActivate: [ServicerGuardOut, ServicerGuardConfig] },
+  { path: 'servicerVerification', title: 'Verification', component:ServicerVerificationProcessComponent, canActivate: [ServicerGuardOut, ServicerGuardConfig] },
   { path: 'adminServicerApproval', title: 'Admin Servicer Approval', component: ServicerApprovalComponent, canActivate: [ServicerGuardOut, ServicerGuardConfig] },
   { path: 'servicerOtpVerification', title: 'OTP Verification', component: ServicersOtpVerificationComponent, canActivate: [ServicerGuardOut, ServicerGuardConfig] },
   {

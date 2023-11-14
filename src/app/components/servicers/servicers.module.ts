@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ServicersLoginComponent } from './servicers-login/servicers-login.component';
 import { ServicersSignupComponent } from './servicers-signup/servicers-signup.component';
 import { UserRoutingModule } from './servicers-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServicerProceduresComponent } from './servicer-procedures/servicer-procedures.component';
 import { ServicerApprovalComponent } from './servicer-approval/servicer-approval.component';
 import { ServicersOtpVerificationComponent } from './servicers-otp-verification/servicers-otp-verification.component';
@@ -32,6 +32,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ChartModule } from 'primeng/chart';
 import { HttpClientModule } from '@angular/common/http';
 import { ChatComponent } from './chat/chat.component';
+import { ServicerVerificationProcessComponent } from './servicer-verification-process/servicer-verification-process.component';
+import { MatStepperModule } from '@angular/material/stepper';
 
 
 @NgModule({
@@ -47,6 +49,7 @@ import { ChatComponent } from './chat/chat.component';
     DashboardComponent,
     ServicerBookingsComponent,
     ChatComponent,
+    ServicerVerificationProcessComponent
   ],
   imports: [
     CommonModule,
@@ -69,7 +72,9 @@ import { ChatComponent } from './chat/chat.component';
     MatCheckboxModule,
     MatListModule,
     MatInputModule,
-    ChartModule
+    ChartModule,
+    MatStepperModule,
+    FormsModule,
   ],
   providers: [ServicerService,
   ],

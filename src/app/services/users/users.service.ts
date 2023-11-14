@@ -1,3 +1,4 @@
+import { SocialUser } from '@abacritt/angularx-social-login';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -17,6 +18,9 @@ export class UsersService {
   userLogin(user: object): Observable<any> {
     return this._http.post('', user, httpOptions)
   }
+  userGoogleLogin(socialUser: SocialUser): Observable<any> {
+    return this._http.post('googleLogin', socialUser, httpOptions)
+  }
   servicerList(): Observable<any> {
     return this._http.get('servicerList', httpOptions)
   }
@@ -26,7 +30,7 @@ export class UsersService {
   loadHome(email: string): Observable<any> {
     return this._http.patch('home', { email }, httpOptions)
   }
-  servicerDetails(id: string): Observable<any> {    
+  servicerDetails(id: string): Observable<any> {
     return this._http.get(`servicerDetails?id=${id}`, httpOptions)
   }
   bookNow(id: string, date: Date, time: string, walletChecked?: number) {
@@ -61,5 +65,8 @@ export class UsersService {
   }
   getRecentChats(id: string): Observable<any> {
     return this._http.get(`getRecentChats?id=${id}`, httpOptions)
+  }
+  userEnquiry(firstName: string, lastName: string, email: string, message: string): Observable<any> {
+    return this._http.post('userEnquiry', { firstName, lastName, email, message }, httpOptions)
   }
 }

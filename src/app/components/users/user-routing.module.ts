@@ -14,6 +14,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ChatComponent } from './chat/chat.component';
 import { HomepageComponent } from './homepage/homepage.component';
+import { AboutComponent } from './about/about.component';
 
 const routes: Routes = [
   { path: '', title: 'Login', component: LoginComponent, canActivate: [UserGuardConfig, UserGuardIn] },
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'forgotPassword', title: 'Forgot Password', component: ForgotPasswordComponent, canActivate: [UserGuardIn] },
   { path: 'resetPassword', title: 'Reset Password', component: ResetPasswordComponent, canActivate: [UserGuardIn] },
   { path: 'chat', title: 'Chat Page', component: ChatComponent, canActivate: [UserGuardOut] },
+  { path: 'about', title: 'About Page', component: AboutComponent, canActivate: [UserGuardOut] },
 ];
 
 @NgModule({

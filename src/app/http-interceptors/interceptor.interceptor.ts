@@ -11,19 +11,19 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.development';
 import { ErrorHandlingServiceService } from '../services/errorHandler/error-handling-service.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Injectable()
 export class InterceptorInterceptor implements HttpInterceptor {
-  constructor(private _errorHandlerService: ErrorHandlingServiceService) { }
+  constructor(private _errorHandlerService: ErrorHandlingServiceService,private spinner: NgxSpinnerService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    this.spinner.show();
     const commonUrl: string = environment.APIURL;
     const servicerToken = localStorage.getItem("servicerSecret");
     const adminToken = localStorage.getItem("adminSecret");
     const userToken = localStorage.getItem("userSecret");
-
     let newRequest = request;
-
     if (adminToken) {
       newRequest = newRequest.clone({
         headers: newRequest.headers.set('Authorization', 'Bearer ' + adminToken),
@@ -48,9 +48,11 @@ export class InterceptorInterceptor implements HttpInterceptor {
     return next.handle(newRequest).pipe(
       tap((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse) {
+          this.spinner.hide();
         }
       }),
       catchError((error: HttpErrorResponse) => {
+        this.spinner.hide();
         this._errorHandlerService.handleError(error);
         return throwError(() => error);
       })

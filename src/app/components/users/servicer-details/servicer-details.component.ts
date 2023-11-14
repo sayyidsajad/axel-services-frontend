@@ -16,7 +16,7 @@ declare var Razorpay: any
 export class ServicerDetailsComponent {
   id!: any
   wallet!: number
-  services!: Array<serviceData>;
+  service!: any;
   private subscribe: Subscription = new Subscription()
   public date: Date = new Date();
   public mode: PickerInteractionMode = PickerInteractionMode.DropDown;
@@ -38,7 +38,7 @@ export class ServicerDetailsComponent {
   servicerDetails() {
     this.subscribe.add(this._userServices.servicerDetails(this.id).subscribe({
       next: (res) => {
-        this.services = res.servicesFind;
+        this.service = res.servicesFind;
         this.wallet = res.wallet
       }
     }))
@@ -64,7 +64,7 @@ export class ServicerDetailsComponent {
   }
 
   bookNow(date: Date, time: any, inserted: any) {
-    const reducedAmt = inserted['reducedAmt'] ? (+this.services[0].amount - this.wallet) : +this.services[0].amount
+    const reducedAmt = inserted['reducedAmt'] ? (+this.service.amount - this.wallet) : +this.service.amount
     const RazorpayOptions = {
       description: 'Sample Razorpay Demo',
       currency: 'INR',
