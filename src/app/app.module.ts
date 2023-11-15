@@ -13,7 +13,6 @@ import { MessagingService } from './services/messaging/messaging.service';
 import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { environment } from 'src/environments/environment.development';
 import { NgxSpinnerModule } from "ngx-spinner";
-import { } from '@abacritt/angularx-social-login';
 @NgModule({
   declarations: [
     AppComponent,
