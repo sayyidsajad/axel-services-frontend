@@ -1,7 +1,6 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServicersApprovalComponent } from './servicers-approval/servicers-approval.component';
 import { UserMgtComponent } from './user-mgt/user-mgt.component';
 import { BookingMgtComponent } from './booking-mgt/booking-mgt.component';
@@ -29,6 +28,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ChartModule } from 'primeng/chart';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BannerComponent } from './banner/banner.component';
 
 @NgModule({
   declarations: [
@@ -40,12 +41,11 @@ import { CommonModule } from '@angular/common';
     ServicersMgtComponent,
     AdminNavComponent,
     DashboardComponent,
+    BannerComponent
   ],
   imports: [
     AdminRoutingModule,
-    ReactiveFormsModule,
     NgApexchartsModule,
-    FormsModule,
     MatToolbarModule,
     MatSidenavModule,
     MatIconModule,
@@ -64,6 +64,8 @@ import { CommonModule } from '@angular/common';
     MatInputModule,
     CommonModule,
     ChartModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [AdminService],
 })

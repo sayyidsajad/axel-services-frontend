@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-banner',
@@ -8,7 +8,17 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./banner.component.css']
 })
 export class BannerComponent {
-bannerForm!:FormGroup
-constructor(private _fb: FormBuilder, private _toastr: ToastrService) {
+  bannerForm!: FormGroup;
+
+  constructor(private _fb: FormBuilder, private _toastr: ToastrService) {
+}
+ngOnInit(): void {
+  this.bannerForm = this._fb.group({
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+  });
+}
+onSubmit(){
+
 }
 }
