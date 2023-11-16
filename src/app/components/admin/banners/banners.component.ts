@@ -3,13 +3,11 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-banners',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './banners.component.html',
-  styleUrl: './banners.component.css'
+  styleUrls: ['./banners.component.css']
 })
 export class BannersComponent {
-emailFormControl: any;
+  emailFormControl: any;
 
 }
 

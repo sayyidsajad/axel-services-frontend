@@ -65,6 +65,7 @@ import { ChartModule } from 'primeng/chart';
     MatListModule,
     MatInputModule,
     ChartModule,
+  
   ],
   providers: [AdminService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
