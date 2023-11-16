@@ -1,5 +1,4 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { CommonModule, NgIf } from '@angular/common';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -10,7 +9,7 @@ import { CategoryMgtComponent } from './category-mgt/category-mgt.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { AdminService } from 'src/app/services/admin/admin.service';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input'; 
 import { MatMenuModule } from '@angular/material/menu';
 import { ServicersMgtComponent } from './servicers-mgt/servicers-mgt.component';
 import { AdminNavComponent } from './admin-nav/admin-nav.component';
@@ -29,6 +28,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ChartModule } from 'primeng/chart';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -42,12 +42,10 @@ import { ChartModule } from 'primeng/chart';
     DashboardComponent,
   ],
   imports: [
-    CommonModule,
     AdminRoutingModule,
     ReactiveFormsModule,
     NgApexchartsModule,
     FormsModule,
-    NgIf,
     MatToolbarModule,
     MatSidenavModule,
     MatIconModule,
@@ -64,10 +62,9 @@ import { ChartModule } from 'primeng/chart';
     MatCheckboxModule,
     MatListModule,
     MatInputModule,
+    CommonModule,
     ChartModule,
-  
   ],
   providers: [AdminService],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AdminModule { }

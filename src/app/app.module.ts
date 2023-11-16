@@ -8,7 +8,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { InterceptorInterceptor } from './http-interceptors/interceptor.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgIf } from '@angular/common';
 import { MessagingService } from './services/messaging/messaging.service';
 import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { environment } from 'src/environments/environment.development';
@@ -19,7 +18,6 @@ import { NgxSpinnerModule } from "ngx-spinner";
     PageNotFoundComponent,
   ],
   imports: [
-    NgIf,
     FormsModule,
     BrowserModule,
     HttpClientModule,

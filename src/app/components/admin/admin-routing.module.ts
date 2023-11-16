@@ -9,7 +9,7 @@ import { CategoryMgtComponent } from './category-mgt/category-mgt.component';
 import { ServicersMgtComponent } from './servicers-mgt/servicers-mgt.component';
 import { ServicersApprovalComponent } from './servicers-approval/servicers-approval.component';
 import { AdminGuardIn, AdminGuardOut, AdminGuardConfig } from 'src/app/guards/admin/admin.guard';
-import { BannersComponent } from './banners/banners.component';
+import { BannerComponent } from './banner/banner.component';
 
 const routes: Routes = [
   { path: '', title: 'Login', component: AdminLoginComponent, canActivate: [AdminGuardConfig, AdminGuardOut] },
@@ -21,7 +21,7 @@ const routes: Routes = [
       { path: 'categoryMgt', title: 'Category Management', component: CategoryMgtComponent, canActivate: [AdminGuardIn] },
       { path: 'servicersMgt', title: 'Servicers Management', component: ServicersMgtComponent, canActivate: [AdminGuardIn] },
       { path: 'servicersApproval', title: 'Servicers Approval', component: ServicersApprovalComponent, canActivate: [AdminGuardIn] },
-      { path: 'banners', title: 'Banner Management', component: BannersComponent, canActivate: [AdminGuardIn] },
+      { path: 'banners', title: 'Banners', component: BannerComponent, canActivate: [AdminGuardIn] },
     ]
   },
 ];
