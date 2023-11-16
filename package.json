@@ -30,7 +30,6 @@
     "@nebular/eva-icons": "^12.0.0",
     "@nestjs/mapped-types": "*",
     "@progress/kendo-angular-buttons": "^14.0.1",
-    "@progress/kendo-angular-common": "^14.0.1",
     "@progress/kendo-angular-popup": "^14.0.1",
     "@progress/kendo-licensing": "^1.3.3",
     "@progress/kendo-theme-material": "^7.0.1",
