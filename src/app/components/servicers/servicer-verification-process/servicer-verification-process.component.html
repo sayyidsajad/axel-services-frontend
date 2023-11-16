@@ -1,68 +1,98 @@
 <div class="container mx-auto p-8 bg-white shadow-lg rounded-lg">
-    <mat-stepper labelPosition="bottom" #stepper (selectionChange)="onStepChange($event)">
-  <mat-step [stepControl]="firstFormGroup">
-    <form class="example-form" [formGroup]="firstFormGroup">
+  <mat-stepper
+    labelPosition="bottom"
+    #stepper
+    (selectionChange)="onStepChange($event)"
+  >
+    <mat-step [stepControl]="firstFormGroup">
       <form class="example-form" [formGroup]="firstFormGroup">
         <div class="grid grid-cols-2 gap-4">
           <div>
             <mat-form-field class="w-full">
-              <mat-label>First name</mat-label>
-              <input matInput class="w-full" />
-            </mat-form-field>
-          </div>
-          <div>
-            <mat-form-field class="w-full">
-              <mat-label>Long Last Name That Will Be Truncated</mat-label>
-              <input matInput class="w-full" />
+              <mat-label>Service name</mat-label>
+              <input matInput formControlName="serviceName" class="w-full" />
+              <span
+                class="validation text-red-500"
+                *ngIf="firstFormGroup.get('serviceName')?.touched && firstFormGroup.controls['serviceName'].errors?.['required']"
+                >Service Name is required</span
+              >
+              <span
+                class="validation text-red-500"
+                *ngIf="
+                  firstFormGroup.get('serviceName')?.hasError('whitespace')
+                "
+                >White Spaces Not Allowed</span
+              >
             </mat-form-field>
           </div>
         </div>
-
-        <!-- Address Fields -->
         <p class="flex">
           <mat-form-field class="w-1/2 mr-4">
-            <mat-label>Address</mat-label>
-            <textarea matInput placeholder="Ex. 100 Main St" class="w-full">
-1600 Amphitheatre Pkwy</textarea
+            <mat-label>Description</mat-label>
+            <textarea
+              formControlName="description"
+              matInput
+              placeholder="Ex. 100 Main St"
+              class="w-full"
+            ></textarea>
+            <span
+              class="validation text-red-500"
+              *ngIf="firstFormGroup.get('description')?.touched && firstFormGroup.controls['description'].errors?.['required']"
+              >Service Description Mandatory</span
+            >
+            <span
+              class="validation text-red-500"
+              *ngIf="firstFormGroup.get('description')?.hasError('whitespace')"
+              >White Spaces Not Allowed</span
             >
           </mat-form-field>
-
-          <mat-form-field class="w-1/2">
-            <mat-label>Address 2</mat-label>
-            <textarea matInput class="w-full"></textarea>
-          </mat-form-field>
         </p>
-
-        <!-- City, State, Postal Code Fields -->
         <div class="grid grid-cols-3 gap-4">
           <div>
             <mat-form-field class="w-full">
-              <mat-label>City</mat-label>
-              <input matInput placeholder="Ex. San Francisco" class="w-full" />
-            </mat-form-field>
-          </div>
-          <div>
-            <mat-form-field class="w-full">
-              <mat-label>State</mat-label>
-              <input matInput placeholder="Ex. California" class="w-full" />
-            </mat-form-field>
-          </div>
-          <div>
-            <mat-form-field class="w-full">
-              <mat-label>Postal Code</mat-label>
+              <mat-label>Amount</mat-label>
               <input
+                formControlName="amount"
                 matInput
-                #postalCode
-                maxlength="5"
-                placeholder="Ex. 94105"
-                value="94043"
+                placeholder="Ex. San Francisco"
                 class="w-full"
               />
-              <mat-hint align="end">{{ postalCode.value.length }} / 5</mat-hint>
+              <span
+                class="validation text-red-500"
+                *ngIf="firstFormGroup.get('amount')?.touched && firstFormGroup.controls['amount'].errors?.['required']"
+                >Amount Required</span
+              >
+              <span
+                class="validation text-red-500"
+                *ngIf="firstFormGroup.get('amount')?.hasError('whitespace')"
+                >White Spaces Not Allowed</span
+              >
+              <span
+                class="validation text-red-500"
+                *ngIf="firstFormGroup.get('amount')?.hasError('pattern')"
+                >Only Digits Allowed</span
+              >
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label>Category</mat-label>
+              <mat-select formControlName="category">
+                <span
+                  class="validation text-red-500 text-center"
+                  *ngIf="firstFormGroup.get('category')?.touched && firstFormGroup.controls['category'].errors?.['required']"
+                  >Category is Mandatory</span
+                >
+                <mat-option
+                  *ngFor="let category of categories"
+                  [value]="category.categoryName"
+                >
+                  {{ category.categoryName }}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
         </div>
-
         <div class="flex w-full items-center justify-center bg-grey-lighter">
           <label
             class="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-white"
@@ -78,130 +108,168 @@
               />
             </svg>
             <span class="mt-2 text-base leading-normal">Select a file</span>
-            <input type="file" class="hidden" />
+            <input
+              type="file"
+              id="img"
+              name="img"
+              class="w-full p-2 border rounded-lg"
+              formControlName="img"
+              (change)="onFileSelected($event)"
+              required
+            />
+            <span
+              class="validation text-red-500"
+              *ngIf="firstFormGroup.get('file')?.touched && firstFormGroup.controls['file'].errors?.['required']"
+              >Verification Documents Required</span
+            >
           </label>
         </div>
       </form>
       <div class="flex justify-center mt-8">
-        <button mat-button matStepperPrevious class="mr-4">Back</button>
-        <button mat-button matStepperNext>Next</button>
+        <button
+          mat-button
+          matStepperNext
+          [disabled]="!this.firstFormGroup.valid"
+        >
+          Next
+        </button>
       </div>
-    </form>
-  </mat-step>
+    </mat-step>
 
-  <mat-step [stepControl]="secondFormGroup">
-    <div
-      class="flex flex-col items-center justify-center min-h-screen bg-gray-100"
-    >
+    <mat-step [stepControl]="secondFormGroup">
       <div
-        class="card-container p-4 rounded-lg shadow-md bg-white w-full md:w-96"
+        class="flex flex-col items-center justify-center min-h-screen bg-gray-100"
       >
-        <div class="panel">
-          <div class="flex items-center">
-            <img
-              class="sb-title-icon mr-2"
-              src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg"
-              alt=""
-            />
-            <span class="sb-title">Address Selection</span>
-          </div>
-          <input
-            type="text"
-            placeholder="Address"
-            id="location-input"
-            class="mt-2 p-2 border rounded w-full"
-          />
-          <input
-            type="text"
-            placeholder="City"
-            id="locality-input"
-            class="mt-2 p-2 border rounded w-full"
-          />
-          <div class="flex space-x-2 mt-2">
-            <input
-              type="text"
-              class="half-input flex-grow p-2 border rounded"
-              placeholder="State/Province"
-              id="administrative_area_level_1-input"
-            />
-            <input
-              type="text"
-              class="half-input flex-grow p-2 border rounded"
-              placeholder="Zip/Postal code"
-              id="postal_code-input"
-            />
-          </div>
-          <input
-            type="text"
-            placeholder="Country"
-            id="country-input"
-            class="mt-2 p-2 border rounded w-full"
-          />
-          <button
-            class="button-cta mt-4 p-2 bg-blue-500 text-white rounded-full"
+        <form [formGroup]="secondFormGroup">
+          <div
+            class="card-container p-4 rounded-lg shadow-md bg-white w-full md:w-96"
           >
-            Checkout</button
-          ><span>
-            <button (click)="currentLocation()" class="btn btn-md btn-neutral">
-              Get Current Location
-            </button></span
-          >
-        </div>
-        <div class="map mt-4" id="gmp-map"></div>
-      </div>
-      <div class="flex justify-between mt-8">
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-    </div>
-  </mat-step>
-  <mat-step>
-    <div class="flex flex-col items-center justify-center mt-8">
-      <div class="rounded-lg shadow-xl bg-gray-50 lg:w-1/2">
-        <div class="m-4">
-          <label class="inline-block mb-2 text-gray-500"
-            >Upload Image (jpg, png, svg, jpeg)</label
-          >
-          <div class="flex items-center justify-center w-full">
-            <label
-              class="flex flex-col w-full h-32 border-4 border-dashed hover:bg-gray-100 hover:border-gray-300"
-            >
-              <div class="flex flex-col items-center justify-center pt-7">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="w-12 h-12 text-gray-400 group-hover:text-gray-600"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                <p
-                  class="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600"
-                >
-                  Select a photo
-                </p>
+            <div class="panel">
+              <div class="flex items-center">
+                <img
+                  class="sb-title-icon mr-2"
+                  src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg"
+                  alt=""
+                />
+                <span class="sb-title">Address Selection</span>
               </div>
-              <input type="file" class="opacity-0" />
-            </label>
+              <input
+                type="text"
+                placeholder="Address"
+                id="location-input"
+                class="mt-2 p-2 border rounded w-full"
+              />
+              <input
+                type="text"
+                placeholder="City"
+                id="locality-input"
+                class="mt-2 p-2 border rounded w-full"
+              />
+              <div class="flex space-x-2 mt-2">
+                <input
+                  type="text"
+                  class="half-input flex-grow p-2 border rounded"
+                  placeholder="State/Province"
+                  id="administrative_area_level_1-input"
+                />
+                <input
+                  type="text"
+                  class="half-input flex-grow p-2 border rounded"
+                  placeholder="Zip/Postal code"
+                  id="postal_code-input"
+                />
+              </div>
+              <input
+                type="text"
+                placeholder="Country"
+                id="country-input"
+                class="mt-2 p-2 border rounded w-full"
+              />
+              <input
+                type="text"
+                formControlName="formattedAddress"
+                class="mt-2 p-2 border rounded w-full"
+                hidden
+              />
+              <span>
+                <button
+                  (click)="currentLocation()"
+                  class="btn btn-md btn-neutral"
+                >
+                  Get Current Location
+                </button></span
+              >
+            </div>
+            <div class="map mt-4" id="gmp-map"></div>
+          </div>
+        </form>
+        <div class="flex justify-between mt-8">
+          <button mat-button matStepperPrevious>Back</button>
+          <button
+            mat-button
+            matStepperNext
+            [disabled]="!this.secondFormGroup.valid"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </mat-step>
+    <mat-step [stepControl]="thirdFormGroup">
+      <div class="flex flex-col items-center justify-center mt-8">
+        <div class="rounded-lg shadow-xl bg-gray-50 lg:w-1/2">
+          <div class="m-4">
+            <label class="inline-block mb-2 text-gray-500"
+              >Upload Image (jpg, png, svg, jpeg)</label
+            >
+            <div class="flex items-center justify-center w-full">
+              <form [formGroup]="thirdFormGroup">
+                <label
+                  class="flex flex-col w-full h-32 border-4 border-dashed hover:bg-gray-100 hover:border-gray-300"
+                >
+                  <div class="flex flex-col items-center justify-center pt-7">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-12 h-12 text-gray-400 group-hover:text-gray-600"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    <p
+                      class="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600"
+                    >
+                      Select a photo
+                    </p>
+                  </div>
+                  <input
+                    formControlName="docs"
+                    type="file"
+                    class="opacity-0"
+                    multiple
+                    (change)="onFileChange($event)"
+                  />
+                  <div class="mt-4">
+                    <p class="text-gray-500">Selected Files:</p>
+                  </div>
+                </label>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="flex justify-center space-x-4">
-      <button class="px-4 py-2 text-white bg-red-500 rounded shadow-xl">
-        Cancel
-      </button>
-      <button
-        class="px-4 py-2 text-white bg-green-500 rounded shadow-xl"
-        (click)="stepper.reset()"
-      >
-        Submit
-      </button>
-    </div>
-  </mat-step>
-</mat-stepper>
+      <div class="flex justify-center space-x-4">
+        <button
+          class="px-4 py-2 text-white bg-green-500 rounded shadow-xl"
+          (click)="verifyService()"
+        >
+          Submit
+        </button>
+      </div>
+    </mat-step>
+  </mat-stepper>
 </div>

@@ -15,8 +15,7 @@ import { ServicerVerificationProcessComponent } from './servicer-verification-pr
 const routes: Routes = [
   { path: '', title: 'Login', component: ServicersLoginComponent, canActivate: [ServicerGuardOut, ServicerGuardConfig] },
   { path: 'signup', title: 'Sign Up', component: ServicersSignupComponent, canActivate: [ServicerGuardOut, ServicerGuardConfig] },
-  { path: 'servicerProcedures', title: 'Procedures', component: ServicerProceduresComponent, canActivate: [ServicerGuardOut, ServicerGuardConfig] },
-  { path: 'servicerVerification', title: 'Verification', component:ServicerVerificationProcessComponent, canActivate: [ServicerGuardOut, ServicerGuardConfig] },
+  { path: 'servicerVerification', title: 'Verification', component: ServicerVerificationProcessComponent, canActivate: [ServicerGuardOut, ServicerGuardConfig] },
   { path: 'adminServicerApproval', title: 'Admin Servicer Approval', component: ServicerApprovalComponent, canActivate: [ServicerGuardOut, ServicerGuardConfig] },
   { path: 'servicerOtpVerification', title: 'OTP Verification', component: ServicersOtpVerificationComponent, canActivate: [ServicerGuardOut, ServicerGuardConfig] },
   {

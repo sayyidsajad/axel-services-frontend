@@ -24,14 +24,32 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
       <td mat-cell *matCellDef="let row">
-        <button
-          class="btn btn-error btn-sm text-white"
-          [disabled]="row.approvalStatus === 'Cancelled'"
-          mat-raised-button
-          (click)="cancelReason(row._id, row.user)"
-        >
-          {{ row.approvalStatus === "Pending" ? "Cancel" : "Cancelled" }}
-        </button>
+        <mat-form-field>
+          <mat-label>Approval Status</mat-label>
+          <mat-select>
+            <mat-option
+              (click)="cancelReason(row._id, row.user, 'Cancelled')"
+              [disabled]="row.approvalStatus === 'Cancelled'"
+              [value]="'Service Completed'"
+            >
+              Cancel
+            </mat-option>
+            <mat-option
+              (click)="cancelReason(row._id, row.user, 'Pending')"
+              [disabled]="row.approvalStatus === 'Cancelled'"
+              [value]="'Service Completed'"
+            >
+              Pending
+            </mat-option>
+            <mat-option
+              (click)="cancelReason(row._id, row.user, 'Service Completed')"
+              [disabled]="row.approvalStatus === 'Cancelled'"
+              [value]="'Service Completed'"
+            >
+              Service Completed
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

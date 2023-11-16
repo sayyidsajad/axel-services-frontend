@@ -14,6 +14,7 @@ declare var Razorpay: any
   styleUrls: ['./servicer-details.component.css']
 })
 export class ServicerDetailsComponent {
+  items = Array.from({length: 30}).map((_, i) => `Item #${i}`);
   id!: any
   wallet!: number
   service!: any;

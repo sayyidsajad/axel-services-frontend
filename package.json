@@ -63,7 +63,7 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.0.0",
     "@angular/cli": "~17.0.0",
-    "@angular/compiler-cli": "^17.0.2",
+    "@angular/compiler-cli": "^17.0.3",
     "@igniteui/angular-schematics": "~17.0.1300",
     "@types/googlemaps": "^3.43.3",
     "@types/hammerjs": "^2.0.40",

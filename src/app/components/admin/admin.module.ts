@@ -64,7 +64,7 @@ import { ChartModule } from 'primeng/chart';
     MatCheckboxModule,
     MatListModule,
     MatInputModule,
-    ChartModule
+    ChartModule,
   ],
   providers: [AdminService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -1,19 +1,19 @@
-<div class="hero min-h-screen bg-base-200">
+<div class="hero min-h-screen bg-white">
   <div class="hero-content flex-col lg:flex-row-reverse">
     <div class="text-center lg:text-left">
       <h5 class="text-5xl font-bold">
         Access Everywhere,<br />Axel Services !
       </h5>
     </div>
-    <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+    <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-black">
       <div class="card-body">
         <div class="text-center lg:text-center">
-          <h5 class="text-3xl font-bold">Register</h5>
+          <h5 class="text-3xl font-bold text-white">Register</h5>
         </div>
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
           <div class="form-control">
             <label class="label">
-              <span class="label-text">Name</span>
+              <span class="label-text text-white">Name</span>
             </label>
             <input
               type="text"
@@ -35,7 +35,7 @@
           </div>
           <div class="form-control">
             <label class="label">
-              <span class="label-text">Email</span>
+              <span class="label-text text-white">Email</span>
             </label>
             <input
               type="email"
@@ -57,7 +57,7 @@
           </div>
           <div class="form-control">
             <label class="label">
-              <span class="label-text">Phone</span>
+              <span class="label-text text-white">Phone</span>
             </label>
             <input
               type="text"
@@ -98,7 +98,7 @@
           </div>
           <div class="form-control">
             <label class="label">
-              <span class="label-text">Password</span>
+              <span class="label-text text-white">Password</span>
             </label>
             <input
               type="password"
@@ -120,7 +120,7 @@
           </div>
           <div class="form-control">
             <label class="label">
-              <span class="label-text">Confirm Password</span>
+              <span class="label-text text-white">Confirm Password</span>
             </label>
             <input
               type="password"
@@ -159,7 +159,7 @@
         </form>
         <div class="form-control">
           <label class="label">
-            <a class="label-text-alt">Already have an account?</a>
+            <a class="label-text-alt text-white">Already have an account?</a>
           </label>
           <button
             routerLink="/"

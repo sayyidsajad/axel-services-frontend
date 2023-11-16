@@ -58,37 +58,43 @@ export class ServicerBookingsComponent {
     }))
   }
 
-  cancelReason(bookingId: string, userId: string) {
-    const dialogRef = this._dialog.open(this.callAPIDialog);
-    this.dialogForm = this._fb.group({
-      textArea: ['', Validators.required],
-    })
-    this.subscribe.add(dialogRef.afterClosed().subscribe({
-      next: (result) => {
-        if (result !== undefined) {
-          if (result === 'yes') {
-            const user = this.dialogForm.getRawValue();
-            if (user.textArea !== '') {
-              this.cancelBooking(user.textArea, bookingId, userId)
-            } else {
-              this._toastr.error('Enter the reason to cancel.');
-              this.cancelReason(bookingId, userId)
+  cancelReason(bookingId: string, userId: string, status: string) {
+    if (status === 'Cancelled') {
+      const dialogRef = this._dialog.open(this.callAPIDialog);
+      this.dialogForm = this._fb.group({
+        textArea: ['', Validators.required],
+      })
+      this.subscribe.add(dialogRef.afterClosed().subscribe({
+        next: (result) => {
+          if (result !== undefined) {
+            if (result === 'yes') {
+              const user = this.dialogForm.getRawValue();
+              if (user.textArea !== '') {
+                this.cancelBooking(bookingId, userId, status, user.textArea,)
+              } else {
+                this._toastr.error('Enter the reason to cancel.');
+                this.cancelReason(bookingId, userId, status)
+              }
             }
           }
+        }, error: (err) => {
+          this._toastr.error(err.error.message);
         }
-      }, error: (err) => {
-        this._toastr.error(err.error.message);
-      }
-    }))
+      }))
+    } else {
+      this.cancelBooking(bookingId, userId, status)
+    }
   }
 
-  cancelBooking(textArea: any, bookingId: any, userId: any) {
-    this.subscribe.add(this._servicerServices.cancelBooking(textArea, bookingId, userId).subscribe({
-      next: () => {
+  cancelBooking(bookingId: any, userId: any, status: string, textArea?: string) {
+    this.subscribe.add(this._servicerServices.cancelBooking(bookingId, userId, status, textArea).subscribe({
+      next: (res) => {
+        if (res.status === "Pending" || res.status === 'Service Completed') {
+          Swal.fire('Success', '', 'success')
+        } else {
+          Swal.fire('Successfully Cancelled', '', 'success')
+        }
         this.listBookings()
-      },
-      complete: () => {
-        Swal.fire('Successfully Cancelled', '', 'success')
       }
     }))
   }

@@ -36,6 +36,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AboutComponent } from './about/about.component';
 import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 @NgModule({
   declarations: [
     LoginComponent,
@@ -80,6 +81,7 @@ import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
     HttpClientModule,
     MatDialogModule,
     GoogleSigninButtonModule,
+    ScrollingModule
   ],
   providers: [UsersService, MessagingService,
     MatDatepickerModule,

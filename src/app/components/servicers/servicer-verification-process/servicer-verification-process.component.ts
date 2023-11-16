@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment.development';
+import { Space, WhiteSpace } from '../../validators/custom-validators';
+import { ServicerService } from 'src/app/services/servicers/servicer.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { categoryData } from '../../admin/category-mgt/types/categories.types';
 
 interface AddressNameFormat {
   street_number: string;
@@ -17,21 +22,43 @@ interface AddressNameFormat {
   styleUrls: ['./servicer-verification-process.component.css']
 })
 export class ServicerVerificationProcessComponent {
-  firstFormGroup = this._fb.group({
-    firstCtrl: ['', Validators.required],
-  });
-  secondFormGroup = this._fb.group({
-    secondCtrl: ['', Validators.required],
-  });
-
-  constructor(private _fb: FormBuilder,private _toastr:ToastrService) { }
-
+  docs: File[] = [];
+  length!: number;
+  selectedFile!: File
+  submit: boolean = false
+  firstFormGroup!: FormGroup;
+  secondFormGroup!: FormGroup;
+  thirdFormGroup!: FormGroup;
+  id!: string
+  categories!: Array<categoryData>;
+  private subscribe: Subscription = new Subscription()
+  constructor(private _fb: FormBuilder, private _servicerServices: ServicerService, private _router: Router, private _route: ActivatedRoute, private _toastr: ToastrService) { }
+  ngOnInit(): void {
+    this.subscribe.add(this._route.queryParams
+      .subscribe({
+        next: (params) => {
+          this.id = params['id']
+        }
+      }))
+    this.firstFormGroup = this._fb.group({
+      serviceName: ['', [Validators.required, WhiteSpace.validate]],
+      description: ['', [Validators.required, WhiteSpace.validate]],
+      category: ['', Validators.required],
+      amount: ['', [Validators.required,
+      Validators.pattern(/^[0-9]+$/),
+      Space.noSpaceAllowed]],
+      img: ['', Validators.required],
+    })
+    this.secondFormGroup = this._fb.group({
+      formattedAddress: ['', Validators.required],
+    });
+    this.thirdFormGroup = this._fb.group({
+      docs: ['', Validators.required],
+    });
+    this.categoriesList()
+  }
   private fillInAddress!: (place: any) => void;
   private renderAddress!: (place: any) => void;
-
-  ngOnInit() {
-  }
-
   initMap() {
     const CONFIGURATION = {
       "ctaTitle": "Checkout",
@@ -46,13 +73,11 @@ export class ServicerVerificationProcessComponent {
       'country',
       'postal_code',
     ];
-
     const mapElement = document.getElementById("gmp-map");
     if (!mapElement) {
       this._toastr.error('Please Enter A Valid Address')
       return;
     }
-
     const getFormInputElement = (component: string) => document.getElementById(component + '-input') as HTMLInputElement;
     const map = new google.maps.Map(mapElement, {
       zoom: CONFIGURATION.mapOptions.zoom,
@@ -78,7 +103,6 @@ export class ServicerVerificationProcessComponent {
       this.renderAddress(place);
       this.fillInAddress(place);
     });
-
     this.fillInAddress = (place) => {
       const addressNameFormat: AddressNameFormat = {
         'street_number': 'short_name',
@@ -104,50 +128,84 @@ export class ServicerVerificationProcessComponent {
         }
       }
     };
+    this.renderAddress = (place) => {
+      if (place.formatted_address) {
 
-    this.renderAddress = (place) => {      
+        this.secondFormGroup.get('formattedAddress')?.setValue(place.formatted_address);
+      } else {
+        const formattedLongNames = place.address_components.map((component: any) => component.long_name);
+        const formattedAddress = formattedLongNames.join(', ');
+        this.secondFormGroup.get('formattedAddress')?.setValue(formattedAddress);
+      }
       map.setCenter(place.geometry.location);
       marker.setPosition(place.geometry.location);
       marker.setVisible(true);
     };
   }
-  currentLocation(){
-    if(!navigator.geolocation){
-      console.log('location is not supported');
-      
+  currentLocation() {
+    if (!navigator.geolocation) {
+      this._toastr.error('No address details available for the location.');
     }
-    navigator.geolocation.getCurrentPosition((position)=>{
-    this.getReverseGeocodingData(position.coords.latitude,position.coords.longitude)
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.getReverseGeocodingData(position.coords.latitude, position.coords.longitude)
     })
   }
   getReverseGeocodingData(lat: number, lng: number) {
     const latlng = new google.maps.LatLng(lat, lng);
     const geocoder = new google.maps.Geocoder();
-  
     geocoder.geocode({ location: latlng }, (results, status) => {
       if (status !== google.maps.GeocoderStatus.OK) {
-        alert(status);
+        this._toastr.warning(status);
       }
-  
       if (status === google.maps.GeocoderStatus.OK) {
         const place = results[0];
-  
         if (place && place.formatted_address) {
           this.renderAddress(place);
           this.fillInAddress(place);
         } else {
-          // Handle the case where the formatted_address is not available
           this._toastr.error('No address details available for the location.');
         }
       }
     });
   }
   onStepChange(event: any) {
-    if (event.selectedIndex === 1) { // Adjust the index based on your step order
-      // Initialize the map
+    if (event.selectedIndex === 1) {
       this.initMap();
     }
   }
-  
+  onFileSelected(event: any) {
+    this.selectedFile = <File>event.target.files[0]
+  }
+  categoriesList() {
+    this.subscribe.add(
+      this._servicerServices.categoriesList().subscribe({
+        next: (res) => {
+          this.categories = res.categories
+        }
+      }))
+  }
+  onFileChange(event: any): void {
+    this.docs = <File[]>event.target.files;
+    this.length = this.docs.length;
+  }
+  verifyService() {
+    const data = new FormData()
+    data.append('serviceName', this.firstFormGroup?.get('serviceName')?.value);
+    data.append('description', this.firstFormGroup?.get('description')?.value);
+    data.append('category', this.firstFormGroup?.get('category')?.value);
+    data.append('amount', this.firstFormGroup?.get('amount')?.value);
+    data.append('formattedAddress', this.secondFormGroup.get('formattedAddress')?.value);
+    data.append('img', this.selectedFile, this.selectedFile.name);
+    for (let i = 0; i < this.length; i++) {
+      data.append('docs', this.docs[i], this.docs[i].name);
+    }
+    if (this.firstFormGroup.valid && this.secondFormGroup.valid && this.thirdFormGroup) {
+      this.subscribe.add(this._servicerServices.servicerVerification(data, this.id).subscribe({
+        next: (res) => {
+          this._router.navigate(['servicer/adminServicerApproval'], { queryParams: { id: res.id } });
+        }
+      }))
+    }
+  }
 }
 

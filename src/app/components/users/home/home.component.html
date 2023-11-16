@@ -91,7 +91,7 @@
           <div class="card bg-white shadow-lg rounded-lg">
             <div class="card-body text-black">
               <img
-                src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2VydmljZXN8ZW58MHx8MHx8fDA%3D&w=1000&q=80"
+                [src]="service.images[0]"
                 class="rounded-t-lg"
               />
               <h6 class="card-title text-2xl font-semibold mt-4">
@@ -237,4 +237,5 @@
     </div>
   </mat-grid-tile>
 </mat-grid-list>
+
 <app-footer></app-footer>
