@@ -30,7 +30,7 @@ import { ChartModule } from 'primeng/chart';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BannerComponent } from './banner/banner.component';
-
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 @NgModule({
   declarations: [
     AdminLoginComponent,
@@ -50,6 +50,7 @@ import { BannerComponent } from './banner/banner.component';
     MatSidenavModule,
     MatIconModule,
     MatTableModule,
+    NgxMatFileInputModule,
     MatPaginatorModule,
     MatFormFieldModule,
     MatGridListModule,

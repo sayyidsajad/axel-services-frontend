@@ -6,6 +6,44 @@
       [colspan]="cards.cols"
       [rowspan]="cards.rows"
     >
+      <mat-card
+        class="dashboard-card bg-gradient-to-b from-blue-500 to-purple-600 text-white"
+      >
+        <mat-card-content class="p-6 flex justify-between items-center">
+          <div class="card flex justify-center items-center space-y-4">
+            <h2 class="text-3xl font-semibold">Monthly Earning</h2>
+            <p class="text-2xl">{{ +monthlyEarning | currency : "INR" }}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile
+      *ngFor="let cards of cardsTwo | async"
+      [colspan]="cards.cols"
+      [rowspan]="cards.rows"
+    >
+      <mat-card
+        class="dashboard-card bg-gradient-to-b from-blue-500 to-purple-600 text-white rounded-lg shadow-lg"
+      >
+        <mat-card-content class="p-6 flex justify-between items-center">
+          <div class="card flex flex-col justify-center items-center space-y-4">
+            <h2 class="text-3xl font-semibold mb-4">
+              Current Year
+              <br />
+              Earnings
+            </h2>
+            <p class="text-2xl font-bold">
+              {{ +currentYearEarning | currency : "INR" }}
+            </p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile
+      *ngFor="let cards of cardsTwo | async"
+      [colspan]="cards.cols"
+      [rowspan]="cards.rows"
+    >
       <mat-card class="dashboard-card">
         <mat-card-header>
           <mat-card-title>
@@ -63,7 +101,7 @@
         <mat-card-content class="dashboard-card-content">
           <div class="card">
             <p-chart type="bar" [data]="datas" [options]="optionss"></p-chart>
-        </div>
+          </div>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>

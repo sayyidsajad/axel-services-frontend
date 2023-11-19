@@ -1,11 +1,7 @@
 <app-users></app-users>
 <div class="hero min-h-screen bg-white">
   <div class="hero-content flex-col lg:flex-row">
-    <img
-      src="https://img.freepik.com/free-vector/gradient-our-services-infographic-design_23-2149951090.jpg"
-      class="max-w-sm rounded-lg shadow-2xl"
-    />
-    <div>
+    <gallery gallerize [items]="images"></gallery>        <div>
       <h3 class="text-5xl font-bold">{{ service.serviceName }}</h3>
       <p class="py-6">{{ service.description }}</p>
       <p class="mt-2 text-lg text-gray-700">

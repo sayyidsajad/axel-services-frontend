@@ -13,18 +13,15 @@ import { environment } from 'src/environments/environment.development';
 export class UsersComponent {
   message!: string
   private subscribe: Subscription = new Subscription()
-
   constructor(private _router: Router, private _userServices: UsersService, private _toastr: ToastrService) { }
-
   logOut() {
     this.subscribe.add(this._userServices.logOut().subscribe({
-      next: (res) => {
+      next: () => {
         localStorage.removeItem(environment.userSecret)
         this._router.navigate(['/'])
       }
     }))
   }
-
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

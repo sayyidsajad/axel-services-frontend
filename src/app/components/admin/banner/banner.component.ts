@@ -1,6 +1,19 @@
-import { Component } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { WhiteSpace } from '../../validators/custom-validators';
+import { ToastrService } from 'ngx-toastr';
+import { AdminService } from 'src/app/services/admin/admin.service';
+import { Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
+
+export interface BannerData {
+  bannerName: string;
+  description: string;
+  image: Array<string>;
+}
 
 @Component({
   selector: 'app-banner',
@@ -8,17 +21,70 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./banner.component.css']
 })
 export class BannerComponent {
-  bannerForm!: FormGroup;
-
-  constructor(private _fb: FormBuilder, private _toastr: ToastrService) {
-}
-ngOnInit(): void {
-  this.bannerForm = this._fb.group({
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-  });
-}
-onSubmit(){
-
-}
+  docs: File[] = [];
+  private subscribe: Subscription = new Subscription()
+  length!: number;
+  selectedFile!: File
+  bannerForm!: FormGroup
+  displayedColumns: string[] = ['bannerName', 'description', 'image'];
+  dataSource!: MatTableDataSource<BannerData>;
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
+  @ViewChild(MatSort)
+  sort!: MatSort;
+  constructor(private _fb: FormBuilder, private _toastr: ToastrService, private _adminServices: AdminService) {
+    this.bannerForm = this._fb.group({
+      bannerName: ['', [Validators.required, WhiteSpace.validate]],
+      description: ['', [Validators.required, WhiteSpace.validate]],
+      images: ['', Validators.required],
+    })
+    this.dataSource = new MatTableDataSource();
+    this.listBanners()
+  }
+  onFileChange(event: any): void {
+    this.docs = <File[]>event.target.files;
+    this.length = this.docs.length;
+  }
+  bannerSubmit() {
+    if (this.bannerForm.valid) {
+      const data = new FormData()
+      data.append('bannerName', this.bannerForm?.get('bannerName')?.value);
+      data.append('description', this.bannerForm?.get('description')?.value);
+      for (let i = 0; i < this.length; i++) {
+        data.append('images', this.docs[i], this.docs[i].name);
+      }
+      this.subscribe.add(this._adminServices.createBanner(data).subscribe({
+        next:()=>{
+          this.bannerForm.reset()
+          this.listBanners()
+        },
+        complete: () => {
+          Swal.fire('Successfully Added', '', 'success')
+        }
+      }))
+    } else {
+      this._toastr.error('Invalid Form Details')
+    }
+  }
+  listBanners() {
+    this.subscribe.add(this._adminServices.listBanners().subscribe({
+      next: (res) => {
+        this.dataSource = res.banners        
+      }
+    }))
+  }
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+  ngOnDestroy(): void {
+    this.subscribe.unsubscribe()
+  }
 }

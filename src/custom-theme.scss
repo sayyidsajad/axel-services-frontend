@@ -33,3 +33,8 @@ $axelServices-theme: mat.define-light-theme((
 // that you are using.
 @include mat.all-component-themes($axelServices-theme);
 
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.mat-sidenav-container, .mat-sidenav-content, .mat-tab-body-content {
+    transform: none !important;
+}

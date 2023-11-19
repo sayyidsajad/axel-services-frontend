@@ -15,16 +15,11 @@ export interface ChipColor {
   styleUrls: ['./services-list.component.css'],
 })
 export class ServicesListComponent {
-  availableColors: ChipColor[] = [
-    { name: 'none', color: undefined },
-    { name: 'Primary', color: 'primary' },
-    { name: 'Accent', color: 'accent' },
-    { name: 'Warn', color: 'warn' },
-  ];
+  searchValue: string = '';
   constructor(private userServices: UsersService, private router: Router, private _toastr: ToastrService) { }
   services!: Array<serviceData>;
   private subscribe: Subscription = new Subscription()
-
+  filteredServices: Array<serviceData> = [];
   ngOnInit(): void {
     this.servicesList();
   }
@@ -39,6 +34,12 @@ export class ServicesListComponent {
       }))
   }
 
+  onSearch() {
+    const searchTerm = this.searchValue.toLowerCase();
+    this.filteredServices = this.services.filter(service =>
+      service.serviceName.toLowerCase().includes(searchTerm)
+    );
+  }
   serviceDetails(id: any) {
     this.router.navigate(['/servicerDetails', id])
   }

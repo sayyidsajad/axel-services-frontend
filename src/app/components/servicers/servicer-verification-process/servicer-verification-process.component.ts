@@ -130,7 +130,6 @@ export class ServicerVerificationProcessComponent {
     };
     this.renderAddress = (place) => {
       if (place.formatted_address) {
-
         this.secondFormGroup.get('formattedAddress')?.setValue(place.formatted_address);
       } else {
         const formattedLongNames = place.address_components.map((component: any) => component.long_name);

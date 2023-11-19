@@ -6,23 +6,53 @@
       [colspan]="cards.cols"
       [rowspan]="cards.rows"
     >
+      <mat-card
+        class="dashboard-card bg-gradient-to-b from-black to-purple-600 text-white rounded-lg shadow-lg"
+      >
+        <mat-card-content class="p-6 flex justify-between items-center">
+          <div class="card flex flex-col justify-center items-center space-y-4">
+            <h2 class="text-3xl font-semibold mb-4">
+              Current Month
+              <br />
+              Earnings
+            </h2>
+            <p class="text-2xl font-bold">
+              {{ +currentMonthEarning / 100 | percent }}
+            </p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile
+      *ngFor="let cards of cardsTwo | async"
+      [colspan]="cards.cols"
+      [rowspan]="cards.rows"
+    >
+      <mat-card
+        class="dashboard-card bg-gradient-to-b from-black to-purple-600 text-white rounded-lg shadow-lg"
+      >
+        <mat-card-content class="p-6 flex justify-between items-center">
+          <div class="card flex flex-col justify-center items-center space-y-4">
+            <h2 class="text-3xl font-semibold mb-4">
+              Current Year
+              <br />
+              Earnings
+            </h2>
+            <p class="text-2xl font-bold">
+              {{ currentYearEarning / 100 | percent }}
+            </p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile
+      *ngFor="let cards of cardsTwo | async"
+      [colspan]="cards.cols"
+      [rowspan]="cards.rows"
+    >
       <mat-card class="dashboard-card">
         <mat-card-header>
-          <mat-card-title>
-            Booking Status
-            <button
-              mat-icon-button
-              class="more-button"
-              [matMenuTriggerFor]="menu"
-              aria-label="Toggle menu"
-            >
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>Expand</button>
-              <button mat-menu-item>Remove</button>
-            </mat-menu>
-          </mat-card-title>
+          <mat-card-title> Approval Status </mat-card-title>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
           <div class="card flex justify-content-center">
@@ -44,26 +74,12 @@
     >
       <mat-card class="dashboard-card">
         <mat-card-header>
-          <mat-card-title>
-            {{ cards.title }}
-            <button
-              mat-icon-button
-              class="more-button"
-              [matMenuTriggerFor]="menu"
-              aria-label="Toggle menu"
-            >
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>Expand</button>
-              <button mat-menu-item>Remove</button>
-            </mat-menu>
-          </mat-card-title>
+          <mat-card-title> Sales </mat-card-title>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
-          <!-- <div class="card">
+          <div class="card">
             <p-chart type="bar" [data]="data" [options]="options"></p-chart>
-        </div> -->
+          </div>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>

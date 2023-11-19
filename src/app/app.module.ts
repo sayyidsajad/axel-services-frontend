@@ -12,6 +12,8 @@ import { MessagingService } from './services/messaging/messaging.service';
 import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { environment } from 'src/environments/environment.development';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { GALLERY_CONFIG, GalleryConfig } from 'ng-gallery';
+import { LIGHTBOX_CONFIG, LightboxConfig } from 'ng-gallery/lightbox';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,8 +30,20 @@ import { NgxSpinnerModule } from "ngx-spinner";
     SocialLoginModule,
     NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' })],
   providers: [MessagingService, {
-    provide: HTTP_INTERCEPTORS, useClass: InterceptorInterceptor, multi: true
-  },
+    provide: LIGHTBOX_CONFIG,
+    useValue: {
+      keyboardShortcuts: false,
+      exitAnimationTime: 1000
+    } as LightboxConfig
+  }, {
+      provide: GALLERY_CONFIG,
+      useValue: {
+        autoHeight: true,
+        imageSize: 'cover'
+      } as GalleryConfig
+    }, {
+      provide: HTTP_INTERCEPTORS, useClass: InterceptorInterceptor, multi: true
+    },
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {

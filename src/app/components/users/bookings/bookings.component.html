@@ -3,7 +3,9 @@
   <div class="container mx-auto py-10">
     <h3 class="text-2xl font-semibold mb-4">Booking History</h3>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <p *ngIf="!bookings" class="text-center text-error">You haven't done any bookings yet.</p>
+      <p *ngIf="!bookings" class="text-center text-error">
+        You haven't done any bookings yet.
+      </p>
       <table
         *ngIf="bookings"
         class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
@@ -30,7 +32,7 @@
             </td>
             <td class="px-6 py-4">
               <div class="flex items-center space-x-3">
-                {{ booking.services.companyName }}
+                {{ booking.services?.companyName }}
               </div>
             </td>
             <td
@@ -51,6 +53,17 @@
               </button>
             </td>
             <td
+              *ngIf="booking.approvalStatus === 'Service Completed'"
+              class="px-6 py-4"
+            >
+              <button
+                (click)="review(booking.service,booking.user)"
+                class="font-medium btn btn-success text-white"
+              >
+                Review
+              </button>
+            </td>
+            <td
               *ngIf="booking.approvalStatus === 'Cancelled'"
               class="px-6 py-4"
             >
@@ -62,4 +75,37 @@
     </div>
   </div>
 </div>
+<ng-template #callAPIDialog>
+  <h1 mat-dialog-title>Review</h1>
+  <div mat-dialog-content>
+    <form [formGroup]="dialogForm">
+      <mat-form-field>
+        <mat-label>Textarea</mat-label>
+        <textarea
+          formControlName="textArea"
+          placeholder="Give your feedback"
+          matInput
+          required
+        ></textarea>
+      </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <button
+      class="btn btn-sm btn-error text-white"
+      mat-button
+      mat-dialog-close
+      cdkFocusInitial
+    >
+      Cancel
+    </button>
+    <button
+      class="btn btn-sm btn-success text-white"
+      mat-button
+      mat-dialog-close="yes"
+    >
+      Yes
+    </button>
+  </div>
+</ng-template>
 <app-footer></app-footer>

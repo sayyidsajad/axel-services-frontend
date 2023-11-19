@@ -69,4 +69,10 @@ export class UsersService {
   userEnquiry(firstName: string, lastName: string, email: string, message: string): Observable<any> {
     return this._http.post('userEnquiry', { firstName, lastName, email, message }, httpOptions)
   }
+  review(servicerId: string, userId: string, message: string): Observable<any> {
+    return this._http.post('review', { servicerId, userId, message }, httpOptions)
+  }
+  reviewsList(servicerId: string): Observable<any> {
+    return this._http.get(`reviewsList?id=${servicerId}`, httpOptions)
+  }
 }

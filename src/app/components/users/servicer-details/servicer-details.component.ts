@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment.development';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { GalleryItem, ImageItem } from 'ng-gallery';
 declare var Razorpay: any
 @Component({
   selector: 'app-servicer-details',
@@ -14,10 +15,11 @@ declare var Razorpay: any
   styleUrls: ['./servicer-details.component.css']
 })
 export class ServicerDetailsComponent {
-  items = Array.from({length: 30}).map((_, i) => `Item #${i}`);
+  items = Array.from({ length: 30 }).map((_, i) => `Item #${i}`);
   id!: any
   wallet!: number
   service!: any;
+  images!: GalleryItem[];
   private subscribe: Subscription = new Subscription()
   public date: Date = new Date();
   public mode: PickerInteractionMode = PickerInteractionMode.DropDown;
@@ -31,6 +33,7 @@ export class ServicerDetailsComponent {
   ngOnInit(): void {
     this.id = this._route.snapshot.paramMap.get("id");
     this.servicerDetails()
+    this.reviewsList()
     this.firstFormGroup = this._fb.group({ date: ['', Validators.required] });
     this.secondFormGroup = this._fb.group({ time: ['', Validators.required] });
     this.thirdFormGroup = this._fb.group({ walletChecked: [false] });
@@ -41,6 +44,9 @@ export class ServicerDetailsComponent {
       next: (res) => {
         this.service = res.servicesFind;
         this.wallet = res.wallet
+        this.images = this.service.images.map(
+          (item: any) => new ImageItem({ src: item, thumb: item })
+        );
       }
     }))
   }
@@ -109,7 +115,14 @@ export class ServicerDetailsComponent {
         }
       })
   }
-
+  reviewsList(){
+    this.subscribe.add(this._userServices.reviewsList(this.id).subscribe({
+      next: (res) => {
+        console.log(res);
+        
+      }
+    }))
+  }
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

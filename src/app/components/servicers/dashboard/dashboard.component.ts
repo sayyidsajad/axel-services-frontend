@@ -22,6 +22,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class DashboardComponent {
   private subscribe: Subscription = new Subscription()
+  monthlyEarning!: number;
+  currentYearEarning!: number;
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = ELEMENT_DATA;
   private breakpointObserver = inject(BreakpointObserver);
@@ -36,29 +38,27 @@ export class DashboardComponent {
     this.subscribe.add(
       this._servicerServices.dashboardReports().subscribe({
         next: (res) => {
+          this.monthlyEarning = res.monthlyEarning[0].totalEarnings
+          this.currentYearEarning = res.currentYearEarning
+          console.log(res);
+
           const documentStyles = getComputedStyle(document.documentElement);
           const textColors = documentStyles.getPropertyValue('--text-color');
           const textColorSecondarys = documentStyles.getPropertyValue('--text-color-secondary');
           const surfaceBorders = documentStyles.getPropertyValue('--surface-border');
+
           this.datas = {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             datasets: [
               {
-                label: 'Revenue',
-                backgroundColor: documentStyles.getPropertyValue('--blue-500'),
-                borderColor: documentStyles.getPropertyValue('--blue-500'),
-                datas: [65, 59, 80, 81, 56, 55, 40, 3, 2, 6, 9, 7]
-              },
-              {
                 label: 'Sales',
                 backgroundColor: documentStyles.getPropertyValue('--pink-500'),
                 borderColor: documentStyles.getPropertyValue('--pink-500'),
-                datas: [res.salesData[0], res.salesData[1], res.salesData[2], res.salesData[3], res.salesData[4], res.salesData[5], res.salesData[6], res.salesData[7], res.salesData[8], res.salesData[9], res.salesData[10], res.salesData[11], res.salesData[12]]
+                data: [res.salesData[0], res.salesData[1], res.salesData[2], res.salesData[3], res.salesData[4], res.salesData[5], res.salesData[6], res.salesData[7], res.salesData[8], res.salesData[9], res.salesData[10], res.salesData[11]]
               }
             ]
           };
-
-          this.optionss = {
+          this.options = {
             indexAxis: 'y',
             maintainAspectRatio: false,
             aspectRatio: 0.8,
@@ -93,6 +93,7 @@ export class DashboardComponent {
               }
             }
           };
+
           const documentStyle = getComputedStyle(document.documentElement);
           const textColor = documentStyle.getPropertyValue('--text-color');
           this.data = {

@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule, NgFor } from '@angular/common';
 import { UserRoutingModule } from './user-routing.module';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
@@ -37,6 +37,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AboutComponent } from './about/about.component';
 import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { GalleryModule } from 'ng-gallery';
+import { LightboxModule } from 'ng-gallery/lightbox';
+import { OpenAiService } from 'src/app/services/open-ai/open-ai.service';
+import { OpenAiComponent } from './open-ai/open-ai.component';
 @NgModule({
   declarations: [
     LoginComponent,
@@ -55,7 +59,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     ResetPasswordComponent,
     ChatComponent,
     HomepageComponent,
-    AboutComponent
+    AboutComponent,
+    OpenAiComponent
   ],
   imports: [
     CommonModule,
@@ -81,11 +86,14 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     HttpClientModule,
     MatDialogModule,
     GoogleSigninButtonModule,
-    ScrollingModule
+    ScrollingModule,
+    GalleryModule,
+    LightboxModule, NgFor, AsyncPipe
   ],
   providers: [UsersService, MessagingService,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    OpenAiService
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

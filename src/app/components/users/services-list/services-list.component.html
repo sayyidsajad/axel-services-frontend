@@ -9,17 +9,16 @@
       Access Anywhere <br />Axel Services
     </h2>
     <p
-      class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48"
+      class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-4 md:px-8 lg:px-16"
     >
-      Axel Services is a platform where you are going to get unlimited access
-      for services, services that are in need of the primary use case of every
-      individual in the society.
+      Axel Services is a platform where you get unlimited access to services
+      needed by individuals in society.
     </p>
   </div>
 </section>
 <div class="container mx-auto mt-5 flex flex-wrap">
   <aside
-    class="w-full sm:w-1/3 lg:w-1/4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg"
+    class="w-full sm:w-1/2 lg:w-1/4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg"
   >
     <h5 class="text-xl font-semibold text-gray-900 dark:text-white">
       Filter Options
@@ -34,9 +33,6 @@
         >
           <option value="all">All</option>
           <option value="mockups">Mockups</option>
-          <option value="templates">Templates</option>
-          <option value="design">Design</option>
-          <option value="logos">Logos</option>
         </select>
       </div>
       <div class="space-y-2">
@@ -61,23 +57,47 @@
       </button>
     </div>
   </aside>
-  <main class="w-full sm:w-2/3 lg:w-3/4 mt-5 sm:mt-0 p-4">
-    <h4
-      class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-4xl"
-    >
-      <span
-        class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400"
-        >Services</span
+  <main class="w-full sm:w-1/2 lg:w-3/4 mt-5 sm:mt-0 p-4">
+    <div class="mb-4 flex flex-col sm:flex-row items-center justify-between">
+      <h4
+        class="text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-4xl mb-2 sm:mb-0"
       >
-    </h4>
+        <span
+          class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400"
+          >Services</span
+        >
+      </h4>
+      <div class="flex items-center mt-3 sm:mt-0">
+        <input
+          [(ngModel)]="searchValue"
+          (ngModelChange)="onSearch()"
+          type="text"
+          placeholder="Search..."
+          class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+        />
+        <button
+          class="ml-2 px-4 py-2 text-sm font-medium text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:outline-none focus:ring focus:border-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-dark:focus:border-blue-800"
+        >
+          Search
+        </button>
+      </div>
+    </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div *ngIf="filteredServices.length === 0 && searchValue.length > 0" class="text-red-500">
+        No results found for '{{ searchValue }}'.
+      </div>
       <div
-        class="max-w-md w-300 h-400 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex"
-        *ngFor="let service of services"
+        class="max-w-md w-full sm:w-full lg:w-full h-400 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex"
+        *ngFor="let service of (filteredServices.length > 0 ? filteredServices : services)"
       >
         <div class="p-5 flex-grow">
           <a href="#">
+            <img
+              src="{{ service.images[0] }}"
+              alt="{{ service.serviceName }}"
+              class="mb-4 rounded-md w-full h-48 object-cover object-center"
+            />
             <h5 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
               {{ service.serviceName }}
             </h5>
@@ -94,6 +114,75 @@
         </div>
       </div>
     </div>
+    <div
+    class="flex items-center justify-center border-t border-gray-200 bg-white px-4 py-3 sm:px-6"
+  >
+    <div class="flex flex-1 justify-between sm:hidden">
+      <a
+        href="#"
+        class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        >Previous</a
+      >
+      <a
+        href="#"
+        class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        >Next</a
+      >
+    </div>
+    <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-center">
+      <div>
+        <nav
+          class="isolate inline-flex -space-x-px rounded-md shadow-sm"
+          aria-label="Pagination"
+        >
+          <a
+            href="#"
+            class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+          >
+            <span class="sr-only">Previous</span>
+            <svg
+              class="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </a>
+          <a
+            href="#"
+            aria-current="page"
+            class="relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >1</a
+          >
+          <a
+            href="#"
+            class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+          >
+            <span class="sr-only">Next</span>
+            <svg
+              class="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </div>
   </main>
+
 </div>
+
 <app-footer></app-footer>

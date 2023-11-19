@@ -12,4 +12,5 @@ export interface serviceData {
     isApproved: boolean
     isVerified?: boolean
     isBlocked: boolean
+    images:Array<string>
 }

@@ -59,4 +59,10 @@ export class AdminService {
   dashboardReports(): Observable<any> {
     return this._http.get('admin/dashboardReports', httpOptions)
   }
+  createBanner(banner: FormData): Observable<any> {
+    return this._http.post('admin/createBanner', banner)
+  }
+  listBanners(): Observable<any> {
+    return this._http.get('admin/listBanners', httpOptions)
+  }
 }

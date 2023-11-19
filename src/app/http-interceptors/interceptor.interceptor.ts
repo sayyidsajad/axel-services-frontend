@@ -20,9 +20,9 @@ export class InterceptorInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     this.spinner.show();
     const commonUrl: string = environment.APIURL;
-    const servicerToken = localStorage.getItem("servicerSecret");
-    const adminToken = localStorage.getItem("adminSecret");
-    const userToken = localStorage.getItem("userSecret");
+    const servicerToken = localStorage.getItem(environment.servicerSecret);
+    const adminToken = localStorage.getItem(environment.adminSecret);
+    const userToken = localStorage.getItem(environment.userSecret);
     let newRequest = request;
     if (adminToken) {
       newRequest = newRequest.clone({

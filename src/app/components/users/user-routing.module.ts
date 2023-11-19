@@ -15,6 +15,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { ChatComponent } from './chat/chat.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { AboutComponent } from './about/about.component';
+import { OpenAiComponent } from './open-ai/open-ai.component';
 
 const routes: Routes = [
   { path: '', title: 'Login', component: LoginComponent, canActivate: [UserGuardConfig, UserGuardIn] },
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'resetPassword', title: 'Reset Password', component: ResetPasswordComponent, canActivate: [UserGuardIn] },
   { path: 'chat', title: 'Chat Page', component: ChatComponent, canActivate: [UserGuardOut] },
   { path: 'about', title: 'About Page', component: AboutComponent, canActivate: [UserGuardOut] },
+  { path: 'openAi', title: 'Open Ai', component: OpenAiComponent, canActivate: [UserGuardOut] },
 ];
 
 @NgModule({
