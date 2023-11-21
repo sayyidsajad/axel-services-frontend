@@ -7,6 +7,7 @@ import { ServicerService } from 'src/app/services/servicers/servicer.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { categoryData } from '../../admin/category-mgt/types/categories.types';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 interface AddressNameFormat {
   street_number: string;
@@ -22,7 +23,7 @@ interface AddressNameFormat {
   styleUrls: ['./servicer-verification-process.component.css']
 })
 export class ServicerVerificationProcessComponent {
-  docs: File[] = [];
+  selectedImage: SafeUrl | null = null;  docs: File[] = [];
   length!: number;
   selectedFile!: File
   submit: boolean = false
@@ -32,7 +33,7 @@ export class ServicerVerificationProcessComponent {
   id!: string
   categories!: Array<categoryData>;
   private subscribe: Subscription = new Subscription()
-  constructor(private _fb: FormBuilder, private _servicerServices: ServicerService, private _router: Router, private _route: ActivatedRoute, private _toastr: ToastrService) { }
+  constructor(private _sanitizer: DomSanitizer,private _fb: FormBuilder, private _servicerServices: ServicerService, private _router: Router, private _route: ActivatedRoute, private _toastr: ToastrService) { }
   ngOnInit(): void {
     this.subscribe.add(this._route.queryParams
       .subscribe({
@@ -174,7 +175,7 @@ export class ServicerVerificationProcessComponent {
   }
   onFileSelected(event: any) {
     this.selectedFile = <File>event.target.files[0]
-  }
+    this.selectedImage = this._sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(this.selectedFile));  }
   categoriesList() {
     this.subscribe.add(
       this._servicerServices.categoriesList().subscribe({
