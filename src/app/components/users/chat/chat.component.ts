@@ -18,7 +18,7 @@ export class ChatComponent {
   id!: string;
   messageForm!: FormGroup
   Roomid!: string;
-  userId: any;
+  userId!: string;
 
   constructor(private _socketService: MessagingService, private _route: ActivatedRoute, private _fb: FormBuilder, private _toastr: ToastrService, private _userServices: UsersService) { }
 

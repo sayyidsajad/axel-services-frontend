@@ -15,15 +15,15 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 @Injectable()
 export class InterceptorInterceptor implements HttpInterceptor {
-  constructor(private _errorHandlerService: ErrorHandlingServiceService,private spinner: NgxSpinnerService) { }
+  constructor(private _errorHandlerService: ErrorHandlingServiceService, private _spinner: NgxSpinnerService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    this.spinner.show();
-    const commonUrl: string = environment.APIURL;
+    const commonUrl: string = environment.apiUrl;
     const servicerToken = localStorage.getItem(environment.servicerSecret);
     const adminToken = localStorage.getItem(environment.adminSecret);
     const userToken = localStorage.getItem(environment.userSecret);
     let newRequest = request;
+    this._spinner.show();
     if (adminToken) {
       newRequest = newRequest.clone({
         headers: newRequest.headers.set('Authorization', 'Bearer ' + adminToken),
@@ -48,11 +48,11 @@ export class InterceptorInterceptor implements HttpInterceptor {
     return next.handle(newRequest).pipe(
       tap((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse) {
-          this.spinner.hide();
+          this._spinner.hide();
         }
       }),
       catchError((error: HttpErrorResponse) => {
-        this.spinner.hide();
+        this._spinner.hide();
         this._errorHandlerService.handleError(error);
         return throwError(() => error);
       })

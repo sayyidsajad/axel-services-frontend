@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { AdminService } from 'src/app/services/admin/admin.service';
-import { serviceData } from '../../users/home/types/user.types';
+import { serviceData } from '../../users/homepage/types/user.types';
 import { Subscription } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,10 +15,10 @@ import { ToastrService } from 'ngx-toastr';
 export class ServicersApprovalComponent {
   displayedColumns: string[] = ['id', 'companyname', 'email', 'phone', 'approvalstatus', 'actions'];
   private subscribe: Subscription = new Subscription()
-  dataSource: MatTableDataSource<any>;
+  dataSource: MatTableDataSource<serviceData>;
   paginator!: MatPaginator;
   @ViewChild(MatPaginator)
-  approvals!: Array<any>;
+  approvals!: Array<serviceData>;
   @ViewChild(MatSort)
   sort!: MatSort;
 

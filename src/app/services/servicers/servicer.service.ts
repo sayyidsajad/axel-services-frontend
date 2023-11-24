@@ -32,9 +32,6 @@ export class ServicerService {
   categoriesList(): Observable<any> {
     return this._http.get('servicer/categoriesList', httpOptions)
   }
-  logOut(): Observable<any> {
-    return this._http.get('servicer/logout', httpOptions)
-  }
   listBookings(): Observable<any> {
     return this._http.get('servicer/listBookings', httpOptions)
   }

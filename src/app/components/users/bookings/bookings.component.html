@@ -32,7 +32,7 @@
             </td>
             <td class="px-6 py-4">
               <div class="flex items-center space-x-3">
-                {{ booking.services?.companyName }}
+                {{ booking.services.companyName }}
               </div>
             </td>
             <td
@@ -46,7 +46,7 @@
             </td>
             <td *ngIf="booking.approvalStatus === 'Pending'" class="px-6 py-4">
               <button
-                (click)="cancel(booking._id, booking.services.amount)"
+                (click)="cancel(booking._id, booking.services.amount.toString())"
                 class="font-medium btn btn-error text-white"
               >
                 Cancel

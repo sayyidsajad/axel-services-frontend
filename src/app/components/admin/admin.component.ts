@@ -12,21 +12,12 @@ import { environment } from 'src/environments/environment.development';
 })
 export class AdminComponent {
   message!: string
-  private subscribe: Subscription = new Subscription()
 
-  constructor(private _adminServices: AdminService, private _router: Router, private _toastr: ToastrService) { }
+  constructor(private _router: Router) { }
 
   logOut() {
-    this.subscribe.add(this._adminServices.logOut().subscribe({
-      next: () => {
-        localStorage.removeItem(environment.adminSecret)
-        this._router.navigate(['/admin'])
-      }
-    })
-    )
+    localStorage.removeItem(environment.adminSecret)
+    this._router.navigate(['/admin'])
   }
 
-  ngOnDestroy(): void {
-    this.subscribe.unsubscribe()
-  }
 }

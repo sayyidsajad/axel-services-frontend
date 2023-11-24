@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { IBanner, IBooking, ICategory, IDashboardReport, IService, IServicer, IUser } from './types/admin-types';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -14,55 +15,52 @@ export class AdminService {
 
   constructor(private _http: HttpClient) { }
 
-  adminLogin(user: object): Observable<any> {
-    return this._http.post('admin', user, httpOptions)
+  adminLogin(user: object): Observable<{ access_token: string }> {
+    return this._http.post<{ access_token: string }>('admin', user, httpOptions)
   }
-  servicersApproval(): Observable<any> {
-    return this._http.get(`admin/servicersApproval`, httpOptions)
+  servicersApproval(): Observable<IServicer> {
+    return this._http.get<IServicer>(`admin/servicersApproval`, httpOptions)
   }
   approveServices(id: string): Observable<any> {
     return this._http.post('admin/approveServicer', { id }, httpOptions)
   }
-  userMgt(): Observable<any> {
-    return this._http.get('admin/userMgt', httpOptions)
+  userMgt(): Observable<IUser> {
+    return this._http.get<IUser>('admin/userMgt', httpOptions)
   }
-  blockUnblockUser(id: string): Observable<any> {
-    return this._http.post('admin/blockUnblockUser', { id }, httpOptions)
+  blockUnblockUser(id: string): Observable<{ message: string }> {
+    return this._http.post<{ message: string }>('admin/blockUnblockUser', { id }, httpOptions)
   }
-  addCategory(categoryName: string, description: string): Observable<any> {
-    return this._http.post('admin/addCategory', { categoryName, description }, httpOptions)
+  addCategory(categoryName: string, description: string): Observable<void> {
+    return this._http.post<void>('admin/addCategory', { categoryName, description }, httpOptions)
   }
-  listCategories(): Observable<any> {
-    return this._http.get('admin/listCategories', httpOptions)
+  listCategories(): Observable<ICategory> {
+    return this._http.get<ICategory>('admin/listCategories', httpOptions)
   }
-  listBookings(): Observable<any> {
-    return this._http.get('admin/listBookings', httpOptions)
+  listBookings(): Observable<IBooking> {
+    return this._http.get<IBooking>('admin/listBookings', httpOptions)
   }
-  logOut(): Observable<any> {
-    return this._http.get('admin/logout', httpOptions)
+  listUnlist(id: string): Observable<{ message: string }> {
+    return this._http.patch<{ message: string }>('admin/listUnlist', { id }, httpOptions)
   }
-  listUnlist(id: string): Observable<any> {
-    return this._http.patch('admin/listUnlist', { id }, httpOptions)
+  cancelBooking(textArea: string, bookingId: string, userId: string): Observable<void> {
+    return this._http.post<void>('admin/cancelBooking', { textArea, bookingId, userId }, httpOptions)
   }
-  cancelBooking(textArea: string, bookingId: string, userId: string): Observable<any> {
-    return this._http.post('admin/cancelBooking', { textArea, bookingId, userId }, httpOptions)
+  listServices(): Observable<IService> {
+    return this._http.get<IService>('admin/listServices', httpOptions)
   }
-  listServices(): Observable<any> {
-    return this._http.get('admin/listServices', httpOptions)
+  blockServicer(id: string): Observable<{ message: string }> {
+    return this._http.post<{ message: string }>('admin/blockServicer', { id }, httpOptions)
   }
-  blockServicer(id: string): Observable<any> {
-    return this._http.post('admin/blockServicer', { id }, httpOptions)
+  updateCategory(id: string, categoryName: string, description: string): Observable<void> {
+    return this._http.patch<void>('admin/updateCategory', { id, categoryName, description }, httpOptions)
   }
-  updateCategory(id: string, categoryName: string, description: string): Observable<any> {
-    return this._http.patch('admin/updateCategory', { id, categoryName, description }, httpOptions)
+  dashboardReports(): Observable<IDashboardReport> {
+    return this._http.get<IDashboardReport>('admin/dashboardReports', httpOptions)
   }
-  dashboardReports(): Observable<any> {
-    return this._http.get('admin/dashboardReports', httpOptions)
+  createBanner(banner: FormData): Observable<void> {
+    return this._http.post<void>('admin/createBanner', banner)
   }
-  createBanner(banner: FormData): Observable<any> {
-    return this._http.post('admin/createBanner', banner)
-  }
-  listBanners(): Observable<any> {
-    return this._http.get('admin/listBanners', httpOptions)
+  listBanners(): Observable<IBanner> {
+    return this._http.get<IBanner>('admin/listBanners', httpOptions)
   }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Socket, io } from 'socket.io-client';
 import { environment } from 'src/environments/environment.development';
 import { DefaultEventsMap } from '@socket.io/component-emitter';
+import { Data } from 'src/app/components/users/chat/types/chat.types';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,8 @@ export class MessagingService {
       this.socket.emit('join', { name: roomName, Roomid: Roomid })
     }
   }
-  subscribeToMessages = (cb: (err: any, data: { sender: string, text: string, recever: string, data: any }) => void) => {
-    this.socket.on('new-message', (msg: { sender: string, text: string, recever: string, data: any }) => {
+  subscribeToMessages = (cb: (err: any, data: { sender: string, text: string, recever: string, data: Data }) => void) => {
+    this.socket.on('new-message', (msg: { sender: string, text: string, recever: string, data: Data }) => {
       cb(null, msg);
     });
     return true;

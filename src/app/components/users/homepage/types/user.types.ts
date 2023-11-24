@@ -1,5 +1,6 @@
 export interface serviceData {
-    _id?: string;
+categoryInfo: any;
+    _id: string;
     name: string;
     email: string;
     phone: number;

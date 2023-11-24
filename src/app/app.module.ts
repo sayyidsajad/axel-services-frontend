@@ -28,7 +28,7 @@ import { LIGHTBOX_CONFIG, LightboxConfig } from 'ng-gallery/lightbox';
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
     SocialLoginModule,
-    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' })],
+    NgxSpinnerModule.forRoot({ type: 'ball-scale-ripple-multiple' })],
   providers: [MessagingService, {
     provide: LIGHTBOX_CONFIG,
     useValue: {

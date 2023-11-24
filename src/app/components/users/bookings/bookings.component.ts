@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
+import { IBooking } from 'src/app/services/users/types/user-component.types';
 import { UsersService } from 'src/app/services/users/users.service';
 import Swal from 'sweetalert2';
 
@@ -16,7 +17,7 @@ export class BookingsComponent {
   callAPIDialog!: TemplateRef<any>;
   dialogForm!: FormGroup
   constructor(private _userServices: UsersService, public _dialog: MatDialog, private _toastr: ToastrService, private _fb: FormBuilder) { }
-  bookings!: Array<any>;
+  bookings!: IBooking[];
   private subscribe: Subscription = new Subscription()
 
   ngOnInit(): void {
@@ -26,7 +27,7 @@ export class BookingsComponent {
   bookingsList() {
     this.subscribe.add(this._userServices.bookingsList().subscribe({
       next: (res) => {
-        this.bookings = res.bookings;
+        this.bookings = res.bookings;        
       }
     }))
   }

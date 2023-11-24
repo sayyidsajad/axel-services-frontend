@@ -23,20 +23,18 @@ export class DashboardComponent {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = ELEMENT_DATA;
   private breakpointObserver = inject(BreakpointObserver);
-  basicData: any;
-  basicOptions: any;
-  data: any;
-  options: any
+  basicData!: {};
+  basicOptions!: {};
+  data!: {};
+  options!: {};
   currentYearEarning!: number;
   currentMonthEarning!: number;
   ngOnInit() {
     this.subscribe.add(
       this._adminServices.dashboardReports().subscribe({
-        next: (res) => {          
-          this.currentMonthEarning = res.currentMonthEarnings[0].profitValue          
+        next: (res) => {
+          this.currentMonthEarning = res.currentMonthEarnings[0].profitValue
           this.currentYearEarning = res.currentYearEarning[0].profitValue
-          console.log(res);
-          
           const documentStyle = getComputedStyle(document.documentElement);
           const textColor = documentStyle.getPropertyValue('--text-color');
           this.data = {

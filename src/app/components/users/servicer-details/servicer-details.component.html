@@ -1,35 +1,42 @@
 <app-users></app-users>
-<div class="hero min-h-screen bg-white">
-  <div class="hero-content flex-col lg:flex-row">
-    <gallery gallerize [items]="images"></gallery>        <div>
-      <h3 class="text-5xl font-bold">{{ service.serviceName }}</h3>
-      <p class="py-6">{{ service.description }}</p>
-      <p class="mt-2 text-lg text-gray-700">
-        {{ +service.amount | currency : "INR" }}
-      </p>
-      <div class="flex space-x-4">
-        <button
-          data-modal-target="staticModal"
-          data-modal-toggle="staticModal"
-          class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          type="button"
-        >
-          Book Now
-        </button>
-        <button
-          [routerLink]="'/chat'"
-          [queryParams]="{ id: service._id }"
-          data-modal-target="staticModal"
-          data-modal-toggle="staticModal"
-          class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          type="button"
-        >
-          Chat
-        </button>
+<main class="my-8">
+  <div class="container mx-auto px-6">
+      <div class="md:flex md:items-center">
+          <div class="w-full h-64 md:w-1/2 lg:h-96">
+            <gallery gallerize [items]="images"></gallery> 
+          </div>
+          <div class="w-full max-w-lg mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2">
+              <h3 class="text-gray-700 uppercase text-lg">{{ service.serviceName }}</h3>
+              <p class="text-gray-700 uppercase text-lg">{{ service.description }}</p>
+              <span class="text-gray-500 mt-3">{{ +service.amount | currency : "INR" }}</span>
+              <hr class="my-3">
+              <div class="mt-2">
+                  <div class="flex items-center mt-1">
+                    <button
+                    data-modal-target="staticModal"
+                    data-modal-toggle="staticModal"
+                    class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    type="button"
+                  >
+                    Book Now
+                  </button>
+                      <button
+                      [routerLink]="'/chat'"
+                      [queryParams]="{ id: service._id }"
+                      data-modal-target="staticModal"
+                      data-modal-toggle="staticModal"
+                      class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      type="button"
+                    >
+                      Chat
+                    </button>
+                  </div>
+              </div>
+          </div>
       </div>
-    </div>
+
   </div>
-</div>
+</main>
 <section class="bg-white dark:bg-gray-900 py-8 lg:py-16 antialiased flex">
   <!-- Discussion Section (Left Side) -->
   <div class="max-w-2xl mx-auto px-4 flex flex-col items-start w-2/3">

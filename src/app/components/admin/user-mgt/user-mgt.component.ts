@@ -1,11 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { AdminService } from 'src/app/services/admin/admin.service';
-import { serviceData } from '../../users/home/types/user.types';
 import { Subscription } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
+import { IUser } from 'src/app/services/admin/types/admin-types';
 
 @Component({
   selector: 'app-user-mgt',
@@ -15,7 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 export class UserMgtComponent {
   private subscribe: Subscription = new Subscription()
   displayedColumns: string[] = ['name', 'phone', 'isblocked', 'actions'];
-  dataSource: MatTableDataSource<any>;
+  dataSource: MatTableDataSource<IUser>;
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)

@@ -1,40 +1,35 @@
 <app-users></app-users>
 <div class="container mx-auto">
-
-  <div class="w-full md:max-w-screen-lg mx-auto mt-20 mb-20 overflow-hidden rounded-t-xl bg-emerald-400/60 py-32 text-center shadow-xl shadow-gray-300">
+  <div
+    class="w-full md:max-w-screen-lg mx-auto mt-20 mb-20 overflow-hidden rounded-t-xl bg-emerald-400/60 py-32 text-center shadow-xl shadow-gray-300"
+  >
     <div class="grid grid-cols-1 gap-4 text-center bg-black">
-      <div id="controls-carousel" class="relative w-full" data-carousel="static">
-        <!-- Carousel wrapper -->
-        <div class="relative h-56 md:h-96 overflow-hidden rounded-lg">
-          <!-- Item 1 -->
-          <div class="hidden duration-700 ease-in-out" data-carousel-item>
-            <img
-              src="https://uploads-ssl.webflow.com/63836a7ce52e44bc8ca9b8a0/63dfa2976bf1b1c4d4777d59_Trimmer%202.webp"
-              class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-              alt="..."
-            />
-          </div>
-          <!-- Item 2 -->
-          <div
-            class="hidden duration-700 ease-in-out"
-            data-carousel-item="active"
-          >
-            <img
-              src="https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/117417986/original/fb0c677b60570532e75a2f502945b252cdbaa288/do-3d-modeling-exterior-interior-floor-plan-d6ab.jpg"
-              class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-              alt="..."
-            />
-          </div>
-          <!-- Item 3 -->
-          <div class="hidden duration-700 ease-in-out" data-carousel-item>
-            <img
-              src="https://5.imimg.com/data5/SELLER/Default/2022/4/FU/GI/TI/16643450/whatsapp-image-2022-02-10-at-4-33-19-pm.jpeg"
-              class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-              alt="..."
-            />
+      <div
+        id="controls-carousel"
+        class="relative w-full"
+        data-carousel="static"
+      >
+        <div class="relative h-96 overflow-hidden rounded-lg shadow-md">
+          <div *ngFor="let banner of banners" class="w-full">
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+              <div
+                class="flex items-center justify-center h-full bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-lg overflow-hidden"
+              >
+                <div class="text-center text-white">
+                  <h3 class="text-3xl font-bold mb-4">
+                    {{ banner.bannerName }}
+                  </h3>
+                </div>
+                <img
+                  [src]="banner.images[0]"
+                  class="w-full h-full object-cover rounded-bl-lg rounded-br-lg"
+                  alt="{{ banner.bannerName }} Image"
+                />
+              </div>
+            </div>
           </div>
         </div>
-        <!-- Slider controls -->
+
         <button
           type="button"
           class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
@@ -89,32 +84,66 @@
         </button>
       </div>
     </div>
-    <img class="absolute top-0 left-0 -z-10 h-full w-full object-cover" src="https://images.unsplash.com/photo-1504672281656-e4981d70414b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="" />
+    <img
+      class="absolute top-0 left-0 -z-10 h-full w-full object-cover"
+      src="https://images.unsplash.com/photo-1504672281656-e4981d70414b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+      alt=""
+    />
   </div>
 
   <div class="m-10 w-full md:max-w-screen-md mx-auto">
-
     <div class="flex flex-col">
       <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
-        <form class="">
-          <div class="relative mb-10 w-full flex items-center justify-between rounded-md">
-            <svg class="absolute left-2 block h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <form class="space-y-6">
+          <div class="relative">
+            <svg
+              class="absolute left-2 block h-5 w-5 text-gray-400"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <circle cx="11" cy="11" r="8" class=""></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65" class=""></line>
             </svg>
-            <input type="name" name="search" class="h-12 w-full cursor-text rounded-md border border-gray-100 bg-gray-100 py-4 pr-4 pl-12 md:pr-40 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" placeholder="Search by name, type, manufacturer, etc" />
+            <input
+              type="name"
+              name="search"
+              class="h-12 w-full pl-12 pr-4 rounded-md border border-gray-300 bg-gray-100 shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+              placeholder="Search by name, type, manufacturer, etc"
+            />
           </div>
 
-          <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div
+            class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          >
             <div class="flex flex-col">
-              <label for="name" class="text-sm font-medium text-stone-600">Name</label>
-              <input type="text" id="name" placeholder="Raspberry juice" class="mt-2 block w-full rounded-md border border-gray-100 bg-gray-100 px-2 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" />
+              <label for="name" class="text-sm font-medium text-gray-600"
+                >Name</label
+              >
+              <input
+                type="text"
+                id="name"
+                placeholder="Raspberry juice"
+                class="mt-2 p-2 w-full rounded-md border border-gray-300 bg-gray-100 shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+              />
             </div>
 
             <div class="flex flex-col">
-              <label for="manufacturer" class="text-sm font-medium text-stone-600">Manufacturer</label>
-
-              <select id="manufacturer" class="mt-2 block w-full rounded-md border border-gray-100 bg-gray-100 px-2 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+              <label
+                for="manufacturer"
+                class="text-sm font-medium text-gray-600"
+                >Manufacturer</label
+              >
+              <select
+                id="manufacturer"
+                class="mt-2 p-2 w-full rounded-md border border-gray-300 bg-gray-100 shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+              >
                 <option>Cadberry</option>
                 <option>Starbucks</option>
                 <option>Hilti</option>
@@ -122,14 +151,24 @@
             </div>
 
             <div class="flex flex-col">
-              <label for="date" class="text-sm font-medium text-stone-600">Date of Entry</label>
-              <input type="date" id="date" class="mt-2 block w-full cursor-pointer rounded-md border border-gray-100 bg-gray-100 px-2 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" />
+              <label for="date" class="text-sm font-medium text-gray-600"
+                >Date of Entry</label
+              >
+              <input
+                type="date"
+                id="date"
+                class="mt-2 p-2 w-full rounded-md border border-gray-300 bg-gray-100 shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+              />
             </div>
 
             <div class="flex flex-col">
-              <label for="status" class="text-sm font-medium text-stone-600">Status</label>
-
-              <select id="status" class="mt-2 block w-full cursor-pointer rounded-md border border-gray-100 bg-gray-100 px-2 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+              <label for="status" class="text-sm font-medium text-gray-600"
+                >Status</label
+              >
+              <select
+                id="status"
+                class="mt-2 p-2 w-full rounded-md border border-gray-300 bg-gray-100 shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+              >
                 <option>Dispached Out</option>
                 <option>In Warehouse</option>
                 <option>Being Brought In</option>
@@ -137,43 +176,110 @@
             </div>
           </div>
 
-          <div class="mt-6 grid w-full grid-cols-2 justify-end space-x-4 md:flex">
-            <button class="rounded-lg bg-gray-200 px-8 py-2 font-medium text-gray-700 outline-none hover:opacity-80 focus:ring">Reset</button>
-            <button class="rounded-lg bg-blue-600 px-8 py-2 font-medium text-white outline-none hover:opacity-80 focus:ring">Search</button>
+          <div
+            class="mt-6 grid w-full grid-cols-2 justify-end space-x-4 md:flex"
+          >
+            <button
+              class="rounded-lg bg-gray-200 px-8 py-2 font-medium text-gray-700 focus:outline-none hover:bg-gray-300 focus:bg-gray-300"
+            >
+              Reset
+            </button>
+            <button
+              class="rounded-lg bg-blue-600 px-8 py-2 font-medium text-white focus:outline-none hover:bg-blue-700 focus:bg-blue-700"
+            >
+              Search
+            </button>
           </div>
         </form>
       </div>
     </div>
-
   </div>
 
-</div>
+  <div class="flex flex-col bg-white m-auto p-auto">
+    <h4
+      class="flex py-5 lg:px-20 md:px-10 px-5 lg:mx-40 md:mx-20 mx-5 font-bold text-4xl text-gray-800"
+    >
+      All Services
+    </h4>
 
-<div class="flex flex-col mt-10">
-  <h2 class="text-3xl font-semibold mb-6">Our Services</h2>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-    <div class="bg-white p-4 rounded-md shadow-md">
-      <h3 class="text-xl font-semibold mb-2">Service Name 1</h3>
-      <p class="text-gray-600">Description of the service. You can provide more details here.</p>
+    <div class="flex overflow-x-scroll pb-10 hide-scroll-bar">
+      <div class="flex flex-nowrap lg:ml-8 md:ml-4 ml-2">
+        <div class="inline-block px-3" *ngFor="let service of services">
+          <div
+            class="w-64 h-80 max-w-xs overflow-hidden rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out"
+          >
+            <img
+              [src]="service.images[0]"
+              alt="{{ service.serviceName }}"
+              class="w-full h-40 object-cover rounded-t-lg"
+            />
+            <div class="p-4">
+              <h6 class="text-xl font-semibold">{{ service.serviceName }}</h6>
+              <p class="text-gray-700">
+                {{ +service.amount | currency : "INR" }}
+              </p>
+              <div class="flex justify-between items-end mt-4">
+                <button
+                  class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 focus:outline-none"
+                >
+                  View Details
+                </button>
+                <button
+                  class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 focus:outline-none"
+                >
+                  Book Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <!-- Service 2 -->
-    <div class="bg-white p-4 rounded-md shadow-md">
-      <h3 class="text-xl font-semibold mb-2">Service Name 2</h3>
-      <p class="text-gray-600">Description of the service. You can provide more details here.</p>
-    </div>
+  <div class="flex flex-col bg-white m-auto p-auto">
+    <h4
+      class="flex py-5 lg:px-20 md:px-10 px-5 lg:mx-40 md:mx-20 mx-5 font-bold text-4xl text-gray-800"
+    >
+      Based on Categories
+    </h4>
 
-    <!-- Service 3 -->
-    <div class="bg-white p-4 rounded-md shadow-md">
-      <h3 class="text-xl font-semibold mb-2">Service Name 3</h3>
-      <p class="text-gray-600">Description of the service. You can provide more details here.</p>
-    </div>
-
-    <!-- Service 4 -->
-    <div class="bg-white p-4 rounded-md shadow-md">
-      <h3 class="text-xl font-semibold mb-2">Service Name 4</h3>
-      <p class="text-gray-600">Description of the service. You can provide more details here.</p>
+    <div class="flex overflow-x-scroll pb-10 hide-scroll-bar">
+      <div class="flex flex-nowrap lg:ml-8 md:ml-4 ml-2">
+        <div class="inline-block px-3" *ngFor="let service of services">
+          <div
+            class="w-64 h-80 max-w-xs overflow-hidden rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out"
+          >
+            <img
+              [src]="service.images[0]"
+              alt="{{ service.categoryInfo.categoryName }}"
+              class="w-full h-40 object-cover rounded-t-lg"
+            />
+            <div class="p-4">
+              <h6 class="text-xl font-semibold">
+                {{ service.categoryInfo.categoryName }}
+              </h6>
+              <p class="text-gray-700">
+                {{ +service.amount | currency : "INR" }}
+              </p>
+              <div class="flex justify-between items-end mt-4">
+                <button
+                  class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 focus:outline-none"
+                  (click)="serviceDetails(service._id)"
+                >
+                  View Details
+                </button>
+                <button
+                  class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 focus:outline-none"
+                >
+                  Book Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-
+<app-footer></app-footer>

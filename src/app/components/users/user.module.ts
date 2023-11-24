@@ -3,7 +3,6 @@ import { AsyncPipe, CommonModule, NgFor } from '@angular/common';
 import { UserRoutingModule } from './user-routing.module';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
-import { HomeComponent } from './home/home.component';
 import { OtpVerificationComponent } from './otp-verification/otp-verification.component';
 import { ServicerDetailsComponent } from './servicer-details/servicer-details.component';
 import { ServicesListComponent } from './services-list/services-list.component';
@@ -45,7 +44,6 @@ import { OpenAiComponent } from './open-ai/open-ai.component';
   declarations: [
     LoginComponent,
     SignupComponent,
-    HomeComponent,
     OtpVerificationComponent,
     ServicerDetailsComponent,
     ServicesListComponent,
@@ -60,7 +58,7 @@ import { OpenAiComponent } from './open-ai/open-ai.component';
     ChatComponent,
     HomepageComponent,
     AboutComponent,
-    OpenAiComponent
+    OpenAiComponent,
   ],
   imports: [
     CommonModule,

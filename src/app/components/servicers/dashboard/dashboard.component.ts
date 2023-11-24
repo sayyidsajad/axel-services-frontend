@@ -40,13 +40,10 @@ export class DashboardComponent {
         next: (res) => {
           this.monthlyEarning = res.monthlyEarning[0].totalEarnings
           this.currentYearEarning = res.currentYearEarning
-          console.log(res);
-
           const documentStyles = getComputedStyle(document.documentElement);
           const textColors = documentStyles.getPropertyValue('--text-color');
           const textColorSecondarys = documentStyles.getPropertyValue('--text-color-secondary');
           const surfaceBorders = documentStyles.getPropertyValue('--surface-border');
-
           this.datas = {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             datasets: [
@@ -144,7 +141,7 @@ export class DashboardComponent {
     })
   );
 
-  constructor(private _toastr: ToastrService, private _servicerServices: ServicerService) { }
+  constructor(private _servicerServices: ServicerService) { }
 
 }
 

@@ -43,7 +43,7 @@ export class OtpVerificationComponent implements OnInit {
   sendMail(email: string) {
     this.subscribe.add(this._userServices.sendMail(email).subscribe({
       next: (res) => {
-        this.otp = res.otp
+        this.otp = +res.otp
         this.token = res.access_token.toString()
       }
     }))

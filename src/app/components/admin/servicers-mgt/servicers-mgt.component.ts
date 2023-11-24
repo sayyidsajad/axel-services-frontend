@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { AdminService } from 'src/app/services/admin/admin.service';
+import { IServicer } from './types/servicers-types';
 
 @Component({
   selector: 'app-servicers-mgt',
@@ -14,7 +15,7 @@ import { AdminService } from 'src/app/services/admin/admin.service';
 export class ServicersMgtComponent {
   displayedColumns: string[] = ['id', 'servicename', 'email', 'block', 'actions'];
   private subscribe: Subscription = new Subscription()
-  dataSource: MatTableDataSource<any>;
+  dataSource: MatTableDataSource<IServicer>;
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)

@@ -12,21 +12,11 @@ import { environment } from 'src/environments/environment.development';
 })
 export class HeaderComponent {
   message!: string
-  private subscribe: Subscription = new Subscription()
 
-  constructor(private _servicerServices: ServicerService, private _router: Router, private _toastr: ToastrService) { }
+  constructor(private _router: Router) { }
 
   logOut() {
-    this.subscribe.add(
-      this._servicerServices.logOut().subscribe({
-        next: () => {
-          localStorage.removeItem(environment.servicerSecret)
-          this._router.navigate(['servicer'])
-        }
-      }))
-  }
-
-  ngOnDestroy(): void {
-    this.subscribe.unsubscribe()
+    localStorage.removeItem(environment.servicerSecret)
+    this._router.navigate(['servicer'])
   }
 }

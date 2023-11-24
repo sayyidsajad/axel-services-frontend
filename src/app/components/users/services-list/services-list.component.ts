@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { UsersService } from 'src/app/services/users/users.service';
-import { serviceData } from '../home/types/user.types';
+import { serviceData } from '../homepage/types/user.types';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
@@ -40,7 +40,7 @@ export class ServicesListComponent {
       service.serviceName.toLowerCase().includes(searchTerm)
     );
   }
-  serviceDetails(id: any) {
+  serviceDetails(id: string) {
     this.router.navigate(['/servicerDetails', id])
   }
 

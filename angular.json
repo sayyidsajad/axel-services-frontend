@@ -13,6 +13,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "apexcharts",
+              "sweetalert2"
+           ],
             "outputPath": "dist/axel-services",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -26,6 +30,7 @@
             ],
             "styles": [
               "src/custom-theme.scss",
+              "node_modules/ngx-spinner/animations/ball-scale-ripple-multiple.css",
               "node_modules/minireset.css/minireset.css",
               "src/styles.css",
               "node_modules/igniteui-angular/styles/igniteui-angular.css"
@@ -103,7 +108,6 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/ngx-spinner/animations/ball-scale-multiple.css",
               "node_modules/@nebular/theme/styles/prebuilt/default.css",
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",

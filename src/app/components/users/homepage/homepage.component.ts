@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { serviceData } from '../home/types/user.types';
+import { serviceData } from './types/user.types';
 import { UsersService } from 'src/app/services/users/users.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { AdminService } from 'src/app/services/admin/admin.service';
 
 @Component({
   selector: 'app-homepage',
@@ -12,26 +13,35 @@ import { ToastrService } from 'ngx-toastr';
 })
 
 export class HomepageComponent {
-  constructor(private userServices: UsersService, private router: Router, private _toastr: ToastrService) { }
+  constructor(private _userServices: UsersService, private _router: Router, private _toastr: ToastrService) { }
   services!: Array<serviceData>;
+  banners!: Array<any>
   private subscribe: Subscription = new Subscription()
 
   ngOnInit(): void {
+    this.bannerLists()
     this.servicesList();
   }
+  bannerLists() {
+    this._userServices.listBanners().subscribe({
+      next: (res) => {
+        this.banners = res.banners
+      }
+    });
 
+  }
   servicesList() {
     this.subscribe.add(
-      this.userServices.servicerList().subscribe({
+      this._userServices.servicerList().subscribe({
         next:
           (res) => {
-            this.services = res.servicesFind;
+            this.services = res.servicesFind;            
           }
       }))
   }
 
-  serviceDetails(id: any) {
-    this.router.navigate(['/servicerDetails', id])
+  serviceDetails(id: string) {
+    this._router.navigate(['/servicerDetails', id])
   }
 
   ngOnDestroy(): void {

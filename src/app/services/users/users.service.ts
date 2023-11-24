@@ -2,6 +2,8 @@ import { SocialUser } from '@abacritt/angularx-social-login';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { IBookNowResponse, IBookingsListResponse, IGoogleLoginResponse, ILoginResponse, IOtpVerificationResponse, IServicerDetailsResponse, IServicerListResponse, ISignUpResponse, IUserInboxResponse, IVerifyPaymentResponse, IUserProfileResponse, IGetRecentChatsResponse, IReview } from './types/user-types';
+
 const httpOptions = {
   headers: new HttpHeaders({
     'content-Type': 'application/json',
@@ -12,67 +14,67 @@ const httpOptions = {
 export class UsersService {
   constructor(private _http: HttpClient) { }
 
-  userRegister(name: string, email: string, phone: number, password: string, confirmPassword: string): Observable<any> {
-    return this._http.post('signup', { name, email, phone, password, confirmPassword }, httpOptions)
+  userRegister(name: string, email: string, phone: number, password: string, confirmPassword: string): Observable<ISignUpResponse> {
+    return this._http.post<ISignUpResponse>('signup', { name, email, phone, password, confirmPassword }, httpOptions)
   }
-  userLogin(user: object): Observable<any> {
-    return this._http.post('', user, httpOptions)
+  userLogin(user: object): Observable<ILoginResponse> {
+    return this._http.post<ILoginResponse>('', user, httpOptions)
   }
-  userGoogleLogin(socialUser: SocialUser): Observable<any> {
-    return this._http.post('googleLogin', socialUser, httpOptions)
+  userGoogleLogin(socialUser: SocialUser): Observable<IGoogleLoginResponse> {
+    return this._http.post<IGoogleLoginResponse>('googleLogin', socialUser, httpOptions)
   }
-  servicerList(): Observable<any> {
-    return this._http.get('servicerList', httpOptions)
+  servicerList(): Observable<IServicerListResponse> {
+    return this._http.get<IServicerListResponse>('servicerList', httpOptions)
   }
-  sendMail(email: string): Observable<any> {
-    return this._http.get(`otpVerification?email=${email}`, httpOptions)
+  sendMail(email: string): Observable<IOtpVerificationResponse> {
+    return this._http.get<IOtpVerificationResponse>(`otpVerification?email=${email}`, httpOptions)
   }
-  loadHome(email: string): Observable<any> {
-    return this._http.patch('home', { email }, httpOptions)
+  loadHome(email: string): Observable<void> {
+    return this._http.patch<void>('home', { email }, httpOptions)
   }
-  servicerDetails(id: string): Observable<any> {
-    return this._http.get(`servicerDetails?id=${id}`, httpOptions)
+  servicerDetails(id: string): Observable<IServicerDetailsResponse> {
+    return this._http.get<IServicerDetailsResponse>(`servicerDetails?id=${id}`, httpOptions)
   }
-  bookNow(id: string, date: Date, time: string, walletChecked?: number) {
-    return this._http.post(`bookNow`, { id, date, time, walletChecked }, httpOptions)
+  bookNow(id: string, date: Date, time: string, walletChecked?: number): Observable<IBookNowResponse> {
+    return this._http.post<IBookNowResponse>(`bookNow`, { id, date, time, walletChecked }, httpOptions)
   }
-  logOut(): Observable<any> {
-    return this._http.get('logout', httpOptions)
+  bookingsList(): Observable<IBookingsListResponse> {
+    return this._http.get<IBookingsListResponse>('bookingsList', httpOptions)
   }
-  bookingsList(): Observable<any> {
-    return this._http.get('bookingsList', httpOptions)
+  cancel(id: string, amount: string): Observable<void> {
+    return this._http.patch<void>('cancelBooked', { id, amount }, httpOptions)
   }
-  cancel(id: string, amount: string): Observable<any> {
-    return this._http.patch('cancelBooked', { id, amount }, httpOptions)
+  userInbox(): Observable<IUserInboxResponse> {
+    return this._http.get<IUserInboxResponse>('userInbox', httpOptions)
   }
-  userInbox(): Observable<any> {
-    return this._http.get('userInbox', httpOptions)
+  clearAll(): Observable<void> {
+    return this._http.get<void>('clearAll', httpOptions)
   }
-  clearAll(): Observable<any> {
-    return this._http.get('clearAll', httpOptions)
+  verifyPayment(res: object, inserted: object): Observable<IVerifyPaymentResponse> {
+    return this._http.post<IVerifyPaymentResponse>('verifyPayment', { res, inserted }, httpOptions)
   }
-  verifyPayment(res: object, inserted: object): Observable<any> {
-    return this._http.post('verifyPayment', { res, inserted }, httpOptions)
+  userProfile(): Observable<IUserProfileResponse> {
+    return this._http.get<IUserProfileResponse>('userProfile', httpOptions)
   }
-  userProfile(): Observable<any> {
-    return this._http.get('userProfile', httpOptions)
+  forgotPassword(email: string): Observable<void> {
+    return this._http.post<void>('forgotPassword', { email }, httpOptions)
   }
-  forgotPassword(email: string): Observable<any> {
-    return this._http.post('forgotPassword', { email }, httpOptions)
-  }
-  verifyConfirmPassword(id: string, newPassword: string, newConfirmPassword: string): Observable<any> {
-    return this._http.post(`verifyConfirmPassword?id=${id}`, { newPassword, newConfirmPassword }, httpOptions)
+  verifyConfirmPassword(id: string, newPassword: string, newConfirmPassword: string): Observable<void> {
+    return this._http.post<void>(`verifyConfirmPassword?id=${id}`, { newPassword, newConfirmPassword }, httpOptions)
   }
   getRecentChats(id: string): Observable<any> {
-    return this._http.get(`getRecentChats?id=${id}`, httpOptions)
+    return this._http.get<any>(`getRecentChats?id=${id}`, httpOptions)
   }
-  userEnquiry(firstName: string, lastName: string, email: string, message: string): Observable<any> {
-    return this._http.post('userEnquiry', { firstName, lastName, email, message }, httpOptions)
+  userEnquiry(firstName: string, lastName: string, email: string, message: string): Observable<void> {
+    return this._http.post<void>('userEnquiry', { firstName, lastName, email, message }, httpOptions)
   }
-  review(servicerId: string, userId: string, message: string): Observable<any> {
-    return this._http.post('review', { servicerId, userId, message }, httpOptions)
+  review(servicerId: string, userId: string, message: string): Observable<void> {
+    return this._http.post<void>('review', { servicerId, userId, message }, httpOptions)
   }
-  reviewsList(servicerId: string): Observable<any> {
-    return this._http.get(`reviewsList?id=${servicerId}`, httpOptions)
+  reviewsList(servicerId: string): Observable<IReview[]> {
+    return this._http.get<IReview[]>(`reviewsList?id=${servicerId}`, httpOptions)
+  }
+  listBanners(): Observable<any> {
+    return this._http.get<any>('listBanners', httpOptions)
   }
 }

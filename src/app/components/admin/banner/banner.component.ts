@@ -41,9 +41,12 @@ export class BannerComponent {
     this.dataSource = new MatTableDataSource();
     this.listBanners()
   }
-  onFileChange(event: any): void {
-    this.docs = <File[]>event.target.files;
-    this.length = this.docs.length;
+  onFileChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement && inputElement.files) {
+      this.docs = Array.from(inputElement.files);
+      this.length = this.docs.length;
+    }
   }
   bannerSubmit() {
     if (this.bannerForm.valid) {
@@ -54,7 +57,7 @@ export class BannerComponent {
         data.append('images', this.docs[i], this.docs[i].name);
       }
       this.subscribe.add(this._adminServices.createBanner(data).subscribe({
-        next:()=>{
+        next: () => {
           this.bannerForm.reset()
           this.listBanners()
         },
@@ -69,7 +72,7 @@ export class BannerComponent {
   listBanners() {
     this.subscribe.add(this._adminServices.listBanners().subscribe({
       next: (res) => {
-        this.dataSource = res.banners        
+        this.dataSource = res.banners
       }
     }))
   }

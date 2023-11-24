@@ -6,3 +6,13 @@ export interface ChatData {
     serviceName: string
     companyName: string
 }
+export interface Data {
+    _id: string;
+    users: string[];
+    userRead: boolean;
+    professionalRead: boolean;
+    messages: [];
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+  }

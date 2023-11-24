@@ -12,7 +12,7 @@ const httpOptions = {
 export class OpenAiService {
 
   constructor(private _http: HttpClient) { }
-  sendMessage(message: string): Observable<any> {
-    return this._http.post('open-ai/chat', { message }, httpOptions)
+  sendMessage(message: string): Observable<{ reply: string }> {
+    return this._http.post<{ reply: string }>('open-ai/chat', { message }, httpOptions)
   }
 }

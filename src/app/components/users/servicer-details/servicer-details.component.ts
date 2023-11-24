@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { UsersService } from 'src/app/services/users/users.service';
-import { serviceData } from '../home/types/user.types';
+import { serviceData } from '../homepage/types/user.types';
 import { Subscription } from 'rxjs';
 import { PickerInteractionMode } from 'igniteui-angular';
 import { ToastrService } from 'ngx-toastr';
@@ -42,8 +42,10 @@ export class ServicerDetailsComponent {
   servicerDetails() {
     this.subscribe.add(this._userServices.servicerDetails(this.id).subscribe({
       next: (res) => {
+        console.log(res);
+
         this.service = res.servicesFind;
-        this.wallet = res.wallet
+        this.wallet = res.wallet || 0
         this.images = this.service.images.map(
           (item: any) => new ImageItem({ src: item, thumb: item })
         );
@@ -75,7 +77,7 @@ export class ServicerDetailsComponent {
     const RazorpayOptions = {
       description: 'Sample Razorpay Demo',
       currency: 'INR',
-      amount: reducedAmt * 100,
+      amount: +reducedAmt * 100,
       name: 'Axel Services',
       key: environment.razorKey,
       handler: (res: any) => {
@@ -115,11 +117,10 @@ export class ServicerDetailsComponent {
         }
       })
   }
-  reviewsList(){
+  reviewsList() {
     this.subscribe.add(this._userServices.reviewsList(this.id).subscribe({
       next: (res) => {
         console.log(res);
-        
       }
     }))
   }

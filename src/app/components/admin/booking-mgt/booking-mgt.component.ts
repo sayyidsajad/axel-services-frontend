@@ -17,7 +17,6 @@ import Swal from 'sweetalert2';
 export class BookingMgtComponent {
   @ViewChild('callAPIDialog')
   callAPIDialog!: TemplateRef<any>;
-  bookings!: Array<any>;
   dialogForm!: FormGroup
   private subscribe: Subscription = new Subscription()
   displayedColumns: string[] = ['id', 'companyname', 'email', 'phone', 'actions'];
@@ -78,7 +77,7 @@ export class BookingMgtComponent {
     }))
   }
 
-  cancelBooking(textArea: any, bookingId: any, userId: any) {
+  cancelBooking(textArea: string, bookingId: string, userId: string) {    
     this.subscribe.add(this._adminServices.cancelBooking(textArea, bookingId, userId).subscribe({
       next: () => {
         this.listBookings()
