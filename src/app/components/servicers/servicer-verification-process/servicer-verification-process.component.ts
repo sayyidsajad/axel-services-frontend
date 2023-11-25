@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment.development';
 import { Space, WhiteSpace } from '../../validators/custom-validators';
@@ -23,7 +23,7 @@ interface AddressNameFormat {
   styleUrls: ['./servicer-verification-process.component.css']
 })
 export class ServicerVerificationProcessComponent {
-  selectedImage: SafeUrl | null = null;  docs: File[] = [];
+  selectedImage: SafeUrl | null = null; docs: File[] = [];
   length!: number;
   selectedFile!: File
   submit: boolean = false
@@ -33,7 +33,8 @@ export class ServicerVerificationProcessComponent {
   id!: string
   categories!: Array<categoryData>;
   private subscribe: Subscription = new Subscription()
-  constructor(private _sanitizer: DomSanitizer,private _fb: FormBuilder, private _servicerServices: ServicerService, private _router: Router, private _route: ActivatedRoute, private _toastr: ToastrService) { }
+  additionalServices: any;
+  constructor(private _sanitizer: DomSanitizer, private _fb: FormBuilder, private _servicerServices: ServicerService, private _router: Router, private _route: ActivatedRoute, private _toastr: ToastrService) { }
   ngOnInit(): void {
     this.subscribe.add(this._route.queryParams
       .subscribe({
@@ -48,6 +49,9 @@ export class ServicerVerificationProcessComponent {
       amount: ['', [Validators.required,
       Validators.pattern(/^[0-9]+$/),
       Space.noSpaceAllowed]],
+      additionalServices: this._fb.array([
+        this._fb.control('')
+      ]),
       img: ['', Validators.required],
     })
     this.secondFormGroup = this._fb.group({
@@ -175,7 +179,8 @@ export class ServicerVerificationProcessComponent {
   }
   onFileSelected(event: any) {
     this.selectedFile = <File>event.target.files[0]
-    this.selectedImage = this._sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(this.selectedFile));  }
+    this.selectedImage = this._sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(this.selectedFile));
+  }
   categoriesList() {
     this.subscribe.add(
       this._servicerServices.categoriesList().subscribe({
@@ -188,6 +193,13 @@ export class ServicerVerificationProcessComponent {
     this.docs = <File[]>event.target.files;
     this.length = this.docs.length;
   }
+  get aliases() {
+    return this.firstFormGroup.get('additionalServices') as FormArray;
+  }
+  addAlias() {
+    this.aliases.push(this._fb.control(''));
+  }
+
   verifyService() {
     const data = new FormData()
     data.append('serviceName', this.firstFormGroup?.get('serviceName')?.value);
