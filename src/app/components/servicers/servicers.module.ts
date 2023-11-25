@@ -35,7 +35,7 @@ import { ChatComponent } from './chat/chat.component';
 import { ServicerVerificationProcessComponent } from './servicer-verification-process/servicer-verification-process.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { AdditionalServicesComponent } from './additional-services/additional-services.component';
-
+import { CategoryMgtComponent } from '../admin/category-mgt/category-mgt.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +51,7 @@ import { AdditionalServicesComponent } from './additional-services/additional-se
     ServicerBookingsComponent,
     ChatComponent,
     ServicerVerificationProcessComponent,
-    AdditionalServicesComponent
+    AdditionalServicesComponent,
   ],
   imports: [
     CommonModule,
@@ -74,8 +74,8 @@ import { AdditionalServicesComponent } from './additional-services/additional-se
     MatCheckboxModule,
     MatListModule,
     MatInputModule,
-    ChartModule,
     MatStepperModule,
+    ChartModule,
     FormsModule,
   ],
   providers: [ServicerService,

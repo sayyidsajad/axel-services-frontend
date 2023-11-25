@@ -2,12 +2,13 @@ import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ServicerService } from 'src/app/services/servicers/servicer.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
+import { MatDialog } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-additional-services',
@@ -16,20 +17,20 @@ import Swal from 'sweetalert2';
 })
 
 export class AdditionalServicesComponent {
-  displayedColumns: string[] = ['image', 'id', 'service', 'description', 'amount', 'list', 'action'];
+  @ViewChild('callAPIDialog')
+  callAPIDialog!: TemplateRef<any>;
+  dialogForm!: FormGroup
   private subscribe: Subscription = new Subscription()
   dataSource: MatTableDataSource<any>;
-  callAPIDialog!: TemplateRef<any>;
-  additionalServices!: FormGroup
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
-  @ViewChild('callAPIDialog')
-  dialogForm!: FormGroup
+  displayedColumns: string[] = ['image', 'id', 'service', 'description', 'amount', 'list', 'action'];
   categoryName!: string;
   description!: string;
   selectedFile!: File
+  additionalServices!:FormGroup
 
   constructor(private _servicerServices: ServicerService, private _fb: FormBuilder, public _dialog: MatDialog, private _toastr: ToastrService) {
     this.dataSource = new MatTableDataSource();
@@ -79,8 +80,8 @@ export class AdditionalServicesComponent {
       }
     }))
   }
-  editCategory(id: string, service: string, description: string, amount: string) {
-    const dialogRef = this._dialog.open(this.callAPIDialog);
+  editCategory(id: string, service: string, description: string, amount: string) {    
+    const dialogRef = this._dialog.open(this.callAPIDialog);        
     this.dialogForm = this._fb.group({
       service: [service, Validators.required],
       description: [description, Validators.required],
