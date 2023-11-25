@@ -34,6 +34,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ChatComponent } from './chat/chat.component';
 import { ServicerVerificationProcessComponent } from './servicer-verification-process/servicer-verification-process.component';
 import { MatStepperModule } from '@angular/material/stepper';
+import { AdditionalServicesComponent } from './additional-services/additional-services.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { MatStepperModule } from '@angular/material/stepper';
     DashboardComponent,
     ServicerBookingsComponent,
     ChatComponent,
-    ServicerVerificationProcessComponent
+    ServicerVerificationProcessComponent,
+    AdditionalServicesComponent
   ],
   imports: [
     CommonModule,

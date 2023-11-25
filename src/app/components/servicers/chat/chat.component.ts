@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { MessagingService } from 'src/app/services/messaging/messaging.service';
 import { ChatData } from './types/chat.types';
 import { ServicerService } from 'src/app/services/servicers/servicer.service';
 import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-chat',
@@ -31,6 +31,8 @@ export class ChatComponent {
   recentUsersList() {
     this.subscribe.add(this._servicerServices.getRecentUsers().subscribe((res) => {
       this.usersList = res.message
+      console.log(this.usersList);
+      
     }))
   }
 

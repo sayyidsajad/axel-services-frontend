@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment.development';
 import { Space, WhiteSpace } from '../../validators/custom-validators';
 import { ServicerService } from 'src/app/services/servicers/servicer.service';
@@ -8,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { categoryData } from '../../admin/category-mgt/types/categories.types';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 interface AddressNameFormat {
   street_number: string;
@@ -33,12 +33,11 @@ export class ServicerVerificationProcessComponent {
   id!: string
   categories!: Array<categoryData>;
   private subscribe: Subscription = new Subscription()
-  additionalServices: any;
-  constructor(private _sanitizer: DomSanitizer, private _fb: FormBuilder, private _servicerServices: ServicerService, private _router: Router, private _route: ActivatedRoute, private _toastr: ToastrService) { }
+  constructor(private _sanitizer: DomSanitizer, private _fb: FormBuilder, private _servicerServices: ServicerService, private _router: Router, private _route: ActivatedRoute, private _toastr:ToastrService) { }
   ngOnInit(): void {
     this.subscribe.add(this._route.queryParams
       .subscribe({
-        next: (params) => {
+        next: (params:any) => {
           this.id = params['id']
         }
       }))
@@ -49,9 +48,6 @@ export class ServicerVerificationProcessComponent {
       amount: ['', [Validators.required,
       Validators.pattern(/^[0-9]+$/),
       Space.noSpaceAllowed]],
-      additionalServices: this._fb.array([
-        this._fb.control('')
-      ]),
       img: ['', Validators.required],
     })
     this.secondFormGroup = this._fb.group({
@@ -193,13 +189,6 @@ export class ServicerVerificationProcessComponent {
     this.docs = <File[]>event.target.files;
     this.length = this.docs.length;
   }
-  get aliases() {
-    return this.firstFormGroup.get('additionalServices') as FormArray;
-  }
-  addAlias() {
-    this.aliases.push(this._fb.control(''));
-  }
-
   verifyService() {
     const data = new FormData()
     data.append('serviceName', this.firstFormGroup?.get('serviceName')?.value);

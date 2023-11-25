@@ -50,4 +50,16 @@ export class ServicerService {
   dashboardReports(): Observable<any> {
     return this._http.get('servicer/dashboardReports', httpOptions)
   }
+  additionalServices(): Observable<any> {
+    return this._http.get('servicer/additionalList', httpOptions)
+  }
+  createService(data: FormData): Observable<any> {
+    return this._http.post('servicer/createService', data)
+  }
+  updateService(): Observable<any> {
+    return this._http.patch('servicer/updateService', httpOptions)
+  }
+  listUnlist(id: string): Observable<any> {
+    return this._http.patch('servicer/listUnlist', {id}, httpOptions)
+  }
 }

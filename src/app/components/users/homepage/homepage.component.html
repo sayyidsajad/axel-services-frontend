@@ -220,10 +220,11 @@
               </p>
               <div class="flex justify-between items-end mt-4">
                 <button
-                  class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 focus:outline-none"
-                >
-                  View Details
-                </button>
+                class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 focus:outline-none"
+                (click)="serviceDetails(service._id)"
+              >
+                View Details
+              </button>
                 <button
                   class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 focus:outline-none"
                 >

@@ -23,6 +23,8 @@ export class BookingsComponent {
     this.subscribe.add(this._servicerServices.listBookings().subscribe({
       next: (res) => {
         this.bookings = res.bookings
+        console.log(this.bookings);
+        
       }
     }))
   }
