@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ServicersLoginComponent } from './servicers-login/servicers-login.component';
 import { ServicersSignupComponent } from './servicers-signup/servicers-signup.component';
-import { ServicerProceduresComponent } from './servicer-procedures/servicer-procedures.component';
 import { ServicerGuardIn, ServicerGuardConfig, ServicerGuardOut } from 'src/app/guards/servicer/servicer.guard';
 import { ServicerApprovalComponent } from './servicer-approval/servicer-approval.component';
 import { ServicersOtpVerificationComponent } from './servicers-otp-verification/servicers-otp-verification.component';

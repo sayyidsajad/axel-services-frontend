@@ -4,7 +4,6 @@ import { ServicersLoginComponent } from './servicers-login/servicers-login.compo
 import { ServicersSignupComponent } from './servicers-signup/servicers-signup.component';
 import { UserRoutingModule } from './servicers-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ServicerProceduresComponent } from './servicer-procedures/servicer-procedures.component';
 import { ServicerApprovalComponent } from './servicer-approval/servicer-approval.component';
 import { ServicersOtpVerificationComponent } from './servicers-otp-verification/servicers-otp-verification.component';
 import { HeaderComponent } from './header/header.component';
@@ -35,13 +34,11 @@ import { ChatComponent } from './chat/chat.component';
 import { ServicerVerificationProcessComponent } from './servicer-verification-process/servicer-verification-process.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { AdditionalServicesComponent } from './additional-services/additional-services.component';
-import { CategoryMgtComponent } from '../admin/category-mgt/category-mgt.component';
 
 @NgModule({
   declarations: [
     ServicersSignupComponent,
     ServicersLoginComponent,
-    ServicerProceduresComponent,
     ServicerApprovalComponent,
     ServicersOtpVerificationComponent,
     HeaderComponent,

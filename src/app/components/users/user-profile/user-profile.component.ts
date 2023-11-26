@@ -10,6 +10,7 @@ import { UsersService } from 'src/app/services/users/users.service';
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent {
+  selectedFile!: File
   private subscribe: Subscription = new Subscription()
   userDetails!: IUserProfile
   ngOnInit(): void {
@@ -26,7 +27,17 @@ export class UserProfileComponent {
         }
     }))
   }
-
+  changeProfile(event: any) {
+    this.selectedFile = <File>event.target.files[0]
+      const data = new FormData()
+      data.append('img', this.selectedFile, this.selectedFile.name);
+      this.subscribe.add(this._userServices.profilePicture(data).subscribe({
+        next: () => {
+          this.getUser()
+        }
+      }))
+  }
+ 
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

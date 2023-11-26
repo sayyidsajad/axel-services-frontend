@@ -1,111 +1,137 @@
 <app-users></app-users>
 <main class="my-8">
   <div class="container mx-auto px-6">
-      <div class="md:flex md:items-center">
-          <div class="w-full h-64 md:w-1/2 lg:h-96">
-            <gallery gallerize [items]="images"></gallery> 
-          </div>
-          <div class="w-full max-w-lg mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2">
-              <h3 class="text-gray-700 uppercase text-lg">{{ service.serviceName }}</h3>
-              <p class="text-gray-700 uppercase text-lg">{{ service.description }}</p>
-              <span class="text-gray-500 mt-3">{{ +service.amount | currency : "INR" }}</span>
-              <hr class="my-3">
-              <div class="mt-2">
-                  <div class="flex items-center mt-1">
-                    <button
-                    data-modal-target="staticModal"
-                    data-modal-toggle="staticModal"
-                    class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    type="button"
-                  >
-                    Book Now
-                  </button>
-                      <button
-                      [routerLink]="'/chat'"
-                      [queryParams]="{ id: service._id }"
-                      data-modal-target="staticModal"
-                      data-modal-toggle="staticModal"
-                      class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                      type="button"
-                    >
-                      Chat
-                    </button>
-                  </div>
-              </div>
-          </div>
+    <div class="md:flex md:items-center">
+      <div class="w-full md:w-1/2 lg:h-96 md:order-2">
+        <gallery
+          gallerize
+          [items]="images"
+          class="w-full h-full object-cover rounded-lg shadow-md"
+        ></gallery>
       </div>
-
+      <div class="w-full max-w-lg mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2">
+        <h1 class="text-3xl font-extrabold text-gray-800 mb-2">
+          {{ service?.serviceName }}
+        </h1>
+        <p class="text-gray-600 text-lg mb-4">
+          Description:{{ service?.description }}
+        </p>
+        <span class="text-gray-700 text-xl font-bold block">{{
+          +service?.amount | currency : "INR"
+        }}</span>
+        <div *ngIf="item.length">
+          <h5>Add-ons</h5>
+          <cdk-accordion class="example-accordion">
+            <cdk-accordion-item
+              *ngFor="let service of item; let index = index"
+              #accordionItem="cdkAccordionItem"
+              class="example-accordion-item"
+              role="button"
+              tabindex="0"
+              [attr.id]="'accordion-header-' + index"
+              [attr.aria-expanded]="accordionItem.expanded"
+              [attr.aria-controls]="'accordion-body-' + index"
+            >
+              <div class="example-accordion-item-header">
+                <input
+                  type="checkbox"
+                  [(ngModel)]="service.selected"
+                  class="mr-2"
+                  (change)="handleCheckboxChange(service)"
+                />
+                <img
+                  [src]="service?.image"
+                  alt="{{ service?.service }}"
+                  class="mr-2"
+                  style="max-height: 24px"
+                />
+                {{ service?.service }}
+                <span
+                  class="example-accordion-item-description"
+                  (click)="accordionItem.toggle()"
+                >
+                  {{
+                    accordionItem.expanded ? "close details" : "show details"
+                  }}
+                </span>
+              </div>
+              <div
+                class="example-accordion-item-body"
+                role="region"
+                [style.display]="accordionItem.expanded ? '' : 'none'"
+                [attr.id]="'accordion-body-' + index"
+                [attr.aria-labelledby]="'accordion-header-' + index"
+              >
+                <p>{{ service?.description }}</p>
+                <p>Amount: {{ service?.amount | currency : "INR" }}</p>
+              </div>
+            </cdk-accordion-item>
+          </cdk-accordion>
+          <div>Total Amount: {{ totalAmount | currency : "INR" }}</div>
+        </div>
+        <hr class="my-4 border-t-2 border-gray-200" />
+        <div class="mt-4">
+          <div class="flex space-x-4">
+            <button
+              data-modal-target="staticModal"
+              data-modal-toggle="staticModal"
+              class="block w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              type="button"
+            >
+              Book Now
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </main>
-<section class="bg-white dark:bg-gray-900 py-8 lg:py-16 antialiased flex">
-  <!-- Discussion Section (Left Side) -->
-  <div class="max-w-2xl mx-auto px-4 flex flex-col items-start w-2/3">
-    <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white mb-4">Discussion (20)</h2>
 
-    <form class="mb-4 w-full max-w-xl">
-      <!-- Comment Form -->
-      <div class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-        <label for="comment" class="sr-only">Your comment</label>
-        <textarea id="comment" rows="6" class="w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800" placeholder="Write a comment..." required></textarea>
-      </div>
-      <button type="submit" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">Post comment</button>
-    </form>
-
-    <!-- Virtual Scroll for Comments -->
-    <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="example-viewport">
-      <div *cdkVirtualFor="let item of items" class="example-item">
-        <!-- Comment Section -->
-        <article class="p-6 text-base bg-white border-t border-gray-200 dark:border-gray-700 dark:bg-gray-900 w-full max-w-xl h-96 overflow-y-auto">
-          <!-- Comment Header -->
-          <footer class="flex justify-between items-center mb-2">
-            <!-- Commenter Info -->
-            <div class="flex items-center">
-              <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
-                <img class="mr-2 w-6 h-6 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-4.jpg" alt="Helene Engels" />
-                Helene Engels
-              </p>
-              <p class="text-sm text-gray-600 dark:text-gray-400">
-                <time pubdate datetime="2022-06-23" title="June 23rd, 2022">Jun. 23, 2022</time>
-              </p>
+<div class="container mx-auto px-6 mt-8">
+  <mat-tab-group class="bg-white shadow-md rounded-lg mt-4">
+    <mat-tab label="Reviews">
+      <div class="p-4 flex justify-center items-center overflow-x-hidden overflow-y-auto scrollbar-hide">
+        <div class="max-w-6xl mx-auto">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div *ngFor="let review of reviews" class="flex justify-center items-center">
+              <div class="bg-white p-6 rounded-md shadow-md mb-4 hover:shadow-lg transition-transform transform hover:scale-105 h-full">
+                <div class="flex items-center mb-4">
+                  <div class="flex-shrink-0">
+                    <img class="h-16 w-16 md:h-20 md:w-20 rounded-full" src="{{ review.user.avatar }}" alt="User Avatar">
+                  </div>
+                  <div class="ml-4">
+                    <p class="text-indigo-600 text-lg font-semibold">{{ review.user.name }}</p>
+                    <div class="flex items-center mt-1">
+                      <span class="text-gray-700 text-xs md:text-sm">Rating:</span>
+                      <div class="ml-1 text-yellow-500">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p class="text-gray-600 text-sm">
+                  "{{ review.review }}"
+                </p>
+              </div>
             </div>
-            <!-- Comment Options Dropdown -->
-            <button id="dropdownComment4Button" data-dropdown-toggle="dropdownComment4" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-40 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
-              <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
-                <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
-              </svg>
-            </button>
-            <!-- Dropdown menu for Comment -->
-            <div id="dropdownComment4" class="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-              <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton">
-                <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a></li>
-                <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Remove</a></li>
-                <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a></li>
-              </ul>
-            </div>
-          </footer>
-          <!-- Comment Content -->
-          <p class="text-gray-500 dark:text-gray-400">
-            Thanks for sharing this. I do came from the Backend development and explored some of the tools to design my Side Projects.
-          </p>
-          <!-- Comment Actions -->
-          <div class="flex items-center mt-4 space-x-4">
-            <button type="button" class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium">
-              <svg class="mr-1.5 w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5h5M5 8h2m6-3h2m-5 3h6m2-7H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3v5l5-5h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z" />
-              </svg>
-              Reply
-            </button>
           </div>
-        </article>
+        </div>
       </div>
-    </cdk-virtual-scroll-viewport>
-  </div>
+    </mat-tab>
+    
 
-  <!-- Reviews Section (Right Side) -->
-  <div class="w-1/3">
-    <!-- Add your reviews content here -->
-  </div>
-</section>
+    <mat-tab label="Location">
+      <div class="p-4">
+        <div id="map" class="h-96 rounded-md shadow-md"></div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
 
 
 <div
@@ -224,8 +250,8 @@
           <p>
             Time: {{ secondFormGroup.get("time")?.value | date : "h:mm a" }}
           </p>
-          <p>Service Name: {{ service.serviceName }}</p>
-          <p>Amount: {{ +service.amount | currency : "INR" }}</p>
+          <p>Service Name: {{ service?.serviceName }}</p>
+          <p>Amount: {{ +totalAmount | currency : "INR" }}</p>
           <form *ngIf="wallet > 0" [formGroup]="thirdFormGroup">
             <label for="Wallet"
               >Wallet Balance: {{ wallet | currency : "INR" }}</label

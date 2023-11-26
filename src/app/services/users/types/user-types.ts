@@ -61,6 +61,7 @@ export interface IUserInboxResponse {
     message: string;
   }
  export interface IUserProfile {
+image: any
     _id: string;
     name: string;
     email: string;

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { UsersService } from 'src/app/services/users/users.service';
-import { serviceData } from '../homepage/types/user.types';
 import { Subscription } from 'rxjs';
 import { PickerInteractionMode } from 'igniteui-angular';
 import { ToastrService } from 'ngx-toastr';
@@ -15,6 +14,10 @@ declare var Razorpay: any
   styleUrls: ['./servicer-details.component.css']
 })
 export class ServicerDetailsComponent {
+  map: google.maps.Map | undefined;
+  item: any[] = [];
+  reviews!: Array<any>
+  expandedIndex = 0;
   items = Array.from({ length: 30 }).map((_, i) => `Item #${i}`);
   id!: any
   wallet!: number
@@ -24,6 +27,7 @@ export class ServicerDetailsComponent {
   public date: Date = new Date();
   public mode: PickerInteractionMode = PickerInteractionMode.DropDown;
   public format = 'hh:mm tt';
+  totalAmount!: number;
   constructor(private _userServices: UsersService, private _route: ActivatedRoute, private _fb: FormBuilder, private _router: Router, private _toastr: ToastrService) { }
   firstFormGroup!: FormGroup;
   secondFormGroup!: FormGroup;
@@ -34,17 +38,76 @@ export class ServicerDetailsComponent {
     this.id = this._route.snapshot.paramMap.get("id");
     this.servicerDetails()
     this.reviewsList()
+    this.additionalServicesList()
+    this.initMap();
     this.firstFormGroup = this._fb.group({ date: ['', Validators.required] });
     this.secondFormGroup = this._fb.group({ time: ['', Validators.required] });
     this.thirdFormGroup = this._fb.group({ walletChecked: [false] });
   }
+  initMap(): void {
+    const mapElement = document.getElementById('map') as HTMLElement;
+
+    if (!mapElement) {
+      console.error('Map element not found.');
+      return;
+    }
+
+    const map = new google.maps.Map(mapElement, {
+      center: { lat: -33.866, lng: 151.196 },
+      zoom: 15,
+    });
+
+    const request: google.maps.places.PlaceDetailsRequest = {
+      placeId: 'ChIJN1t_tDeuEmsRUsoyG83frY4',
+      fields: ['name', 'formatted_address', 'place_id', 'geometry'],
+    };
+
+    const infowindow = new google.maps.InfoWindow();
+    const service = new google.maps.places.PlacesService(map);
+
+    service.getDetails(request, (place, status) => {
+      if (
+        status === google.maps.places.PlacesServiceStatus.OK &&
+        place &&
+        place.geometry &&
+        place.geometry.location
+      ) {
+        const marker = new google.maps.Marker({
+          map,
+          position: place.geometry.location,
+        });
+
+        google.maps.event.addListener(marker, 'click', () => {
+          const content = document.createElement('div');
+
+          const nameElement = document.createElement('h2');
+          nameElement.textContent = place.name!;
+          content.appendChild(nameElement);
+
+          const placeIdElement = document.createElement('p');
+          placeIdElement.textContent = place.place_id!;
+          content.appendChild(placeIdElement);
+
+          const placeAddressElement = document.createElement('p');
+          placeAddressElement.textContent = place.formatted_address!;
+          content.appendChild(placeAddressElement);
+
+          infowindow.setContent(content);
+          infowindow.open(map, marker);
+        });
+      }
+    });
+
+    this.map = map;
+  }
+
+
 
   servicerDetails() {
     this.subscribe.add(this._userServices.servicerDetails(this.id).subscribe({
       next: (res) => {
-        console.log(res);
-
         this.service = res.servicesFind;
+        this.totalAmount = this.service.amount
         this.wallet = res.wallet || 0
         this.images = this.service.images.map(
           (item: any) => new ImageItem({ src: item, thumb: item })
@@ -73,7 +136,7 @@ export class ServicerDetailsComponent {
   }
 
   bookNow(date: Date, time: any, inserted: any) {
-    const reducedAmt = inserted['reducedAmt'] ? (+this.service.amount - this.wallet) : +this.service.amount
+    const reducedAmt = inserted['reducedAmt'] ? (+this.totalAmount - this.wallet) : +this.totalAmount
     const RazorpayOptions = {
       description: 'Sample Razorpay Demo',
       currency: 'INR',
@@ -120,10 +183,25 @@ export class ServicerDetailsComponent {
   reviewsList() {
     this.subscribe.add(this._userServices.reviewsList(this.id).subscribe({
       next: (res) => {
-        console.log(res);
+        this.reviews = res.reviews        
       }
     }))
   }
+  additionalServicesList() {
+    this.subscribe.add(this._userServices.additionalServices(this.id).subscribe({
+      next: (res) => {
+        this.item = res.additional;
+      }
+    }))
+  }
+  handleCheckboxChange(service: any) {
+    if (service.selected) {
+      this.totalAmount += service.amount;
+    } else {
+      this.totalAmount -= service.amount;
+    }
+  }
+
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

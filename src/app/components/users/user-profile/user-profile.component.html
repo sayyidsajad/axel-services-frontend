@@ -1,89 +1,66 @@
 <app-users></app-users>
 <mat-tab-group animationDuration="2000ms">
   <mat-tab label="Profile">
-    <section class="bg-white dark:bg-gray-900">
-      <div class="max-w-2xl px-4 py-8 mx-auto lg:py-16">
-        <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-          User Profile
-        </h2>
-        <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
-          <div class="sm:col-span-2">
-            <label
-              for="name"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Name</label
-            >
-            <input
-              type="text"
-              name="name"
-              id="name"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              value="{{ userDetails.name }}"
-              placeholder="Type product name"
-              required
-              readonly
-            />
-          </div>
-          <div class="sm:col-span-2">
-            <label
-              for="name"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Email</label
-            >
-            <input
-              type="text"
-              name="name"
-              id="name"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              value="{{ userDetails.email }}"
-              placeholder="Type product name"
-              required
-              readonly
-            />
-          </div>
-          <div class="sm:col-span-2">
-            <label
-              for="name"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Phone</label
-            >
-            <input
-              type="text"
-              name="name"
-              id="name"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              value="{{ userDetails.phone }}"
-              placeholder="Type product name"
-              required
-              readonly
-            />
-          </div>
-          <div class="sm:col-span-2">
-            <h2 class="text-xl font-bold text-gray-900 dark:text-white">
-              Wallet
-            </h2>
-            <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-              <div>
-                <label
-                  for="balance"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >Balance</label
-                >
-                <span class="text-lg text-gray-900 dark:text-white">{{
-                  userDetails.wallet | currency : "INR"
-                }}</span>
-              </div>
-              <div>
-                <div class="space-x-2">
-                  <button class="btn btn-primary">Wallet History</button>
-                </div>
-              </div>
-            </div>
+    <div class="h-full bg-gray-200 p-8">
+      <div class="bg-white rounded-lg shadow-xl pb-8">
+        <div class="w-full h-[70px]"></div>
+        <div class="flex flex-col items-center -mt-20">
+          <img *ngIf="userDetails.image"
+            [src]="userDetails.image"
+            class="w-40 border-4 border-white rounded-full"
+            alt="Profile Picture"
+          />
+          <img *ngIf="!userDetails.image"
+          src="https://static.vecteezy.com/system/resources/previews/011/483/813/original/guy-anime-avatar-free-vector.jpg"
+          class="w-40 border-4 border-white rounded-full"
+          alt="Profile Picture"
+        />
+          <p class="text-2xl">{{ userDetails.name }}</p>
+          <div class="flex items-center space-x-2 mt-2">
+            <label for="uploadImage" class="cursor-pointer">
+              <span class="text-blue-500">Change Profile Picture</span>
+              <input
+                type="file"
+                id="uploadImage"
+                class="hidden"
+                formControlName="img"
+                (change)="changeProfile($event)"
+              />
+            </label>
           </div>
         </div>
       </div>
-    </section>
+      
+      <div class="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
+        <div class="w-full flex flex-col 2xl:w-1/3">
+          <div class="flex-1 bg-white rounded-lg shadow-xl p-8">
+            <h4 class="text-xl text-gray-900 font-bold">Personal Info</h4>
+            <ul class="mt-2 text-gray-700">
+              <li class="flex border-y py-2">
+                <span class="font-bold w-24">Full name:</span>
+                <span class="text-gray-700">{{ userDetails.name }}</span>
+              </li>
+              <li class="flex border-b py-2">
+                <span class="font-bold w-24">Mobile:</span>
+                <span class="text-gray-700">{{ userDetails.phone }}</span>
+              </li>
+              <li class="flex border-b py-2">
+                <span class="font-bold w-24">Email:</span>
+                <span class="text-gray-700">{{ userDetails.email }}</span>
+              </li>
+        
+            </ul>
+            <button
+            class="bg-blue-500 text-white px-4 py-2 rounded-md"
+          >
+            Edit Profile
+          </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </mat-tab>
+  
 
   <mat-tab label="Address">
     <div class="hero min-h-screen bg-base-200">
@@ -100,20 +77,6 @@
           <!-- Other user activities -->
           <button class="btn btn-primary">Change Password</button>
           <button class="btn btn-primary">Activity 3</button>
-        </div>
-      </div>
-    </div>
-  </mat-tab>
-  <mat-tab label="Settings">
-    <div class="hero min-h-screen bg-base-200">
-      <div class="hero-content flex-col lg:flex-row">
-        <div>
-          <h1 class="text-5xl font-bold">User Profile</h1>
-          <p class="py-6">Name:</p>
-          <p>Email:</p>
-
-          <button class="btn btn-primary">Edit Profile</button>
-          <!-- Add buttons for other user activities -->
         </div>
       </div>
     </div>

@@ -8,6 +8,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 import { MatDialog } from '@angular/material/dialog';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 
 @Component({
@@ -17,6 +18,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 
 export class AdditionalServicesComponent {
+  selectedImage: SafeUrl | null = null;
   @ViewChild('callAPIDialog')
   callAPIDialog!: TemplateRef<any>;
   dialogForm!: FormGroup
@@ -32,7 +34,7 @@ export class AdditionalServicesComponent {
   selectedFile!: File
   additionalServices!:FormGroup
 
-  constructor(private _servicerServices: ServicerService, private _fb: FormBuilder, public _dialog: MatDialog, private _toastr: ToastrService) {
+  constructor(private _sanitizer: DomSanitizer,private _servicerServices: ServicerService, private _fb: FormBuilder, public _dialog: MatDialog, private _toastr: ToastrService) {
     this.dataSource = new MatTableDataSource();
   }
 
@@ -61,6 +63,8 @@ export class AdditionalServicesComponent {
       this.subscribe.add(this._servicerServices.createService(data).subscribe({
         next: () => {
           this.additionalServices.reset()
+          this.selectedImage = null;
+          this.additionalServices.get('image')?.setValue(null);
           this.additionalServicesList()
         },
         complete: () => {
@@ -86,6 +90,7 @@ export class AdditionalServicesComponent {
       service: [service, Validators.required],
       description: [description, Validators.required],
       amount: [amount, Validators.required],
+      image:[this.selectedFile, Validators.required]
     })
     this.subscribe.add(dialogRef.afterClosed().subscribe({
       next: (result) => {
@@ -106,7 +111,7 @@ export class AdditionalServicesComponent {
 
   updateService(id: string, categoryName: string, description: string, amount: string) {
     this.subscribe.add(this._servicerServices.updateService().subscribe({
-      next: (res) => {
+      next: () => {
         this.additionalServicesList()
       },
       complete: () => {
@@ -116,6 +121,7 @@ export class AdditionalServicesComponent {
   }
   onFileSelected(event: any) {
     this.selectedFile = <File>event.target.files[0]
+    this.selectedImage = this._sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(this.selectedFile));
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -132,7 +138,10 @@ export class AdditionalServicesComponent {
       }
     }))
   }
-
+  removeImage(): void {
+    this.selectedImage = null;
+    this.additionalServices.get('image')?.setValue(null);
+  }
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

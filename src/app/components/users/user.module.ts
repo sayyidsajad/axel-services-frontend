@@ -11,7 +11,6 @@ import { MatChipsModule } from '@angular/material/chips';
 import { FooterComponent } from './footer/footer.component';
 import { BookingsComponent } from './bookings/bookings.component';
 import { UsersService } from 'src/app/services/users/users.service';
-import { CategoriesListComponent } from './categories-list/categories-list.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { InboxComponent } from './inbox/inbox.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -40,6 +39,8 @@ import { GalleryModule } from 'ng-gallery';
 import { LightboxModule } from 'ng-gallery/lightbox';
 import { OpenAiService } from 'src/app/services/open-ai/open-ai.service';
 import { OpenAiComponent } from './open-ai/open-ai.component';
+import {CdkAccordionModule} from '@angular/cdk/accordion';
+
 @NgModule({
   declarations: [
     LoginComponent,
@@ -50,7 +51,6 @@ import { OpenAiComponent } from './open-ai/open-ai.component';
     UsersComponent,
     FooterComponent,
     BookingsComponent,
-    CategoriesListComponent,
     UserProfileComponent,
     InboxComponent,
     ForgotPasswordComponent,
@@ -86,6 +86,7 @@ import { OpenAiComponent } from './open-ai/open-ai.component';
     GoogleSigninButtonModule,
     ScrollingModule,
     GalleryModule,
+    CdkAccordionModule,
     LightboxModule, NgFor, AsyncPipe
   ],
   providers: [UsersService, MessagingService,

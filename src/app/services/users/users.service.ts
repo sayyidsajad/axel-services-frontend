@@ -71,10 +71,16 @@ export class UsersService {
   review(servicerId: string, userId: string, message: string): Observable<void> {
     return this._http.post<void>('review', { servicerId, userId, message }, httpOptions)
   }
-  reviewsList(servicerId: string): Observable<IReview[]> {
-    return this._http.get<IReview[]>(`reviewsList?id=${servicerId}`, httpOptions)
+  reviewsList(servicerId: string): Observable<any> {
+    return this._http.get<any>(`reviewsList?id=${servicerId}`, httpOptions)
   }
   listBanners(): Observable<any> {
     return this._http.get<any>('listBanners', httpOptions)
+  }
+  additionalServices(id: string): Observable<any> {
+    return this._http.get(`additionalList?id=${id}`, httpOptions)
+  }
+  profilePicture(data: FormData): Observable<any> {
+    return this._http.patch('profilePicture', data)
   }
 }
