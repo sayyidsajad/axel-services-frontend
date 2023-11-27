@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { IUserProfile } from 'src/app/services/users/types/user-types';
 import { UsersService } from 'src/app/services/users/users.service';
 import { environment } from 'src/environments/environment.development';
 

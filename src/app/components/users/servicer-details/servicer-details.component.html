@@ -197,18 +197,36 @@
           >
           <form [formGroup]="firstFormGroup">
             <ng-template matStepLabel>Select Your Date</ng-template>
-            <mat-form-field>
-              <div id="action-description">
-                <p>
-                    The following sample demonstrates the default functionalities of the DateTimePicker. Enter the value in input text box or Click/Touch the date and time popup icon to select the desired value.
-                </p>
-            </div>
-            <div class="control-section">
-                <div id="control_wrapper">
-                    <ejs-datetimepicker></ejs-datetimepicker>
-                </div>
-            </div>
-            </mat-form-field>
+            <owl-date-time
+            #dt1
+            [hour12Timer]="true"
+            [pickerType]="'both'"
+            [startView]="'month'"
+            [startAt]="null"
+            [firstDayOfWeek]="0"
+            [showSecondsTimer]="false"
+            [hideOtherMonths]="false"
+            [stepHour]="1"
+            [stepMinute]="60"
+            [disabled]="false"
+          >
+          </owl-date-time>
+                    <input
+                    [min]="date"
+            [owlDateTime]="dt1"
+            [owlDateTimeTrigger]="dt1"
+            placeholder="Date Time" 
+            formControlName="date"
+            selectMode="single"
+            [value]="firstFormGroup.get('date')?.value | date:'MM/dd/yyyy HH':'UTC'"
+          />
+          
+          
+          
+          
+          
+          <owl-date-time #dt1></owl-date-time>
+          
             <div>
               <button
                 mat-button
@@ -228,23 +246,22 @@
           >
           <form [formGroup]="secondFormGroup">
             <ng-template matStepLabel>Select Your Time</ng-template>
-            
-                    <!-- <igx-time-picker
-            formControlName="time"
-            mode="dialog"
-            [inputFormat]="'hh tt'"
-            [displayFormat]="'hh tt'"
-            [itemsDelta]="{ hours: 1 }"
-            [disableItems]="disableBookedTimes"
-            required
-            (onOpen)="onTimePickerOpen($event)"
-          >
-            <label igxLabel>Home Time</label>
-            <igx-picker-toggle igxSuffix>
-              <igx-icon>home</igx-icon>
-            </igx-picker-toggle>
-          </igx-time-picker> -->
-          
+
+            <igx-time-picker
+              formControlName="time"
+              mode="dialog"
+              [inputFormat]="'hh tt'"
+              [displayFormat]="'hh tt'"
+              [itemsDelta]="{ hours: 1 }"
+              [disableItems]="disableBookedTimes"
+              required
+              (onOpen)="onTimePickerOpen($event)"
+            >
+              <label igxLabel>Home Time</label>
+              <igx-picker-toggle igxSuffix>
+                <igx-icon>home</igx-icon>
+              </igx-picker-toggle>
+            </igx-time-picker>
 
             <div>
               <button

@@ -8,8 +8,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { GalleryItem, ImageItem } from 'ng-gallery';
 declare var Razorpay: any
+
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
+import { SVGIcon, imageIcon } from '@progress/kendo-svg-icons';
 const moment = _rollupMoment || _moment;
 @Component({
   selector: 'app-servicer-details',
@@ -34,7 +36,7 @@ export class ServicerDetailsComponent {
   images!: GalleryItem[];
   private subscribe: Subscription = new Subscription()
   public mode: PickerInteractionMode = PickerInteractionMode.DropDown;
-  public format = 'hh:mm tt';
+  // public format = 'hh:mm tt';
   totalAmount!: number;
   constructor(private _userServices: UsersService, private _route: ActivatedRoute, private _fb: FormBuilder, private _router: Router, private _toastr: ToastrService) {
   }
@@ -42,6 +44,11 @@ export class ServicerDetailsComponent {
   secondFormGroup!: FormGroup;
   thirdFormGroup!: FormGroup
   bookingSummary!: FormGroup
+  public value!: Date;
+  public format = "MM/dd/yyyy HH:mm";
+  public imageSVG: SVGIcon = imageIcon;
+  
+
   ngOnInit(): void {
     this.id = this._route.snapshot.paramMap.get("id");
     this.servicerDetails()
@@ -49,7 +56,7 @@ export class ServicerDetailsComponent {
     this.additionalServicesList()
     this.initMap();
     this.firstFormGroup = this._fb.group({
-      date: [moment().format('DD/MM/YYYY'), Validators.required],
+      date: ['', Validators.required],
     });
     this.secondFormGroup = this._fb.group({
       time: ['', Validators.required]
@@ -135,8 +142,8 @@ export class ServicerDetailsComponent {
       }))
     } else {
       this.subscribe.add(this._userServices.bookNow(this.id, firstField.date, secondField.time).subscribe({
-        next: (res) => {          
-          console.log(secondField.time);
+        next: (res) => {                    
+          console.log(firstField.date);
           
           this.bookNow(firstField.date, secondField.time, res)
         }
@@ -212,7 +219,6 @@ export class ServicerDetailsComponent {
   filterDates() {
     this.subscribe.add(this._userServices.filterDates(this.id).subscribe({
       next: (res) => {
-console.log(res.filterTimes,'nice');
 this.disableBookedTimes=res.filterTimes
         for (const datetime of res.filterDates) {
           const dateComponents = datetime.split('-');

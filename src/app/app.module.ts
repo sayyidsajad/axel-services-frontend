@@ -15,6 +15,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { GALLERY_CONFIG, GalleryConfig } from 'ng-gallery';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { LIGHTBOX_CONFIG, LightboxConfig } from 'ng-gallery/lightbox';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +31,8 @@ import { LIGHTBOX_CONFIG, LightboxConfig } from 'ng-gallery/lightbox';
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
     SocialLoginModule,
-    NgxSpinnerModule.forRoot({ type: 'ball-scale-ripple-multiple' })],
+    NgxSpinnerModule.forRoot({ type: 'ball-scale-ripple-multiple' }),
+    ],
   providers: [MessagingService, {
     provide: LIGHTBOX_CONFIG,
     useValue: {

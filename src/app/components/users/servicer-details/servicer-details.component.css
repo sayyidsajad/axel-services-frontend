@@ -1,11 +1,4 @@
-@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-lists/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-calendars/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-angular-calendars/styles/material.css';
+
 .example-input-wrapper {
     margin-bottom: 16px;
   }
@@ -29,7 +22,7 @@
 .example-item {
   height: 200px; /* Adjust the height of each item as needed */
   line-height: 50px; /* Center the text vertically within each item */
-  padding: 10px; /* Add padding for better spacing */
+  padding: 10px;
 }
 .example-accordion {
   display: block;

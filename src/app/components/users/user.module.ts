@@ -39,10 +39,17 @@ import { GalleryModule } from 'ng-gallery';
 import { LightboxModule } from 'ng-gallery/lightbox';
 import { OpenAiService } from 'src/app/services/open-ai/open-ai.service';
 import { OpenAiComponent } from './open-ai/open-ai.component';
-import {CdkAccordionModule} from '@angular/cdk/accordion';
+import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-import { NgxMatDatetimePickerModule,      NgxMatNativeDateModule,      NgxMatTimepickerModule,
+import {
+  NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule,
 } from '@angular-material-components/datetime-picker';
+import { IntlModule } from "@progress/kendo-angular-intl";
+import { LabelModule } from "@progress/kendo-angular-label";
+import { FormFieldModule } from "@progress/kendo-angular-inputs";
+import { ButtonsModule } from "@progress/kendo-angular-buttons";
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime-ex';
+import { IconsModule } from "@progress/kendo-angular-icons";
 import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
 
 
@@ -58,6 +65,7 @@ import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
     FooterComponent,
     BookingsComponent,
     UserProfileComponent,
+
     InboxComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
@@ -67,6 +75,14 @@ import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
     OpenAiComponent,
   ],
   imports: [
+    IntlModule,
+    LabelModule,
+    ButtonsModule,
+    DateTimePickerModule,
+    OwlDateTimeModule, 
+    OwlNativeDateTimeModule,
+    FormFieldModule,
+    IconsModule,
     CommonModule,
     UserRoutingModule,
     ReactiveFormsModule,
@@ -74,7 +90,6 @@ import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
     IgxTimePickerModule,
     IgxInputGroupModule,
     IgxIconModule,
-    DateTimePickerModule,
     MatButtonModule,
     MatNativeDateModule,
     MatDatepickerModule,
@@ -82,7 +97,6 @@ import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
     NgxMatTimepickerModule,
     MatStepperModule,
     MatTabsModule,
-    NgIf,
     MatGridListModule,
     MatCardModule,
     MatInputModule,
@@ -95,7 +109,7 @@ import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
     ScrollingModule,
     GalleryModule,
     CdkAccordionModule,
-    LightboxModule, NgFor, AsyncPipe,
+    LightboxModule, AsyncPipe,
     NgxMaterialTimepickerModule,
     NgxMatDatetimePickerModule,
     NgxMatNativeDateModule,
