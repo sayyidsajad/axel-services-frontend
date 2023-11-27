@@ -38,7 +38,7 @@ export class InterceptorInterceptor implements HttpInterceptor {
       newRequest = newRequest.clone({
         headers: newRequest.headers.set('Authorization', 'Bearer ' + userToken),
         url: commonUrl + newRequest.url
-      });
+      });      
     } else {
       newRequest = newRequest.clone({
         url: commonUrl + newRequest.url

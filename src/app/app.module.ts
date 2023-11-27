@@ -13,6 +13,7 @@ import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 
 import { environment } from 'src/environments/environment.development';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { GALLERY_CONFIG, GalleryConfig } from 'ng-gallery';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { LIGHTBOX_CONFIG, LightboxConfig } from 'ng-gallery/lightbox';
 @NgModule({
   declarations: [

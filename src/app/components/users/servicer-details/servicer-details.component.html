@@ -90,19 +90,36 @@
 <div class="container mx-auto px-6 mt-8">
   <mat-tab-group class="bg-white shadow-md rounded-lg mt-4">
     <mat-tab label="Reviews">
-      <div class="p-4 flex justify-center items-center overflow-x-hidden overflow-y-auto scrollbar-hide">
+      <div
+        class="p-4 flex justify-center items-center overflow-x-hidden overflow-y-auto scrollbar-hide"
+      >
         <div class="max-w-6xl mx-auto">
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <div *ngFor="let review of reviews" class="flex justify-center items-center">
-              <div class="bg-white p-6 rounded-md shadow-md mb-4 hover:shadow-lg transition-transform transform hover:scale-105 h-full">
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+          >
+            <div
+              *ngFor="let review of reviews"
+              class="flex justify-center items-center"
+            >
+              <div
+                class="bg-white p-6 rounded-md shadow-md mb-4 hover:shadow-lg transition-transform transform hover:scale-105 h-full"
+              >
                 <div class="flex items-center mb-4">
                   <div class="flex-shrink-0">
-                    <img class="h-16 w-16 md:h-20 md:w-20 rounded-full" src="{{ review.user.avatar }}" alt="User Avatar">
+                    <img
+                      class="h-16 w-16 md:h-20 md:w-20 rounded-full"
+                      src="{{ review.user.avatar }}"
+                      alt="User Avatar"
+                    />
                   </div>
                   <div class="ml-4">
-                    <p class="text-indigo-600 text-lg font-semibold">{{ review.user.name }}</p>
+                    <p class="text-indigo-600 text-lg font-semibold">
+                      {{ review.user.name }}
+                    </p>
                     <div class="flex items-center mt-1">
-                      <span class="text-gray-700 text-xs md:text-sm">Rating:</span>
+                      <span class="text-gray-700 text-xs md:text-sm"
+                        >Rating:</span
+                      >
                       <div class="ml-1 text-yellow-500">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -113,16 +130,13 @@
                     </div>
                   </div>
                 </div>
-                <p class="text-gray-600 text-sm">
-                  "{{ review.review }}"
-                </p>
+                <p class="text-gray-600 text-sm">"{{ review.review }}"</p>
               </div>
             </div>
           </div>
         </div>
       </div>
     </mat-tab>
-    
 
     <mat-tab label="Location">
       <div class="p-4">
@@ -131,8 +145,6 @@
     </mat-tab>
   </mat-tab-group>
 </div>
-
-
 
 <div
   id="staticModal"
@@ -186,19 +198,16 @@
           <form [formGroup]="firstFormGroup">
             <ng-template matStepLabel>Select Your Date</ng-template>
             <mat-form-field>
-              <mat-label>Choose a date</mat-label>
-              <input
-                matInput
-                [matDatepicker]="picker"
-                [min]="date"
-                formControlName="date"
-              />
-              <mat-hint>MM/DD/YYYY</mat-hint>
-              <mat-datepicker-toggle
-                matIconSuffix
-                [for]="picker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
+              <div id="action-description">
+                <p>
+                    The following sample demonstrates the default functionalities of the DateTimePicker. Enter the value in input text box or Click/Touch the date and time popup icon to select the desired value.
+                </p>
+            </div>
+            <div class="control-section">
+                <div id="control_wrapper">
+                    <ejs-datetimepicker></ejs-datetimepicker>
+                </div>
+            </div>
             </mat-form-field>
             <div>
               <button
@@ -219,18 +228,24 @@
           >
           <form [formGroup]="secondFormGroup">
             <ng-template matStepLabel>Select Your Time</ng-template>
-            <igx-time-picker
-              formControlName="time"
-              mode="dialog"
-              [inputFormat]="'hh:mm tt'"
-              required
-            >
-              <label igxLabel>Home Time </label>
-              <igx-picker-toggle igxSuffix>
-                <igx-icon>home</igx-icon>
-              </igx-picker-toggle>
-              <igx-hint>{{ date.toLocaleString() }}</igx-hint>
-            </igx-time-picker>
+            
+                    <!-- <igx-time-picker
+            formControlName="time"
+            mode="dialog"
+            [inputFormat]="'hh tt'"
+            [displayFormat]="'hh tt'"
+            [itemsDelta]="{ hours: 1 }"
+            [disableItems]="disableBookedTimes"
+            required
+            (onOpen)="onTimePickerOpen($event)"
+          >
+            <label igxLabel>Home Time</label>
+            <igx-picker-toggle igxSuffix>
+              <igx-icon>home</igx-icon>
+            </igx-picker-toggle>
+          </igx-time-picker> -->
+          
+
             <div>
               <button
                 mat-button

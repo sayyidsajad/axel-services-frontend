@@ -40,6 +40,12 @@ import { LightboxModule } from 'ng-gallery/lightbox';
 import { OpenAiService } from 'src/app/services/open-ai/open-ai.service';
 import { OpenAiComponent } from './open-ai/open-ai.component';
 import {CdkAccordionModule} from '@angular/cdk/accordion';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { NgxMatDatetimePickerModule,      NgxMatNativeDateModule,      NgxMatTimepickerModule,
+} from '@angular-material-components/datetime-picker';
+import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
+
+
 
 @NgModule({
   declarations: [
@@ -68,10 +74,12 @@ import {CdkAccordionModule} from '@angular/cdk/accordion';
     IgxTimePickerModule,
     IgxInputGroupModule,
     IgxIconModule,
+    DateTimePickerModule,
     MatButtonModule,
     MatNativeDateModule,
     MatDatepickerModule,
     MatChipsModule,
+    NgxMatTimepickerModule,
     MatStepperModule,
     MatTabsModule,
     NgIf,
@@ -87,7 +95,10 @@ import {CdkAccordionModule} from '@angular/cdk/accordion';
     ScrollingModule,
     GalleryModule,
     CdkAccordionModule,
-    LightboxModule, NgFor, AsyncPipe
+    LightboxModule, NgFor, AsyncPipe,
+    NgxMaterialTimepickerModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
   ],
   providers: [UsersService, MessagingService,
     MatDatepickerModule,
