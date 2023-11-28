@@ -51,6 +51,10 @@ import { ButtonsModule } from "@progress/kendo-angular-buttons";
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime-ex';
 import { IconsModule } from "@progress/kendo-angular-icons";
 import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatListModule } from '@angular/material/list';
 
 
 
@@ -79,7 +83,7 @@ import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
     LabelModule,
     ButtonsModule,
     DateTimePickerModule,
-    OwlDateTimeModule, 
+    OwlDateTimeModule,
     OwlNativeDateTimeModule,
     FormFieldModule,
     IconsModule,
@@ -113,6 +117,11 @@ import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
     NgxMaterialTimepickerModule,
     NgxMatDatetimePickerModule,
     NgxMatNativeDateModule,
+    MatMenuModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatListModule,
+
   ],
   providers: [UsersService, MessagingService,
     MatDatepickerModule,

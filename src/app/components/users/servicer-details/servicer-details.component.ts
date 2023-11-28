@@ -1,122 +1,85 @@
 import { Component } from '@angular/core';
 import { UsersService } from 'src/app/services/users/users.service';
 import { Subscription } from 'rxjs';
-import { PickerInteractionMode } from 'igniteui-angular';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment.development';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GalleryItem, ImageItem } from 'ng-gallery';
 declare var Razorpay: any
-
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
-import { SVGIcon, imageIcon } from '@progress/kendo-svg-icons';
 const moment = _rollupMoment || _moment;
+interface TimeOption {
+  value: string;
+  viewValue: string;
+  disabled?: boolean;
+}
 @Component({
   selector: 'app-servicer-details',
   templateUrl: './servicer-details.component.html',
   styleUrls: ['./servicer-details.component.css']
 })
 export class ServicerDetailsComponent {
-  public date: Object = new Date();
-  disabledDates: any = [];
-  disabledTimes: any = [];
+  public date: Date = new Date();
+
+  hoursOptions = [
+    { value: '1am', viewValue: '1 AM' },
+    { value: '2am', viewValue: '2 AM' },
+    { value: '3am', viewValue: '3 AM' },
+    { value: '4am', viewValue: '4 AM' },
+    { value: '5am', viewValue: '5 AM' },
+    { value: '6am', viewValue: '6 AM' },
+    { value: '7am', viewValue: '7 AM' },
+    { value: '8am', viewValue: '8 AM' },
+    { value: '9am', viewValue: '9 AM' },
+    { value: '10am', viewValue: '10 AM' },
+    { value: '11am', viewValue: '11 AM' },
+    { value: '12pm', viewValue: '12 PM' },
+    { value: '1pm', viewValue: '1 PM' },
+    { value: '2pm', viewValue: '2 PM' },
+    { value: '3pm', viewValue: '3 PM' },
+    { value: '4pm', viewValue: '4 PM' },
+    { value: '5pm', viewValue: '5 PM' },
+    { value: '6pm', viewValue: '6 PM' },
+    { value: '7pm', viewValue: '7 PM' },
+    { value: '8pm', viewValue: '8 PM' },
+    { value: '9pm', viewValue: '9 PM' },
+    { value: '10pm', viewValue: '10 PM' },
+    { value: '11pm', viewValue: '11 PM' },
+    { value: '12am', viewValue: '12 AM' },
+  ] as TimeOption[]
+
+  backendDates: any[] = []; 
   map: google.maps.Map | undefined;
-  disableBookedDates: any;
-  disableBookedTimes: string[] = [];
   item: any[] = [];
   reviews!: Array<any>
-  expandedIndex = 0;
+  secondFormGroup!: FormGroup
   items = Array.from({ length: 30 }).map((_, i) => `Item #${i}`);
   id!: any
   wallet!: number
   service!: any;
-  // date: Date = new Date()
   images!: GalleryItem[];
   private subscribe: Subscription = new Subscription()
-  public mode: PickerInteractionMode = PickerInteractionMode.DropDown;
-  // public format = 'hh:mm tt';
   totalAmount!: number;
   constructor(private _userServices: UsersService, private _route: ActivatedRoute, private _fb: FormBuilder, private _router: Router, private _toastr: ToastrService) {
   }
   firstFormGroup!: FormGroup;
-  secondFormGroup!: FormGroup;
   thirdFormGroup!: FormGroup
   bookingSummary!: FormGroup
-  public value!: Date;
-  public format = "MM/dd/yyyy HH:mm";
-  public imageSVG: SVGIcon = imageIcon;
-  
-
   ngOnInit(): void {
     this.id = this._route.snapshot.paramMap.get("id");
     this.servicerDetails()
     this.reviewsList()
     this.additionalServicesList()
-    this.initMap();
     this.firstFormGroup = this._fb.group({
-      date: ['', Validators.required],
+      date: [null, Validators.required],
     });
     this.secondFormGroup = this._fb.group({
-      time: ['', Validators.required]
-    }); this.thirdFormGroup = this._fb.group({ walletChecked: [false] });
+      time: [null, Validators.required],
+    });
+    this.thirdFormGroup = this._fb.group({ walletChecked: [false] });
     this.filterDates()
-  }
-  initMap(): void {
-    const mapElement = document.getElementById('map') as HTMLElement;
-
-    if (!mapElement) {
-      console.error('Map element not found.');
-      return;
-    }
-
-    const map = new google.maps.Map(mapElement, {
-      center: { lat: -33.866, lng: 151.196 },
-      zoom: 15,
-    });
-
-    const request: google.maps.places.PlaceDetailsRequest = {
-      placeId: 'ChIJN1t_tDeuEmsRUsoyG83frY4',
-      fields: ['name', 'formatted_address', 'place_id', 'geometry'],
-    };
-
-    const infowindow = new google.maps.InfoWindow();
-    const service = new google.maps.places.PlacesService(map);
-    service.getDetails(request, (place, status) => {
-      if (
-        status === google.maps.places.PlacesServiceStatus.OK &&
-        place &&
-        place.geometry &&
-        place.geometry.location
-      ) {
-        const marker = new google.maps.Marker({
-          map,
-          position: place.geometry.location,
-        });
-
-        google.maps.event.addListener(marker, 'click', () => {
-          const content = document.createElement('div');
-
-          const nameElement = document.createElement('h2');
-          nameElement.textContent = place.name!;
-          content.appendChild(nameElement);
-
-          const placeIdElement = document.createElement('p');
-          placeIdElement.textContent = place.place_id!;
-          content.appendChild(placeIdElement);
-
-          const placeAddressElement = document.createElement('p');
-          placeAddressElement.textContent = place.formatted_address!;
-          content.appendChild(placeAddressElement);
-
-          infowindow.setContent(content);
-          infowindow.open(map, marker);
-        });
-      }
-    });
-
-    this.map = map;
   }
   servicerDetails() {
     this.subscribe.add(this._userServices.servicerDetails(this.id).subscribe({
@@ -135,22 +98,24 @@ export class ServicerDetailsComponent {
     const secondField = this.secondFormGroup.getRawValue()
     const thirdField = this.thirdFormGroup.getRawValue()
     if (thirdField.walletChecked) {
-      this.subscribe.add(this._userServices.bookNow(this.id, firstField.date, secondField.time, this.wallet).subscribe({
+      this.subscribe.add(this._userServices.bookNow(this.id, firstField.date,secondField.time, this.wallet).subscribe({
         next: (res) => {
-          this.bookNow(firstField.date, secondField.time, res)
+          const inputDate = moment(firstField.date);
+          const formattedDate = inputDate.format("ddd MMM DD YYYY HH:mm:ss [GMT]Z") + " (India Standard Time)";   
+          this.bookNow(formattedDate,secondField.time, res)
         }
       }))
     } else {
-      this.subscribe.add(this._userServices.bookNow(this.id, firstField.date, secondField.time).subscribe({
-        next: (res) => {                    
-          console.log(firstField.date);
-          
-          this.bookNow(firstField.date, secondField.time, res)
+      this.subscribe.add(this._userServices.bookNow(this.id, firstField.date,secondField.time).subscribe({
+        next: (res) => {
+          const inputDate = moment(firstField.date);
+          const formattedDate = inputDate.format("ddd MMM DD YYYY HH:mm:ss [GMT]Z") + " (India Standard Time)";          
+          this.bookNow(formattedDate,secondField.time, res)
         }
       }))
     }
   }
-  bookNow(date: Date, time: any, inserted: any) {
+  bookNow(date: string,time:string, inserted: any) {
     const reducedAmt = inserted['reducedAmt'] ? (+this.totalAmount - this.wallet) : +this.totalAmount
     const RazorpayOptions = {
       description: 'Sample Razorpay Demo',
@@ -195,6 +160,7 @@ export class ServicerDetailsComponent {
         }
       })
   }
+
   reviewsList() {
     this.subscribe.add(this._userServices.reviewsList(this.id).subscribe({
       next: (res) => {
@@ -219,54 +185,22 @@ export class ServicerDetailsComponent {
   filterDates() {
     this.subscribe.add(this._userServices.filterDates(this.id).subscribe({
       next: (res) => {
-this.disableBookedTimes=res.filterTimes
-        for (const datetime of res.filterDates) {
-          const dateComponents = datetime.split('-');
-          const date = new Date(dateComponents[2], parseInt(dateComponents[1]) - 1, dateComponents[0]);
-          this.disabledDates.push(date);
-        }
-        // const filterr = res.filterTimes.map((timeString: any) => {
-        //   const timeParts = timeString.split(':');
-          
-        //   if (timeParts.length === 2) {
-        //     const hours = parseInt(timeParts[0], 10);
-        //     const minutes = parseInt(timeParts[1].split(' ')[0], 10);
-        
-        //     if (!isNaN(hours) && !isNaN(minutes)) {
-        //       const date = new Date();
-        //       date.setHours(hours);
-        //       date.setMinutes(minutes);
-        //       date.setSeconds(0);
-        //       return date;
-        //     }
-        //   }
-        
-        //   console.warn(`Invalid time string: ${timeString}`);
-        //   return null;
-        // });
-        
-        
-        // Use filterr array for your logic
-        
-                
-        // for (const datetime of res.filterTimes) {
-        //   const hours = parseInt(datetime.split(':')[0]);
-        //   const minutes = parseInt(datetime.split(':')[1].split(' ')[0]);
-        //   const timeString = `${hours}:${minutes}`;
-        //   this.disabledTimes.push(timeString);
-        // }
-      }
-    }))
-  }
-  dateFilter = (date: Date | null): boolean => {
-    if (!date) {
-      return false;
+        this.backendDates = res.filterDates;
     }
-    return !this.disableBookedDates.some((disabledDate: { getTime: () => any; }) => disabledDate.getTime() === date.getTime());
-  };
-  onTimePickerOpen(event: any) {
-    console.log('Disabled Items:', event.items);
+    }));
   }
+
+  
+  isDateSelectable = (date: Date): boolean => {
+    const formattedDate =date
+    const isDateDisabled = this.backendDates.includes(formattedDate);
+    console.log(`Formatted Date: ${formattedDate}`);
+    console.log(`Is Disabled: ${isDateDisabled}`);
+    console.log(`Array(4) 'this is the backend dates'`);
+
+    return !isDateDisabled;
+  };
+  
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

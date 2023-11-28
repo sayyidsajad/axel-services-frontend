@@ -35,7 +35,9 @@ export class UsersService {
   servicerDetails(id: string): Observable<IServicerDetailsResponse> {
     return this._http.get<IServicerDetailsResponse>(`servicerDetails?id=${id}`, httpOptions)
   }
-  bookNow(id: string, date: Date, time: string, walletChecked?: number): Observable<IBookNowResponse> {
+  bookNow(id: string, date: string, time: string, walletChecked?: number): Observable<IBookNowResponse> {
+    console.log(date,time);
+    
     return this._http.post<IBookNowResponse>(`bookNow`, { id, date, time, walletChecked }, httpOptions)
   }
   bookingsList(): Observable<IBookingsListResponse> {
@@ -83,7 +85,7 @@ export class UsersService {
   profilePicture(data: FormData): Observable<any> {
     return this._http.patch('profilePicture', data)
   }
-  filterDates(id:string): Observable<any>{
+  filterDates(id: string): Observable<any> {
     return this._http.get(`filterDates?id=${id}`, httpOptions)
   }
 }
