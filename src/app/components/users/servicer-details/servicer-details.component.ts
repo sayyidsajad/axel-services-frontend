@@ -9,6 +9,7 @@ import { GalleryItem, ImageItem } from 'ng-gallery';
 declare var Razorpay: any
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
+import { DateFilterFn, MatDatepickerInputEvent } from '@angular/material/datepicker';
 const moment = _rollupMoment || _moment;
 interface TimeOption {
   value: string;
@@ -22,35 +23,36 @@ interface TimeOption {
 })
 export class ServicerDetailsComponent {
   public date: Date = new Date();
-
+  hours!: any
+  updatedHours = [] as TimeOption[]
   hoursOptions = [
-    { value: '1am', viewValue: '1 AM' },
-    { value: '2am', viewValue: '2 AM' },
-    { value: '3am', viewValue: '3 AM' },
-    { value: '4am', viewValue: '4 AM' },
-    { value: '5am', viewValue: '5 AM' },
-    { value: '6am', viewValue: '6 AM' },
-    { value: '7am', viewValue: '7 AM' },
-    { value: '8am', viewValue: '8 AM' },
-    { value: '9am', viewValue: '9 AM' },
-    { value: '10am', viewValue: '10 AM' },
-    { value: '11am', viewValue: '11 AM' },
-    { value: '12pm', viewValue: '12 PM' },
+    { value: '1am', viewValue: '1 AM', },
+    { value: '2am', viewValue: '2 AM', },
+    { value: '3am', viewValue: '3 AM', },
+    { value: '4am', viewValue: '4 AM', },
+    { value: '5am', viewValue: '5 AM', },
+    { value: '6am', viewValue: '6 AM', },
+    { value: '7am', viewValue: '7 AM', },
+    { value: '8am', viewValue: '8 AM', },
+    { value: '9am', viewValue: '9 AM', },
+    { value: '10am', viewValue: '10 AM', },
+    { value: '11am', viewValue: '11 AM', },
+    { value: '12pm', viewValue: '12 PM', },
     { value: '1pm', viewValue: '1 PM' },
-    { value: '2pm', viewValue: '2 PM' },
-    { value: '3pm', viewValue: '3 PM' },
-    { value: '4pm', viewValue: '4 PM' },
-    { value: '5pm', viewValue: '5 PM' },
-    { value: '6pm', viewValue: '6 PM' },
-    { value: '7pm', viewValue: '7 PM' },
-    { value: '8pm', viewValue: '8 PM' },
-    { value: '9pm', viewValue: '9 PM' },
-    { value: '10pm', viewValue: '10 PM' },
-    { value: '11pm', viewValue: '11 PM' },
-    { value: '12am', viewValue: '12 AM' },
+    { value: '2pm', viewValue: '2 PM', },
+    { value: '3pm', viewValue: '3 PM', },
+    { value: '4pm', viewValue: '4 PM', },
+    { value: '5pm', viewValue: '5 PM', },
+    { value: '6pm', viewValue: '6 PM', },
+    { value: '7pm', viewValue: '7 PM', },
+    { value: '8pm', viewValue: '8 PM', },
+    { value: '9pm', viewValue: '9 PM', },
+    { value: '10pm', viewValue: '10 PM', },
+    { value: '11pm', viewValue: '11 PM', },
+    { value: '12am', viewValue: '12 AM', },
   ] as TimeOption[]
 
-  backendDates: any[] = []; 
+  backendDates: any[] = [];
   map: google.maps.Map | undefined;
   item: any[] = [];
   reviews!: Array<any>
@@ -98,24 +100,24 @@ export class ServicerDetailsComponent {
     const secondField = this.secondFormGroup.getRawValue()
     const thirdField = this.thirdFormGroup.getRawValue()
     if (thirdField.walletChecked) {
-      this.subscribe.add(this._userServices.bookNow(this.id, firstField.date,secondField.time, this.wallet).subscribe({
+      this.subscribe.add(this._userServices.bookNow(this.id, firstField.date, secondField.time, this.wallet).subscribe({
         next: (res) => {
           const inputDate = moment(firstField.date);
-          const formattedDate = inputDate.format("ddd MMM DD YYYY HH:mm:ss [GMT]Z") + " (India Standard Time)";   
-          this.bookNow(formattedDate,secondField.time, res)
+          const formattedDate = inputDate.format("ddd MMM DD YYYY HH:mm:ss [GMT]Z") + " (India Standard Time)";
+          this.bookNow(formattedDate, secondField.time, res)
         }
       }))
     } else {
-      this.subscribe.add(this._userServices.bookNow(this.id, firstField.date,secondField.time).subscribe({
+      this.subscribe.add(this._userServices.bookNow(this.id, firstField.date, secondField.time).subscribe({
         next: (res) => {
           const inputDate = moment(firstField.date);
-          const formattedDate = inputDate.format("ddd MMM DD YYYY HH:mm:ss [GMT]Z") + " (India Standard Time)";          
-          this.bookNow(formattedDate,secondField.time, res)
+          const formattedDate = inputDate.format("ddd MMM DD YYYY HH:mm:ss [GMT]Z") + " (India Standard Time)";
+          this.bookNow(formattedDate, secondField.time, res)
         }
       }))
     }
   }
-  bookNow(date: string,time:string, inserted: any) {
+  bookNow(date: string, time: string, inserted: any) {
     const reducedAmt = inserted['reducedAmt'] ? (+this.totalAmount - this.wallet) : +this.totalAmount
     const RazorpayOptions = {
       description: 'Sample Razorpay Demo',
@@ -186,21 +188,50 @@ export class ServicerDetailsComponent {
     this.subscribe.add(this._userServices.filterDates(this.id).subscribe({
       next: (res) => {
         this.backendDates = res.filterDates;
-    }
+      }
     }));
   }
+  addEvent(event: MatDatepickerInputEvent<any>) {
+    this.subscribe.add(this._userServices.filterTimes(this.id, event.value).subscribe({
+      next: (res) => {
+        this.updatedHours = this.hoursOptions.filter((option) => {
+          return !res.filterTimes.includes(option.value);
+        });        
+        console.log(this.updatedHours);
+        
+        const currentTime = new Date();
+        const currentHour = currentTime.getHours();
+        const currentMinutes = currentTime.getMinutes();
+        const filteredTimeOptions = this.updatedHours.filter((option) => {
+          const [optionHour, optionMinutes] = option.value.split(/(\d+)(\D+)/).filter(Boolean);
+          const optionHourInt = parseInt(optionHour, 10);
+          const optionMinutesInt = parseInt(optionMinutes, 10);
+          const isLaterThanCurrentTime =
+            optionHourInt > currentHour || (optionHourInt === currentHour && optionMinutesInt > currentMinutes);
+        
+          return isLaterThanCurrentTime;
+        });
+        console.log(filteredTimeOptions);
+        
+      }
 
-  
-  isDateSelectable = (date: Date): boolean => {
-    const formattedDate =date
-    const isDateDisabled = this.backendDates.includes(formattedDate);
-    console.log(`Formatted Date: ${formattedDate}`);
-    console.log(`Is Disabled: ${isDateDisabled}`);
-    console.log(`Array(4) 'this is the backend dates'`);
-
-    return !isDateDisabled;
+    }));
+  }
+  myFilter = (d: Date | null): boolean => {
+    if (!d) {
+      return true;
+    }
+    const backendDateObjects = this.backendDates.map((backendDate) => new Date(backendDate));
+    const isDisabled = backendDateObjects.some((backendDate) => this.isSameDate(d, backendDate));
+    return !isDisabled;
   };
-  
+  isSameDate(date1: Date, date2: Date): boolean {
+    return (
+      date1.getDate() === date2.getDate() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getFullYear() === date2.getFullYear()
+    );
+  };
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

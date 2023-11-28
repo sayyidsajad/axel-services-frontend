@@ -36,8 +36,8 @@ export class UsersService {
     return this._http.get<IServicerDetailsResponse>(`servicerDetails?id=${id}`, httpOptions)
   }
   bookNow(id: string, date: string, time: string, walletChecked?: number): Observable<IBookNowResponse> {
-    console.log(date,time);
-    
+    console.log(date, time);
+
     return this._http.post<IBookNowResponse>(`bookNow`, { id, date, time, walletChecked }, httpOptions)
   }
   bookingsList(): Observable<IBookingsListResponse> {
@@ -87,5 +87,8 @@ export class UsersService {
   }
   filterDates(id: string): Observable<any> {
     return this._http.get(`filterDates?id=${id}`, httpOptions)
+  }
+  filterTimes(id: string, date: string): Observable<any> {
+    return this._http.post('filterTimes', { id, date }, httpOptions)
   }
 }
