@@ -15,7 +15,8 @@
           "options": {
             "allowedCommonJsDependencies": [
               "apexcharts",
-              "sweetalert2"
+              "sweetalert2",
+              "moment"
            ],
             "outputPath": "dist/axel-services",
             "index": "src/index.html",
