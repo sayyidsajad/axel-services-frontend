@@ -17,7 +17,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatStepperModule } from '@angular/material/stepper'
 import { IgxDatePickerModule, IgxIconModule, IgxInputGroupModule, IgxTimePickerModule } from 'igniteui-angular';
 import { MatTabsModule } from '@angular/material/tabs';
-import { NgIf } from '@angular/common';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { MessagingService } from 'src/app/services/messaging/messaging.service';
@@ -41,16 +40,6 @@ import { OpenAiService } from 'src/app/services/open-ai/open-ai.service';
 import { OpenAiComponent } from './open-ai/open-ai.component';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-import {
-  NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule,
-} from '@angular-material-components/datetime-picker';
-import { IntlModule } from "@progress/kendo-angular-intl";
-import { LabelModule } from "@progress/kendo-angular-label";
-import { FormFieldModule } from "@progress/kendo-angular-inputs";
-import { ButtonsModule } from "@progress/kendo-angular-buttons";
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime-ex';
-import { IconsModule } from "@progress/kendo-angular-icons";
-import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -80,14 +69,6 @@ import { SearchFilterPipe } from './pipe/search-filter.pipe';
     SearchFilterPipe,
   ],
   imports: [
-    IntlModule,
-    LabelModule,
-    ButtonsModule,
-    DateTimePickerModule,
-    OwlDateTimeModule,
-    OwlNativeDateTimeModule,
-    FormFieldModule,
-    IconsModule,
     CommonModule,
     UserRoutingModule,
     ReactiveFormsModule,
@@ -99,7 +80,6 @@ import { SearchFilterPipe } from './pipe/search-filter.pipe';
     MatNativeDateModule,
     MatDatepickerModule,
     MatChipsModule,
-    NgxMatTimepickerModule,
     MatStepperModule,
     MatTabsModule,
     MatGridListModule,
@@ -116,8 +96,6 @@ import { SearchFilterPipe } from './pipe/search-filter.pipe';
     CdkAccordionModule,
     LightboxModule, AsyncPipe,
     NgxMaterialTimepickerModule,
-    NgxMatDatetimePickerModule,
-    NgxMatNativeDateModule,
     MatMenuModule,
     MatSelectModule,
     MatCheckboxModule,
