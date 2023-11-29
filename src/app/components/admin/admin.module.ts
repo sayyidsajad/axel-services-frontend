@@ -29,7 +29,6 @@ import { ChartModule } from 'primeng/chart';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BannerComponent } from './banner/banner.component';
-import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { CategoryMgtComponent } from './category-mgt/category-mgt.component';
 @NgModule({
   declarations: [
@@ -50,7 +49,6 @@ import { CategoryMgtComponent } from './category-mgt/category-mgt.component';
     MatSidenavModule,
     MatIconModule,
     MatTableModule,
-    NgxMatFileInputModule,
     MatPaginatorModule,
     MatFormFieldModule,
     MatGridListModule,

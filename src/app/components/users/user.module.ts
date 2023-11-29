@@ -15,7 +15,6 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { InboxComponent } from './inbox/inbox.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatStepperModule } from '@angular/material/stepper'
-import { IgxDatePickerModule, IgxIconModule, IgxInputGroupModule, IgxTimePickerModule } from 'igniteui-angular';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
@@ -73,9 +72,6 @@ import { SearchFilterPipe } from './pipe/search-filter.pipe';
     UserRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    IgxTimePickerModule,
-    IgxInputGroupModule,
-    IgxIconModule,
     MatButtonModule,
     MatNativeDateModule,
     MatDatepickerModule,
@@ -87,7 +83,6 @@ import { SearchFilterPipe } from './pipe/search-filter.pipe';
     MatInputModule,
     MatFormFieldModule,
     FormsModule,
-    IgxDatePickerModule,
     HttpClientModule,
     MatDialogModule,
     GoogleSigninButtonModule,
