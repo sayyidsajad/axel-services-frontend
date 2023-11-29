@@ -38,7 +38,6 @@ import { LightboxModule } from 'ng-gallery/lightbox';
 import { OpenAiService } from 'src/app/services/open-ai/open-ai.service';
 import { OpenAiComponent } from './open-ai/open-ai.component';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
-import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -90,7 +89,6 @@ import { SearchFilterPipe } from './pipe/search-filter.pipe';
     GalleryModule,
     CdkAccordionModule,
     LightboxModule, AsyncPipe,
-    NgxMaterialTimepickerModule,
     MatMenuModule,
     MatSelectModule,
     MatCheckboxModule,

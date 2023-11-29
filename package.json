@@ -38,8 +38,6 @@
     "minireset.css": "~0.0.4",
     "ng-apexcharts": "^1.8.0",
     "ng-gallery": "^11.0.0",
-    "ngx-material-file-input": "^4.0.1",
-    "ngx-material-timepicker": "^13.1.1",
     "ngx-socket-io": "^4.5.1",
     "ngx-spinner": "^16.0.2",
     "ngx-toastr": "^18.0.0",
