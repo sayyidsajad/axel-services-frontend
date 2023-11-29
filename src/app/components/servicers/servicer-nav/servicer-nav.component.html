@@ -8,11 +8,12 @@
     [opened]="(isHandset$ | async) === false"
   >
     <mat-toolbar>A X E L Services</mat-toolbar>
-    <mat-nav-list>
+    <mat-nav-list class="text-center">
       <a mat-list-item routerLink="dashboard">Dasboard</a>
       <a mat-list-item routerLink="bookings">Bookings</a>
       <a mat-list-item routerLink="additionalServices">Additional Services</a>
       <a mat-list-item routerLink="chat">Chat</a>
+      <a class="btn btn-error via-lime-300" mat-list-item>Log Out</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

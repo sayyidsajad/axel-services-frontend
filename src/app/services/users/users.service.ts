@@ -25,7 +25,7 @@ export class UsersService {
   }
   servicerList(page?: number): Observable<IServicerListResponse> {
     let params = new HttpParams()
-    if(page) params = params.append('page', page)
+    if (page) params = params.append('page', page)
     return this._http.get<IServicerListResponse>('servicerList', { params })
   }
   sendMail(email: string): Observable<IOtpVerificationResponse> {
@@ -38,8 +38,6 @@ export class UsersService {
     return this._http.get<IServicerDetailsResponse>(`servicerDetails?id=${id}`, httpOptions)
   }
   bookNow(id: string, date: string, time: string, walletChecked?: number): Observable<IBookNowResponse> {
-    console.log(date, time);
-
     return this._http.post<IBookNowResponse>(`bookNow`, { id, date, time, walletChecked }, httpOptions)
   }
   bookingsList(): Observable<IBookingsListResponse> {
@@ -92,5 +90,11 @@ export class UsersService {
   }
   filterTimes(id: string, date: string): Observable<any> {
     return this._http.post('filterTimes', { id, date }, httpOptions)
+  }
+  categoriesList(): Observable<any> {
+    return this._http.get('categoriesList', httpOptions)
+  }
+  findService(place?: string, categ?: string, date?: string): Observable<any> {
+    return this._http.post('findSearched', { place, categ, date }, httpOptions)
   }
 }

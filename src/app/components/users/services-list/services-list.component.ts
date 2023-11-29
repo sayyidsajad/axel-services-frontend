@@ -5,6 +5,7 @@ import { serviceData } from '../homepage/types/user.types';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { SharedService } from 'src/app/services/shared/shared.service';
 export interface ChipColor {
   name: string;
   color: ThemePalette;
@@ -15,15 +16,22 @@ export interface ChipColor {
   styleUrls: ['./services-list.component.css'],
 })
 export class ServicesListComponent {
+  sharedData: any;
   searchValue: string = '';
   currentPage!: number;
-  constructor(private userServices: UsersService, private router: Router, private _toastr: ToastrService) { }
+  constructor(private userServices: UsersService, private router: Router, private _toastr: ToastrService, private _sharedDataService: SharedService) { }
   services!: Array<serviceData>;
   totalPage!: number
   private subscribe: Subscription = new Subscription()
   filteredServices: Array<serviceData> = [];
   ngOnInit(): void {
-    this.servicesList();
+    this.sharedData = this._sharedDataService.getSharedData()
+    if (this.sharedData !== null) {
+      this.services = this.sharedData.findSearched
+    }
+    if (!this.sharedData) {
+      this.servicesList();
+    }
   }
 
   servicesList() {
@@ -48,10 +56,10 @@ export class ServicesListComponent {
   }
 
   pageArr() {
-    const limit = 5; 
+    const limit = 5;
     const start = Math.max(1, this.currentPage - Math.floor(limit / 2));
     const end = Math.min(start + limit - 1, this.totalPage);
-  
+
     return Array.from({ length: end - start + 1 }, (_, index) => start + index);
   }
 
@@ -77,6 +85,7 @@ export class ServicesListComponent {
   }
 
   ngOnDestroy(): void {
+    this._sharedDataService.clearData()
     this.subscribe.unsubscribe()
   }
 }

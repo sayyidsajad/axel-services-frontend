@@ -43,6 +43,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
 import { SearchFilterPipe } from './pipe/search-filter.pipe';
+import { SharedService } from 'src/app/services/shared/shared.service';
 
 
 
@@ -93,12 +94,11 @@ import { SearchFilterPipe } from './pipe/search-filter.pipe';
     MatSelectModule,
     MatCheckboxModule,
     MatListModule,
-
   ],
   providers: [UsersService, MessagingService,
     MatDatepickerModule,
     MatNativeDateModule,
-    OpenAiService
+    OpenAiService,SharedService
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

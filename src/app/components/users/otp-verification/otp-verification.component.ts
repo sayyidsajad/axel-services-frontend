@@ -79,8 +79,8 @@ export class OtpVerificationComponent implements OnInit {
     if (this.otpVerification.valid && +this.otp === +user.otpCode) {
       this.verified = true
       this.subscribe.add(this._userServices.loadHome(this.email).subscribe({
-        next: () => {
-          localStorage.setItem(environment.userSecret, this.token)
+        next: (res) => {
+          localStorage.setItem(environment.userSecret, this.token)          
           this._router.navigate(['home']);
         }, error: (err) => {
           this.verified = false

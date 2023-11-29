@@ -5,6 +5,8 @@ import { UsersService } from 'src/app/services/users/users.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AdminService } from 'src/app/services/admin/admin.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SharedService } from 'src/app/services/shared/shared.service';
 
 @Component({
   selector: 'app-homepage',
@@ -13,15 +15,25 @@ import { AdminService } from 'src/app/services/admin/admin.service';
 })
 
 export class HomepageComponent implements AfterViewInit {
-  constructor(private _userServices: UsersService, private _router: Router, private _toastr: ToastrService) { }
+  constructor(private _userServices: UsersService, private _router: Router, private _toastr: ToastrService, private _fb: FormBuilder, private sharedDataService: SharedService) { }
   services!: Array<serviceData>;
   banners!: Array<any>
+  homeForm!: FormGroup
+  categories!: Array<any>
+  place!: any
+  date: Date = new Date()
   private subscribe: Subscription = new Subscription()
   @ViewChild('autocomplete') autocomplete!: ElementRef
 
   ngOnInit(): void {
     this.bannerLists()
+    this.categoriesList()
     this.servicesList();
+    this.homeForm = this._fb.group({
+      search: [null, Validators.required],
+      categ: [null, Validators.required],
+      date: [null, Validators.required],
+    })
   }
 
   ngAfterViewInit(): void {
@@ -40,11 +52,19 @@ export class HomepageComponent implements AfterViewInit {
       this._userServices.servicerList().subscribe({
         next:
           (res: any) => {
-            this.services = res.servicesFind.serviceList;         
+            this.services = res.servicesFind.serviceList;
           }
       }))
   }
-
+  categoriesList() {
+    this.subscribe.add(
+      this._userServices.categoriesList().subscribe({
+        next:
+          (res: any) => {
+            this.categories = res.categories
+          }
+      }))
+  }
   initMap() {
     const inputElement = this.autocomplete.nativeElement;
     const autocomplete = new google.maps.places.Autocomplete(
@@ -63,13 +83,33 @@ export class HomepageComponent implements AfterViewInit {
   onSelected(autocomplete: any) {
     const inputElement = this.autocomplete.nativeElement;
     const place = autocomplete.getPlace();
-
+    if (place.name) {
+      this.place = place.name
+    }
     if (!place.geometry) {
       inputElement.placeholder = 'Enter your location...';
     } else {
       // this.placeSelected.emit(place.name);
       // this.getNearbyPlaces(place.geometry.location);
     }
+  }
+  onSubmit(): any {
+    const filtered = this.homeForm.getRawValue();
+    if (!filtered || !this.homeForm.valid) {
+      return this._toastr.warning('Please fill the fields');
+    }
+    this.subscribe.add(
+      this._userServices.findService(this.place, filtered.categ, filtered.date).subscribe({
+        next: (res: any) => {
+          this.sharedDataService.setSharedData(res);
+          this._router.navigate(['/servicesList']);
+        },
+        error: (err: any) => {
+          this.homeForm.reset();
+        }
+      })
+    );
+
   }
 
   serviceDetails(id: string) {
