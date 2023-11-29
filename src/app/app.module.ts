@@ -14,6 +14,7 @@ import { environment } from 'src/environments/environment.development';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { GALLERY_CONFIG, GalleryConfig } from 'ng-gallery';
 import { LIGHTBOX_CONFIG, LightboxConfig } from 'ng-gallery/lightbox';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { LIGHTBOX_CONFIG, LightboxConfig } from 'ng-gallery/lightbox';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    MatDialogModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,

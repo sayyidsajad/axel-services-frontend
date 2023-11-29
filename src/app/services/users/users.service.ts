@@ -1,5 +1,5 @@
 import { SocialUser } from '@abacritt/angularx-social-login';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IBookNowResponse, IBookingsListResponse, IGoogleLoginResponse, ILoginResponse, IOtpVerificationResponse, IServicerDetailsResponse, IServicerListResponse, ISignUpResponse, IUserInboxResponse, IVerifyPaymentResponse, IUserProfileResponse, IGetRecentChatsResponse, IReview } from './types/user-types';
@@ -23,8 +23,10 @@ export class UsersService {
   userGoogleLogin(socialUser: SocialUser): Observable<IGoogleLoginResponse> {
     return this._http.post<IGoogleLoginResponse>('googleLogin', socialUser, httpOptions)
   }
-  servicerList(): Observable<IServicerListResponse> {
-    return this._http.get<IServicerListResponse>('servicerList', httpOptions)
+  servicerList(page?: number): Observable<IServicerListResponse> {
+    let params = new HttpParams()
+    if(page) params = params.append('page', page)
+    return this._http.get<IServicerListResponse>('servicerList', { params })
   }
   sendMail(email: string): Observable<IOtpVerificationResponse> {
     return this._http.get<IOtpVerificationResponse>(`otpVerification?email=${email}`, httpOptions)

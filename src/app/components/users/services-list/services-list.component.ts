@@ -16,8 +16,10 @@ export interface ChipColor {
 })
 export class ServicesListComponent {
   searchValue: string = '';
+  currentPage!: number;
   constructor(private userServices: UsersService, private router: Router, private _toastr: ToastrService) { }
   services!: Array<serviceData>;
+  totalPage!: number
   private subscribe: Subscription = new Subscription()
   filteredServices: Array<serviceData> = [];
   ngOnInit(): void {
@@ -28,8 +30,9 @@ export class ServicesListComponent {
     this.subscribe.add(
       this.userServices.servicerList().subscribe({
         next:
-          (res) => {
-            this.services = res.servicesFind;
+          (res: any) => {
+            this.services = res.servicesFind.serviceList;
+            this.totalPage = res.servicesFind.totalPage
           }
       }))
   }
@@ -42,6 +45,35 @@ export class ServicesListComponent {
   }
   serviceDetails(id: string) {
     this.router.navigate(['/servicerDetails', id])
+  }
+
+  pageArr() {
+    const limit = 5; 
+    const start = Math.max(1, this.currentPage - Math.floor(limit / 2));
+    const end = Math.min(start + limit - 1, this.totalPage);
+  
+    return Array.from({ length: end - start + 1 }, (_, index) => start + index);
+  }
+
+  callPag(page: number) {
+    this.currentPage = page
+    this.subscribe.add(
+      this.userServices.servicerList(page).subscribe((res: any) => {
+        this.services = res.servicesFind.serviceList;
+      })
+    )
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPage) {
+      this.currentPage++;
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
   }
 
   ngOnDestroy(): void {

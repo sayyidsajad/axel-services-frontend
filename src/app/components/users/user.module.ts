@@ -55,6 +55,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
+import { SearchFilterPipe } from './pipe/search-filter.pipe';
 
 
 
@@ -69,7 +70,6 @@ import { MatListModule } from '@angular/material/list';
     FooterComponent,
     BookingsComponent,
     UserProfileComponent,
-
     InboxComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
@@ -77,6 +77,7 @@ import { MatListModule } from '@angular/material/list';
     HomepageComponent,
     AboutComponent,
     OpenAiComponent,
+    SearchFilterPipe,
   ],
   imports: [
     IntlModule,

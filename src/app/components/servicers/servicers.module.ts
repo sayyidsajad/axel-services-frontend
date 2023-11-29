@@ -26,7 +26,6 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ChartModule } from 'primeng/chart';
 import { HttpClientModule } from '@angular/common/http';
@@ -34,6 +33,7 @@ import { ChatComponent } from './chat/chat.component';
 import { ServicerVerificationProcessComponent } from './servicer-verification-process/servicer-verification-process.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { AdditionalServicesComponent } from './additional-services/additional-services.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
