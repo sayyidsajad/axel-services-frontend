@@ -33,11 +33,11 @@ export class ServicerVerificationProcessComponent {
   id!: string
   categories!: Array<categoryData>;
   private subscribe: Subscription = new Subscription()
-  constructor(private _sanitizer: DomSanitizer, private _fb: FormBuilder, private _servicerServices: ServicerService, private _router: Router, private _route: ActivatedRoute, private _toastr:ToastrService) { }
+  constructor(private _sanitizer: DomSanitizer, private _fb: FormBuilder, private _servicerServices: ServicerService, private _router: Router, private _route: ActivatedRoute, private _toastr: ToastrService) { }
   ngOnInit(): void {
     this.subscribe.add(this._route.queryParams
       .subscribe({
-        next: (params:any) => {
+        next: (params: any) => {
           this.id = params['id']
         }
       }))

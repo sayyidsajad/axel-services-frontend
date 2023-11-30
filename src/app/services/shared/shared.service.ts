@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class SharedService {
   private sharedData: any;
+  
   constructor() { }
 
   setSharedData(data: any) {
@@ -14,6 +15,7 @@ export class SharedService {
   getSharedData() {
     return this.sharedData;
   }
+
   clearData() {
     this.sharedData = null
   }

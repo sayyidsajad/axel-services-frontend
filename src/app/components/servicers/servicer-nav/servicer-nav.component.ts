@@ -17,11 +17,11 @@ export class ServicerNavComponent {
       map(result => result.matches),
       shareReplay()
     );
-    constructor(private _router: Router) { }
+  constructor(private _router: Router) { }
 
-      logOut() {
-        localStorage.removeItem(environment.servicerSecret)
-        this._router.navigate(['servicer'])
-      }
-    
+  logOut() {
+    localStorage.removeItem(environment.servicerSecret)
+    this._router.navigate(['servicer'])
+  }
+
 }

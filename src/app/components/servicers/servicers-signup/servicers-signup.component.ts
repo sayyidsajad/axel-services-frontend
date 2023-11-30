@@ -33,7 +33,7 @@ export class ServicersSignupComponent {
     const servicer = this.registerForm.getRawValue();
     if (this.registerForm.valid) {
       this.subscribe.add(this._servicerServices.servicerRegister(servicer.companyName, servicer.email, +servicer.phone, servicer.password, servicer.confirmPassword).subscribe({
-        next: (res) => {          
+        next: (res) => {
           this._router.navigate(['servicer/servicerVerification'], { queryParams: { id: res.id } });
         }
       }))

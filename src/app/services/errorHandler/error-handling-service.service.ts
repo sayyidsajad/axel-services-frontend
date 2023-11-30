@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 export class ErrorHandlingServiceService {
 
   constructor(private _toastr: ToastrService) { }
+  
   public handleError(err: HttpErrorResponse) {
     let errorMessage: string
     if (err.error instanceof ErrorEvent) {

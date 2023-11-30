@@ -1,6 +1,7 @@
 button {
   margin-right: 8px;
 }
+
 table {
   width: 100%;
 }
@@ -10,6 +11,7 @@ table {
   width: 100%;
 }
 
-td, th {
+td,
+th {
   width: 25%;
 }

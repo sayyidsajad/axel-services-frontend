@@ -4,7 +4,6 @@ import { serviceData } from './types/user.types';
 import { UsersService } from 'src/app/services/users/users.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { AdminService } from 'src/app/services/admin/admin.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from 'src/app/services/shared/shared.service';
 
@@ -15,7 +14,7 @@ import { SharedService } from 'src/app/services/shared/shared.service';
 })
 
 export class HomepageComponent implements AfterViewInit {
-  constructor(private _userServices: UsersService, private _router: Router, private _toastr: ToastrService, private _fb: FormBuilder, private sharedDataService: SharedService) { }
+  constructor(private _userServices: UsersService, private _router: Router, private _toastr: ToastrService, private _fb: FormBuilder, private _sharedDataService: SharedService) { }
   services!: Array<serviceData>;
   banners!: Array<any>
   homeForm!: FormGroup
@@ -26,9 +25,9 @@ export class HomepageComponent implements AfterViewInit {
   @ViewChild('autocomplete') autocomplete!: ElementRef
 
   ngOnInit(): void {
-    this.bannerLists()
     this.categoriesList()
     this.servicesList();
+    this.bannerLists()
     this.homeForm = this._fb.group({
       search: [null, Validators.required],
       categ: [null, Validators.required],
@@ -45,7 +44,6 @@ export class HomepageComponent implements AfterViewInit {
         this.banners = res.banners
       }
     });
-
   }
   servicesList() {
     this.subscribe.add(
@@ -101,7 +99,7 @@ export class HomepageComponent implements AfterViewInit {
     this.subscribe.add(
       this._userServices.findService(this.place, filtered.categ, filtered.date).subscribe({
         next: (res: any) => {
-          this.sharedDataService.setSharedData(res);
+          this._sharedDataService.setSharedData(res);
           this._router.navigate(['/servicesList']);
         },
         error: (err: any) => {
@@ -109,7 +107,6 @@ export class HomepageComponent implements AfterViewInit {
         }
       })
     );
-
   }
 
   serviceDetails(id: string) {

@@ -13,20 +13,28 @@ export class UsersComponent {
   private subscribe: Subscription = new Subscription()
   userImage!: string
   message!: string
-  constructor(private _router: Router,private _userServices:UsersService) { }
+
+  constructor(private _router: Router, private _userServices: UsersService) { }
+
   ngOnInit(): void {
     this.getUser()
   }
+
   getUser() {
     this.subscribe.add(this._userServices.userProfile().subscribe({
       next:
         (res) => {
-          this.userImage = res.user.image              
+          this.userImage = res.user.image
         }
     }))
   }
+  
   logOut() {
     localStorage.removeItem(environment.userSecret)
     this._router.navigate(['/'])
+  }
+
+  ngOnDestroy(): void {
+    this.subscribe.unsubscribe()
   }
 }

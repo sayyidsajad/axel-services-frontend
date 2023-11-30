@@ -9,7 +9,7 @@ import { UsersService } from 'src/app/services/users/users.service';
   styleUrls: ['./inbox.component.css']
 })
 export class InboxComponent {
-  constructor(private userServices: UsersService, private _toastr: ToastrService) { }
+  constructor(private _userServices: UsersService, private _toastr: ToastrService) { }
   inboxData!: Array<any>;
   serviceData!: Array<any>
   private subscribe: Subscription = new Subscription()
@@ -19,7 +19,7 @@ export class InboxComponent {
   }
 
   userInbox() {
-    this.subscribe.add(this.userServices.userInbox().subscribe({
+    this.subscribe.add(this._userServices.userInbox().subscribe({
       next: (res) => {
         if (!res.inbox.length) {
           this.inboxData = []
@@ -33,7 +33,7 @@ export class InboxComponent {
   }
 
   clearAll() {
-    this.subscribe.add(this.userServices.clearAll().subscribe({
+    this.subscribe.add(this._userServices.clearAll().subscribe({
       next:
         () => {
           this.userInbox()

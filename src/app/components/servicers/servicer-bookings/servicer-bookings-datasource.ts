@@ -63,10 +63,7 @@ export class ServicerBookingsDataSource extends DataSource<ServicerBookingsItem>
     }
   }
 
-  /**
-   * Sort the data (client-side). If you're using server-side sorting,
-   * this would be replaced by requesting the appropriate data from the server.
-   */
+
   private getSortedData(data: ServicerBookingsItem[]): ServicerBookingsItem[] {
     if (!this.sort || !this.sort.active || this.sort.direction === '') {
       return data;
@@ -83,7 +80,6 @@ export class ServicerBookingsDataSource extends DataSource<ServicerBookingsItem>
   }
 }
 
-/** Simple sort comparator for example ID/Name columns (for client-side sorting). */
 function compare(a: string | number, b: string | number, isAsc: boolean): number {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

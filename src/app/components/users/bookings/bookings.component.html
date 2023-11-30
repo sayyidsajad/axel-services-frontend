@@ -46,7 +46,9 @@
             </td>
             <td *ngIf="booking.approvalStatus === 'Pending'" class="px-6 py-4">
               <button
-                (click)="cancel(booking._id, booking.services.amount.toString())"
+                (click)="
+                  cancel(booking._id, booking.services.amount.toString())
+                "
                 class="font-medium btn btn-error text-white"
               >
                 Cancel
@@ -57,7 +59,7 @@
               class="px-6 py-4"
             >
               <button
-                (click)="review(booking.service,booking.user)"
+                (click)="review(booking.service, booking.user)"
                 class="font-medium btn btn-success text-white"
               >
                 Review

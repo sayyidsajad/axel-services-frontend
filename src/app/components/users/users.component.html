@@ -54,13 +54,16 @@
     <div class="dropdown dropdown-end">
       <label tabindex="0" class="btn btn-ghost btn-circle avatar">
         <div class="w-10 rounded-full">
-          <img *ngIf="!userImage" src="https://static.vecteezy.com/system/resources/previews/011/483/813/original/guy-anime-avatar-free-vector.jpg" />
-          <img [src]= "userImage" />
+          <img
+            *ngIf="!userImage"
+            src="https://static.vecteezy.com/system/resources/previews/011/483/813/original/guy-anime-avatar-free-vector.jpg"
+          />
+          <img [src]="userImage" />
         </div>
-     
       </label>
       <ul
-      tabindex="0" class="text-black menu menu-sm dropdown-content mt-3 z-[10] p-2 shadow bg-base-100 rounded-box w-52"
+        tabindex="0"
+        class="text-black menu menu-sm dropdown-content mt-3 z-[10] p-2 shadow bg-base-100 rounded-box w-52"
       >
         <li>
           <a routerLink="/userProfile" class="justify-between"> Profile </a>

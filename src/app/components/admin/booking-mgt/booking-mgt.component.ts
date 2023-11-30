@@ -77,7 +77,7 @@ export class BookingMgtComponent {
     }))
   }
 
-  cancelBooking(textArea: string, bookingId: string, userId: string) {    
+  cancelBooking(textArea: string, bookingId: string, userId: string) {
     this.subscribe.add(this._adminServices.cancelBooking(textArea, bookingId, userId).subscribe({
       next: () => {
         this.listBookings()

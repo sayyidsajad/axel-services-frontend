@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  socket_endPoint: 'http://localhost:3000',
+  socketEndPoint: 'http://localhost:3000',
   apiUrl: 'http://localhost:3000/',
   servicerSecret: 'servicerSecret',
   adminSecret: 'adminSecret',

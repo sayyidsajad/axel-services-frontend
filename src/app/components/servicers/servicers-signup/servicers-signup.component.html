@@ -45,15 +45,15 @@
               required
             />
             <span
-            class="validation text-red-500"
-            *ngIf="registerForm.get('email')?.touched && registerForm.controls['email'].errors?.['required']"
-            >Email is required</span
-          >
-          <span
-            class="validation text-red-500"
-            *ngIf="registerForm.get('email')?.hasError('noSpaceAllowed')"
-            >Spaces not allowed</span
-          >
+              class="validation text-red-500"
+              *ngIf="registerForm.get('email')?.touched && registerForm.controls['email'].errors?.['required']"
+              >Email is required</span
+            >
+            <span
+              class="validation text-red-500"
+              *ngIf="registerForm.get('email')?.hasError('noSpaceAllowed')"
+              >Spaces not allowed</span
+            >
           </div>
           <div class="form-control">
             <label class="label">

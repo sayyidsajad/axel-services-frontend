@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { ServicerService } from 'src/app/services/servicers/servicer.service';
 import Swal from 'sweetalert2';
@@ -13,7 +12,7 @@ export class BookingsComponent {
   private subscribe: Subscription = new Subscription()
   bookings!: Array<any>;
 
-  constructor(private _servicerServices: ServicerService, private _toastr: ToastrService) { }
+  constructor(private _servicerServices: ServicerService) { }
 
   ngOnInit(): void {
     this.listBookings()
@@ -23,8 +22,6 @@ export class BookingsComponent {
     this.subscribe.add(this._servicerServices.listBookings().subscribe({
       next: (res) => {
         this.bookings = res.bookings
-        console.log(this.bookings);
-        
       }
     }))
   }

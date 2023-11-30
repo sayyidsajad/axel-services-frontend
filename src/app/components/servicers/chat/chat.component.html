@@ -5,12 +5,11 @@
         class="flex flex-col items-center bg-indigo-100 border border-gray-200 mt-4 w-full py-6 px-4 rounded-lg"
       >
         <div class="h-20 w-20 rounded-full border overflow-hidden">
-          <img
-            alt="Avatar"
-            class="h-full w-full"
-          />
+          <img alt="Avatar" class="h-full w-full" />
         </div>
-        <div class="text-sm font-semibold mt-2">{{this.usersList[0].name}}</div>
+        <div class="text-sm font-semibold mt-2">
+          {{ this.usersList[0].name }}
+        </div>
         <div class="text-xs text-gray-500">Lead UI/UX Designer</div>
       </div>
       <div class="flex flex-col mt-8" *ngIf="usersList">
@@ -44,14 +43,12 @@
                 class="col-start-1 col-end-8 p-3 rounded-lg"
                 *ngIf="msg.senderType === 'User'"
               >
-                <div
-                  class="flex flex-row items-center"
-                >
+                <div class="flex flex-row items-center">
                   <div
                     class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
                   >
-                  A
-                </div>
+                    A
+                  </div>
                   <div
                     class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl"
                   >
@@ -66,8 +63,7 @@
                 class="col-start-6 col-end-13 p-3 rounded-lg"
                 *ngIf="msg.senderType === 'Servicer'"
               >
-                <div
-                  class="flex items-center justify-start flex-row-reverse"                >
+                <div class="flex items-center justify-start flex-row-reverse">
                   <div
                     class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
                   >

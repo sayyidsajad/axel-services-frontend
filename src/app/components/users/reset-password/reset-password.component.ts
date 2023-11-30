@@ -50,7 +50,6 @@ export class ResetPasswordComponent {
       this._router.navigate(['forgotPassword'])
     }
   }
-
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

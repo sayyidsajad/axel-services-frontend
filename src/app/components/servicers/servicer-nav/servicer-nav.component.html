@@ -9,12 +9,20 @@
   >
     <mat-toolbar>A X E L Services</mat-toolbar>
     <mat-nav-list class="text-center">
-      <a mat-list-item routerLink="dashboard">Dasboard</a>
+      <a mat-list-item routerLink="dashboard">Dashboard</a>
       <a mat-list-item routerLink="bookings">Bookings</a>
       <a mat-list-item routerLink="additionalServices">Additional Services</a>
       <a mat-list-item routerLink="chat">Chat</a>
-      <a class="btn btn-error via-lime-300" mat-list-item>Log Out</a>
+      <button
+      mat-list-item
+      class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-full transition duration-300"
+      (click)="logOut()"
+    >
+      Log Out
+    </button>    
+    
     </mat-nav-list>
+    
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">

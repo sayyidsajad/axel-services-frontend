@@ -21,7 +21,8 @@
                   </h3>
                 </div>
                 <img
-                  [src]="banner.images[0]"
+                  [defaultImage]="'loading.gif'"
+                  [lazyLoad]="banner.images[0]"
                   class="w-full h-full object-cover rounded-bl-lg rounded-br-lg"
                   alt="{{ banner.bannerName }} Image"
                 />
@@ -29,7 +30,6 @@
             </div>
           </div>
         </div>
-
         <button
           type="button"
           class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
@@ -148,7 +148,12 @@
             <div class="flex flex-col">
               <mat-form-field>
                 <mat-label>Choose a date</mat-label>
-                <input matInput [matDatepicker]="dp" formControlName="date" [min]="date"/>
+                <input
+                  matInput
+                  [matDatepicker]="dp"
+                  formControlName="date"
+                  [min]="date"
+                />
                 <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle
                   matIconSuffix

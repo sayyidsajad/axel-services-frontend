@@ -94,7 +94,7 @@ export class CategoryMgtComponent {
 
   updateCategory(id: string, categoryName: string, description: string) {
     this.subscribe.add(this._adminServices.updateCategory(id, categoryName, description).subscribe({
-      next: (res) => {
+      next: () => {
         this.listCategories()
       },
       complete: () => {

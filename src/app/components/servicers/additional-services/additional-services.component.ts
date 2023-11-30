@@ -32,9 +32,9 @@ export class AdditionalServicesComponent {
   categoryName!: string;
   description!: string;
   selectedFile!: File
-  additionalServices!:FormGroup
+  additionalServices!: FormGroup
 
-  constructor(private _sanitizer: DomSanitizer,private _servicerServices: ServicerService, private _fb: FormBuilder, public _dialog: MatDialog, private _toastr: ToastrService) {
+  constructor(private _sanitizer: DomSanitizer, private _servicerServices: ServicerService, private _fb: FormBuilder, public _dialog: MatDialog, private _toastr: ToastrService) {
     this.dataSource = new MatTableDataSource();
   }
 
@@ -84,13 +84,13 @@ export class AdditionalServicesComponent {
       }
     }))
   }
-  editCategory(id: string, service: string, description: string, amount: string) {    
-    const dialogRef = this._dialog.open(this.callAPIDialog);        
+  editCategory(id: string, service: string, description: string, amount: string) {
+    const dialogRef = this._dialog.open(this.callAPIDialog);
     this.dialogForm = this._fb.group({
       service: [service, Validators.required],
       description: [description, Validators.required],
       amount: [amount, Validators.required],
-      image:[this.selectedFile, Validators.required]
+      image: [this.selectedFile, Validators.required]
     })
     this.subscribe.add(dialogRef.afterClosed().subscribe({
       next: (result) => {

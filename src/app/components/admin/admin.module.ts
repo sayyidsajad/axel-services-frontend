@@ -7,7 +7,7 @@ import { BookingMgtComponent } from './booking-mgt/booking-mgt.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { AdminService } from 'src/app/services/admin/admin.service';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatInputModule } from '@angular/material/input'; 
+import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { ServicersMgtComponent } from './servicers-mgt/servicers-mgt.component';
 import { AdminNavComponent } from './admin-nav/admin-nav.component';

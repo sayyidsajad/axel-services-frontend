@@ -4,8 +4,6 @@ import { MessagingService } from 'src/app/services/messaging/messaging.service';
 import { ChatData } from './types/chat.types';
 import { ServicerService } from 'src/app/services/servicers/servicer.service';
 import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-chat',
@@ -22,7 +20,7 @@ export class ChatComponent {
   servicerId!: string;
   userId!: string
 
-  constructor(private _socketService: MessagingService, private _route: ActivatedRoute, private _fb: FormBuilder, private _toastr: ToastrService, private _servicerServices: ServicerService) { }
+  constructor(private _socketService: MessagingService, private _fb: FormBuilder, private _servicerServices: ServicerService) { }
 
   ngOnInit(): void {
     this.recentUsersList()
@@ -31,8 +29,6 @@ export class ChatComponent {
   recentUsersList() {
     this.subscribe.add(this._servicerServices.getRecentUsers().subscribe((res) => {
       this.usersList = res.message
-      console.log(this.usersList);
-      
     }))
   }
 

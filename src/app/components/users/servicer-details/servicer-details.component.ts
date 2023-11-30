@@ -9,7 +9,7 @@ import { GalleryItem, ImageItem } from 'ng-gallery';
 declare var Razorpay: any
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
-import { DateFilterFn, MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 const moment = _rollupMoment || _moment;
 interface TimeOption {
   value: string;
@@ -196,9 +196,7 @@ export class ServicerDetailsComponent {
       next: (res) => {
         this.updatedHours = this.hoursOptions.filter((option) => {
           return !res.filterTimes.includes(option.value);
-        });        
-        console.log(this.updatedHours);
-        
+        });
         const currentTime = new Date();
         const currentHour = currentTime.getHours();
         const currentMinutes = currentTime.getMinutes();
@@ -208,11 +206,8 @@ export class ServicerDetailsComponent {
           const optionMinutesInt = parseInt(optionMinutes, 10);
           const isLaterThanCurrentTime =
             optionHourInt > currentHour || (optionHourInt === currentHour && optionMinutesInt > currentMinutes);
-        
           return isLaterThanCurrentTime;
         });
-        console.log(filteredTimeOptions);
-        
       }
 
     }));

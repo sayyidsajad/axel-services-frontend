@@ -1,5 +1,5 @@
 export interface IUser {
-    name: string;
-    phone: number;
-    isblocked: boolean;
-  }
+  name: string;
+  phone: number;
+  isblocked: boolean;
+}

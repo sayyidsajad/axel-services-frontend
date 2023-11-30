@@ -4,7 +4,6 @@ import { UsersService } from 'src/app/services/users/users.service';
 import { serviceData } from '../homepage/types/user.types';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
 import { SharedService } from 'src/app/services/shared/shared.service';
 export interface ChipColor {
   name: string;
@@ -19,24 +18,23 @@ export class ServicesListComponent {
   sharedData: any;
   searchValue: string = '';
   currentPage!: number;
-  constructor(private userServices: UsersService, private router: Router, private _toastr: ToastrService, private _sharedDataService: SharedService) { }
+  constructor(private _userServices: UsersService, private router: Router, private _sharedDataService: SharedService) { }
   services!: Array<serviceData>;
   totalPage!: number
   private subscribe: Subscription = new Subscription()
   filteredServices: Array<serviceData> = [];
   ngOnInit(): void {
     this.sharedData = this._sharedDataService.getSharedData()
-    if (this.sharedData !== null) {
+    if (this.sharedData) {
       this.services = this.sharedData.findSearched
-    }
-    if (!this.sharedData) {
+    } else {
       this.servicesList();
     }
   }
 
   servicesList() {
     this.subscribe.add(
-      this.userServices.servicerList().subscribe({
+      this._userServices.servicerList().subscribe({
         next:
           (res: any) => {
             this.services = res.servicesFind.serviceList;
@@ -66,7 +64,7 @@ export class ServicesListComponent {
   callPag(page: number) {
     this.currentPage = page
     this.subscribe.add(
-      this.userServices.servicerList(page).subscribe((res: any) => {
+      this._userServices.servicerList(page).subscribe((res: any) => {
         this.services = res.servicesFind.serviceList;
       })
     )

@@ -13,22 +13,26 @@ export class MessagingService {
   constructor() { }
 
   setupSocketConnection(Roomid: string) {
-    this.socket = io(environment.socket_endPoint, { query: { Roomid: Roomid } })
+    this.socket = io(environment.socketEndPoint, { query: { Roomid: Roomid } })
   }
+
   join(roomName: string, Roomid: string) {
     if (this.socket) {
       this.socket.emit('join', { name: roomName, Roomid: Roomid })
     }
   }
+
   subscribeToMessages = (cb: (err: any, data: { sender: string, text: string, recever: string, data: Data }) => void) => {
     this.socket.on('new-message', (msg: { sender: string, text: string, recever: string, data: Data }) => {
       cb(null, msg);
     });
     return true;
   };
+
   sendMessage(id: string, message: string, servicerId: string, userId: string, senderType: string, receiverType: string) {
     this.socket.emit('new-message', { data: message, id: id, servicerId: servicerId, userId: userId, senderType: senderType, receiverType: receiverType })
   }
+
   disconnect() {
     if (this.socket) {
       this.socket.disconnect();

@@ -44,8 +44,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
 import { SearchFilterPipe } from './pipe/search-filter.pipe';
 import { SharedService } from 'src/app/services/shared/shared.service';
-
-
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 @NgModule({
   declarations: [
@@ -94,11 +93,12 @@ import { SharedService } from 'src/app/services/shared/shared.service';
     MatSelectModule,
     MatCheckboxModule,
     MatListModule,
+    LazyLoadImageModule
   ],
   providers: [UsersService, MessagingService,
     MatDatepickerModule,
     MatNativeDateModule,
-    OpenAiService,SharedService
+    OpenAiService, SharedService
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

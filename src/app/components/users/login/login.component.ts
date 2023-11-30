@@ -8,7 +8,6 @@ import { Subscription } from 'rxjs';
 import { Space } from '../../validators/custom-validators';
 import { environment } from 'src/environments/environment.development';
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -33,7 +32,7 @@ export class LoginComponent {
     })
   }
 
-  constructor(private _fb: FormBuilder, private _userServices: UsersService, private _router: Router, private _toastr: ToastrService, private _authService: SocialAuthService, private _httpClient: HttpClient) { }
+  constructor(private _fb: FormBuilder, private _userServices: UsersService, private _router: Router, private _toastr: ToastrService, private _authService: SocialAuthService) { }
   onSubmit() {
     const user = this.loginForm.getRawValue();
     if (this.loginForm.valid) {

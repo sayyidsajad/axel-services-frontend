@@ -29,6 +29,7 @@ export class DashboardComponent {
   options!: {};
   currentYearEarning!: number;
   currentMonthEarning!: number;
+  constructor(private _adminServices: AdminService) { }
   ngOnInit() {
     this.subscribe.add(
       this._adminServices.dashboardReports().subscribe({
@@ -85,5 +86,4 @@ export class DashboardComponent {
     })
   );
 
-  constructor(private _toastr: ToastrService, private _adminServices: AdminService) { }
 }

@@ -32,5 +32,7 @@ export class AboutComponent {
       }))
     }
   }
-  
+  ngOnDestroy(): void {
+    this.subscribe.unsubscribe()
+  }
 }

@@ -8,7 +8,7 @@
     [opened]="(isHandset$ | async) === false"
   >
     <mat-toolbar>A X E L Services</mat-toolbar>
-    <mat-nav-list>
+    <mat-nav-list class="text-center">
       <a mat-list-item routerLink="dashboard">Dashboard</a>
       <a mat-list-item routerLink="userMgt">Users</a>
       <a mat-list-item routerLink="categoryMgt">Category</a>
@@ -16,6 +16,13 @@
       <a mat-list-item routerLink="banners">Banners</a>
       <a mat-list-item routerLink="servicersMgt">Servicer</a>
       <a mat-list-item routerLink="servicersApproval">Servicers Approval</a>
+      <button
+        mat-list-item
+        class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-full transition duration-300"
+        (click)="logOut()"
+      >
+        Log Out
+      </button>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

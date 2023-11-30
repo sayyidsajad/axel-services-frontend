@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
 import { ServicerService } from 'src/app/services/servicers/servicer.service';
 
 export interface PeriodicElement {
@@ -33,7 +32,7 @@ export class DashboardComponent {
   options: any
   datas: any;
   optionss: any
-
+  constructor(private _servicerServices: ServicerService) { }
   ngOnInit() {
     this.subscribe.add(
       this._servicerServices.dashboardReports().subscribe({
@@ -141,7 +140,6 @@ export class DashboardComponent {
     })
   );
 
-  constructor(private _servicerServices: ServicerService) { }
 
 }
 

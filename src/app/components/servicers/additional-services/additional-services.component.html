@@ -5,7 +5,6 @@
     >Additional Services Management</span
   >
 </h5>
-
 <mat-grid-list cols="3" rowHeight="1:2">
   <mat-grid-tile>
     <form class="p-4" [formGroup]="additionalServices" (ngSubmit)="onSubmit()">
@@ -28,7 +27,6 @@
           </span>
         </mat-form-field>
       </div>
-
       <div class="mb-6 w-full">
         <mat-form-field>
           <mat-label>Description</mat-label>
@@ -45,7 +43,6 @@
           </span>
         </mat-form-field>
       </div>
-
       <div class="mb-6 w-full">
         <mat-form-field>
           <mat-label>Amount</mat-label>
@@ -73,7 +70,6 @@
           alt="Image Preview"
           class="max-w-full"
         />
-
         <button
           class="absolute top-2 right-2 bg-white text-red-500 border border-red-500 px-3 py-1 rounded cursor-pointer transition duration-300 hover:bg-red-500 hover:text-white"
           type="button"
@@ -83,7 +79,6 @@
           <i class="fas fa-trash-alt rounded-sm"></i>
         </button>
       </div>
-
       <button
         type="submit"
         [disabled]="!additionalServices.valid"
@@ -95,7 +90,6 @@
     </form>
   </mat-grid-tile>
 </mat-grid-list>
-
 <mat-form-field>
   <mat-label>Filter</mat-label>
   <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
@@ -203,7 +197,6 @@
           formControlName="image"
           (change)="onFileSelected($event)"
         />
-
         <button
           class="bg-white text-red-500 border border-red-500 px-3 py-1 ml-2 rounded cursor-pointer transition duration-300 hover:bg-red-500 hover:text-white"
           type="button"
@@ -213,7 +206,6 @@
           <i class="fas fa-trash-alt"></i>
         </button>
       </div>
-
       <img
         *ngIf="selectedImage"
         [src]="selectedImage"

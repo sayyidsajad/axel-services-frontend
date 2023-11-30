@@ -39,7 +39,6 @@ export class OtpVerificationComponent implements OnInit {
       Space.noSpaceAllowed]],
     })
   }
-
   sendMail(email: string) {
     this.subscribe.add(this._userServices.sendMail(email).subscribe({
       next: (res) => {
@@ -48,7 +47,6 @@ export class OtpVerificationComponent implements OnInit {
       }
     }))
   }
-
   timer() {
     const time = setInterval(() => {
       this.count--
@@ -59,7 +57,6 @@ export class OtpVerificationComponent implements OnInit {
       }
     }, 2000)
   }
-
   resendOtp() {
     if (this.resendCount === 3) {
       this._toastr.error('Resend OTP limit has been expired, You will be redirected to login page, please try again.');
@@ -73,16 +70,15 @@ export class OtpVerificationComponent implements OnInit {
     this.timer()
     this.resendActive = false
   }
-
   verifyOtp() {
     const user = this.otpVerification.getRawValue();
     if (this.otpVerification.valid && +this.otp === +user.otpCode) {
       this.verified = true
       this.subscribe.add(this._userServices.loadHome(this.email).subscribe({
-        next: (res) => {
-          localStorage.setItem(environment.userSecret, this.token)          
+        next: () => {
+          localStorage.setItem(environment.userSecret, this.token)
           this._router.navigate(['home']);
-        }, error: (err) => {
+        }, error: () => {
           this.verified = false
         },
         complete: () => {
@@ -93,7 +89,6 @@ export class OtpVerificationComponent implements OnInit {
       this._toastr.error('Invalid OTP', 'Axel Services');
     }
   }
-
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }
