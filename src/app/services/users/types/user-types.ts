@@ -6,12 +6,14 @@ export class UserRegister {
   confirmPassword!: string
 }
 export interface ILoginResponse {
+  id: any
   access_token: string;
   message: string;
   verified: boolean;
   email: string;
 }
 export interface ISignUpResponse {
+  id: any
   access_token: string;
   message: string;
   email: string;

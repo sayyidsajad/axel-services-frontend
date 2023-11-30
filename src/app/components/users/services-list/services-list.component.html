@@ -28,12 +28,12 @@
         <label class="text-sm font-medium text-gray-700 dark:text-gray-400"
           >Category</label
         >
-        <select
-          class="w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded border border-gray-300 dark:bg-gray-700 dark:border-l-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-        >
-          <option value="all">All</option>
-          <option value="mockups">Mockups</option>
-        </select>
+        <mat-form-field>
+          <mat-label>Choose a category</mat-label>
+          <mat-select placeholder="Choose a category" formControlName="categ" (selectionChange)="onCategoryChange($event)">
+            <mat-option *ngFor="let categ of categories" [value]="categ">{{ categ }}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <div class="space-y-2">
         <label class="text-sm font-medium text-gray-700 dark:text-gray-400"
@@ -125,35 +125,21 @@
       </div>
     </div>
     <div class="mt-4 flex justify-center">
-      <nav aria-label="Page navigation example">
-        <ul class="pagination">
-          <li class="page-item" [class.disabled]="currentPage === 1">
-            <a
-              class="page-link"
-              aria-label="Previous"
-              (click)="previousPage()"
-              [attr.disabled]="currentPage === 1 ? true : null"
-            >
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <ng-container *ngFor="let page of pageArr()">
-            <li class="page-item" [class.active]="page === currentPage">
-              <a class="page-link" (click)="callPag(page)">{{ page }}</a>
-            </li>
-          </ng-container>
-          <li class="page-item" [class.disabled]="currentPage === totalPage">
-            <a
-              class="page-link"
-              aria-label="Next"
-              (click)="nextPage()"
-              [attr.disabled]="currentPage === totalPage ? true : null"
-            >
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+      <div class="pagination">
+        <button (click)="previousPage()" [disabled]="currentPage === 1">
+          Previous
+        </button>
+        <button
+          *ngFor="let page of pageArr()"
+          [class.active]="currentPage === page"
+          (click)="callPag(page)"
+        >
+          {{ page }}
+        </button>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPage">
+          Next
+        </button>
+      </div>
     </div>
   </main>
 </div>

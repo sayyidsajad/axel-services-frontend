@@ -16,7 +16,7 @@ export class OtpVerificationComponent implements OnInit {
   verified: boolean = false
   otpVerification!: FormGroup
   otp!: number;
-  email!: string;
+  id!: string;
   token!: string
   count: number = 10
   resendActive: boolean = false;
@@ -29,18 +29,18 @@ export class OtpVerificationComponent implements OnInit {
     this.subscribe.add(this._route.queryParams
       .subscribe({
         next: (params) => {
-          this.email = params['email']
+          this.id = params['id']
         }
       }))
     this.timer()
-    this.sendMail(this.email)
+    this.sendMail(this.id)
     this.otpVerification = this._fb.group({
       otpCode: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern(/^[0-9]+$/),
       Space.noSpaceAllowed]],
     })
   }
-  sendMail(email: string) {
-    this.subscribe.add(this._userServices.sendMail(email).subscribe({
+  sendMail(id: string) {
+    this.subscribe.add(this._userServices.sendMail(id).subscribe({
       next: (res) => {
         this.otp = +res.otp
         this.token = res.access_token.toString()
@@ -66,7 +66,7 @@ export class OtpVerificationComponent implements OnInit {
     }
     if (this.resendActive === true)
       this.resendCount++
-    this.sendMail(this.email)
+    this.sendMail(this.id)
     this.timer()
     this.resendActive = false
   }
@@ -74,7 +74,7 @@ export class OtpVerificationComponent implements OnInit {
     const user = this.otpVerification.getRawValue();
     if (this.otpVerification.valid && +this.otp === +user.otpCode) {
       this.verified = true
-      this.subscribe.add(this._userServices.loadHome(this.email).subscribe({
+      this.subscribe.add(this._userServices.loadHome(this.id).subscribe({
         next: () => {
           localStorage.setItem(environment.userSecret, this.token)
           this._router.navigate(['home']);

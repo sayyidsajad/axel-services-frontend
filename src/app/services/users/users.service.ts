@@ -1,7 +1,7 @@
 import { SocialUser } from '@abacritt/angularx-social-login';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, filter } from 'rxjs';
 import { IBookNowResponse, IBookingsListResponse, IGoogleLoginResponse, ILoginResponse, IOtpVerificationResponse, IServicerDetailsResponse, IServicerListResponse, ISignUpResponse, IUserInboxResponse, IVerifyPaymentResponse, IUserProfileResponse } from './types/user-types';
 
 @Injectable()
@@ -16,16 +16,20 @@ export class UsersService {
   userGoogleLogin(socialUser: SocialUser): Observable<IGoogleLoginResponse> {
     return this._http.post<IGoogleLoginResponse>('googleLogin', socialUser)
   }
-  servicerList(page?: number): Observable<IServicerListResponse> {
+  servicerList(page?: number, filters?: any ): Observable<IServicerListResponse> {
     let params = new HttpParams()
     if (page) params = params.append('page', page)
+    if(filters) {
+      console.log(filters);
+      if(filters.category) params = params.append('category', filters.category)
+    }
     return this._http.get<IServicerListResponse>('servicerList', { params })
   }
-  sendMail(email: string): Observable<IOtpVerificationResponse> {
-    return this._http.get<IOtpVerificationResponse>(`otpVerification?email=${email}`)
+  sendMail(id: string): Observable<IOtpVerificationResponse> {
+    return this._http.get<IOtpVerificationResponse>(`otpVerification?id=${id}`)
   }
-  loadHome(email: string): Observable<void> {
-    return this._http.patch<void>('home', email)
+  loadHome(id: string): Observable<void> {    
+    return this._http.patch<void>('home', {id})
   }
   servicerDetails(id: string): Observable<IServicerDetailsResponse> {
     return this._http.get<IServicerDetailsResponse>(`servicerDetails?id=${id}`)

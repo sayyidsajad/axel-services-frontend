@@ -17,13 +17,16 @@ export interface ChipColor {
 export class ServicesListComponent {
   sharedData: any;
   searchValue: string = '';
-  currentPage!: number;
+  currentPage: number = 1;
   constructor(private _userServices: UsersService, private router: Router, private _sharedDataService: SharedService) { }
   services!: Array<serviceData>;
+  categories!: Array<any>
+  categorySelected!: string
   totalPage!: number
   private subscribe: Subscription = new Subscription()
   filteredServices: Array<serviceData> = [];
   ngOnInit(): void {
+    this.categoriesList()
     this.sharedData = this._sharedDataService.getSharedData()
     if (this.sharedData) {
       this.services = this.sharedData.findSearched
@@ -33,8 +36,32 @@ export class ServicesListComponent {
   }
 
   servicesList() {
+    const query: any = {}
+    if(this.categorySelected) query.category = this.categorySelected
+    console.log(query, 'in serviceslist');
+    
     this.subscribe.add(
-      this._userServices.servicerList().subscribe({
+      this._userServices.servicerList(this.currentPage, query).subscribe({
+        next:
+          (res: any) => {
+            this.services = res.servicesFind.serviceList;
+            this.totalPage = res.servicesFind.totalPage
+          }
+      }))
+  }
+  categoriesList(){
+    this.subscribe.add(
+      this._userServices.categoriesList().subscribe((res: any) => {
+        this.categories = res.categories
+      })
+    )
+  }
+  onCategoryChange(event: any): void {
+    this.categorySelected = event.value;
+    const query: any = {}
+    if(this.categorySelected) query.category = this.categorySelected
+    this.subscribe.add(
+      this._userServices.servicerList(this.currentPage, query).subscribe({
         next:
           (res: any) => {
             this.services = res.servicesFind.serviceList;
@@ -63,8 +90,10 @@ export class ServicesListComponent {
 
   callPag(page: number) {
     this.currentPage = page
+    const query: any = {}
+    if(this.categorySelected) query.category = this.categorySelected
     this.subscribe.add(
-      this._userServices.servicerList(page).subscribe((res: any) => {
+      this._userServices.servicerList(page, query).subscribe((res: any) => {
         this.services = res.servicesFind.serviceList;
       })
     )

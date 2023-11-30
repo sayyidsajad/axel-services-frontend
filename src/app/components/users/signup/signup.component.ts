@@ -36,7 +36,7 @@ export class SignupComponent {
     if (this.registerForm.valid) {
       this.subscribe.add(this._userServices.userRegister(user.name, user.email, +user.phone, user.password, user.confirmPassword).subscribe({
         next: (res) => {
-          this._router.navigate(['otpVerification'], { queryParams: { email: res.email } });
+          this._router.navigate(['otpVerification'], { queryParams: { id: res.id } });
         }
       }))
     }

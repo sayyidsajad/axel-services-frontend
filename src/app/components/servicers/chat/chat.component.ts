@@ -14,24 +14,34 @@ export class ChatComponent {
   private subscribe: Subscription = new Subscription()
   messages!: ChatData[];
   id!: string;
+  noMessage!: string;
   messageForm!: FormGroup
   usersList!: Array<any>
   Roomid!: string;
   servicerId!: string;
   userId!: string
-
+  myDetails!: any
   constructor(private _socketService: MessagingService, private _fb: FormBuilder, private _servicerServices: ServicerService) { }
 
   ngOnInit(): void {
+    this.getMyDetails()
     this.recentUsersList()
   }
 
   recentUsersList() {
     this.subscribe.add(this._servicerServices.getRecentUsers().subscribe((res) => {
-      this.usersList = res.message
+      if (res.message === 'No users available.') {
+        this.noMessage = res.message
+      } else {
+        this.usersList = res.message
+      }
     }))
   }
-
+  getMyDetails() {
+    this.subscribe.add(this._servicerServices.getMyDetails().subscribe((res) => {
+      this.myDetails = res.details
+    }))
+  }
   recentChat(id: string) {
     this.id = id
     this.messageForm = this._fb.group({

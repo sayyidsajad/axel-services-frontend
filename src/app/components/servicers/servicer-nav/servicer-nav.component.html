@@ -8,21 +8,28 @@
     [opened]="(isHandset$ | async) === false"
   >
     <mat-toolbar>A X E L Services</mat-toolbar>
-    <mat-nav-list class="text-center">
-      <a mat-list-item routerLink="dashboard">Dashboard</a>
-      <a mat-list-item routerLink="bookings">Bookings</a>
-      <a mat-list-item routerLink="additionalServices">Additional Services</a>
-      <a mat-list-item routerLink="chat">Chat</a>
-      <button
-      mat-list-item
-      class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-full transition duration-300"
-      (click)="logOut()"
-    >
-      Log Out
-    </button>    
-    
+    <mat-nav-list class="space-y-2 p-4">
+      <a mat-list-item routerLink="dashboard" class="custom-list-item flex items-center">
+        <mat-icon class="icon-small text-blue-500">dashboard</mat-icon>
+        <span class="ml-2 align-middle">Dashboard</span>
+      </a>
+      <a mat-list-item routerLink="bookings" class="custom-list-item flex items-center">
+        <mat-icon class="icon-small text-green-500">book</mat-icon>
+        <span class="ml-2 align-middle">Bookings</span>
+      </a>
+      <a mat-list-item routerLink="additionalServices" class="custom-list-item flex items-center">
+        <mat-icon class="icon-small text-yellow-500">extension</mat-icon>
+        <span class="ml-2 align-middle">Additional Services</span>
+      </a>
+      <a mat-list-item routerLink="chat" class="custom-list-item flex items-center">
+        <mat-icon class="icon-small text-purple-500">chat</mat-icon>
+        <span class="ml-2 align-middle">Chat</span>
+      </a>
+      <a mat-list-item class="custom-list-item flex items-center" (click)="logOut()">
+        <mat-icon class="icon-small text-purple-500">logout</mat-icon>
+        <span class="ml-2 align-middle">Log Out</span>
+      </a>
     </mat-nav-list>
-    
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">

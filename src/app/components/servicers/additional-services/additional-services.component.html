@@ -1,15 +1,13 @@
-<h5
-  class="mb-4 text-2xl md:text-2xl lg:text-2xl font-extrabold leading-none my-3 mx-3 tracking-tight text-gray-900 dark:text-white"
+<h2
+  class="text-2xl font-bold mb-4 text-indigo-700 border-b-2 border-indigo-700 pb-2"
 >
-  <span class="decoration-8 decoration-blue-400 dark:decoration-blue-600"
-    >Additional Services Management</span
-  >
-</h5>
+  Additional Services List
+</h2>
 <mat-grid-list cols="3" rowHeight="1:2">
   <mat-grid-tile>
     <form class="p-4" [formGroup]="additionalServices" (ngSubmit)="onSubmit()">
       <div class="mb-6 w-full">
-        <mat-form-field>
+        <mat-form-field class="sm:w-full md:w-1/2 lg:w-1/3">
           <label for="service">Service Name</label>
           <input
             matInput
@@ -21,7 +19,10 @@
           />
           <span
             class="validation text-red-500"
-            *ngIf="additionalServices.get('service')?.touched && additionalServices.controls['service'].errors?.['required']"
+            *ngIf="
+              additionalServices.get('service')?.hasError('required') &&
+              additionalServices.get('service')?.touched
+            "
           >
             Service name is required
           </span>
@@ -37,16 +38,29 @@
           ></textarea>
           <span
             class="validation text-red-500"
-            *ngIf="additionalServices.get('description')?.touched && additionalServices.controls['description'].errors?.['required']"
+            *ngIf="
+              additionalServices.get('description')?.hasError('required') &&
+              additionalServices.get('description')?.touched
+            "
           >
             Description is required
           </span>
         </mat-form-field>
       </div>
       <div class="mb-6 w-full">
-        <mat-form-field>
+        <mat-form-field class="flex items-center">
           <mat-label>Amount</mat-label>
+          <span matPrefix style="margin-right: 8px">₹</span>
           <input formControlName="amount" id="amount" matInput />
+          <span
+            class="validation text-red-500"
+            *ngIf="
+              additionalServices.get('amount')?.hasError('required') &&
+              additionalServices.get('amount')?.touched
+            "
+          >
+            Amount is required
+          </span>
         </mat-form-field>
       </div>
       <div class="mb-4">
@@ -94,8 +108,13 @@
   <mat-label>Filter</mat-label>
   <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
 </mat-form-field>
-<div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" matSort>
+<div class="mat-elevation-z8 overflow-x-auto">
+  <table
+    class="min-w-full table-auto"
+    mat-table
+    [dataSource]="dataSource"
+    matSort
+  >
     <ng-container matColumnDef="image">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Image</th>
       <td mat-cell *matCellDef="let row">
@@ -166,69 +185,75 @@
   ></mat-paginator>
 </div>
 <ng-template #callAPIDialog>
-  <h1 mat-dialog-title>Edit Service</h1>
-  <div mat-dialog-content>
-    <form class="example-form" [formGroup]="dialogForm">
-      <mat-form-field class="example-full-width">
-        <mat-label>Service</mat-label>
-        <input
-          matInput
-          placeholder="Ex. Mechanical"
-          formControlName="service"
-        />
-      </mat-form-field>
-      <mat-form-field class="example-full-width">
-        <mat-label>Description</mat-label>
-        <textarea
-          matInput
-          placeholder="Ex. It makes me feel..."
-          formControlName="description"
-        ></textarea>
-      </mat-form-field>
-      <mat-form-field class="example-full-width">
-        <mat-label>Amount</mat-label>
-        <input matInput placeholder="Ex. Mechanical" formControlName="amount" />
-      </mat-form-field>
-      <div class="flex items-center mb-4 relative">
-        <input
-          class="flex-grow text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-          id="image"
-          type="file"
-          formControlName="image"
-          (change)="onFileSelected($event)"
-        />
-        <button
-          class="bg-white text-red-500 border border-red-500 px-3 py-1 ml-2 rounded cursor-pointer transition duration-300 hover:bg-red-500 hover:text-white"
-          type="button"
+  <div class="w-full sm:w-96">
+    <h1 mat-dialog-title>Edit Service</h1>
+    <div mat-dialog-content>
+      <form class="example-form" [formGroup]="dialogForm">
+        <mat-form-field class="example-full-width">
+          <mat-label>Service</mat-label>
+          <input
+            matInput
+            placeholder="Ex. Mechanical"
+            formControlName="service"
+          />
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            placeholder="Ex. It makes me feel..."
+            formControlName="description"
+          ></textarea>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Amount</mat-label>
+          <input
+            matInput
+            placeholder="Ex. Mechanical"
+            formControlName="amount"
+          />
+        </mat-form-field>
+        <div class="flex items-center mb-4 relative">
+          <input
+            class="flex-grow text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+            id="image"
+            type="file"
+            formControlName="image"
+            (change)="onFileSelected($event)"
+          />
+          <button
+            class="bg-white text-red-500 border border-red-500 px-3 py-1 ml-2 rounded cursor-pointer transition duration-300 hover:bg-red-500 hover:text-white"
+            type="button"
+            *ngIf="selectedImage"
+            (click)="removeImage()"
+          >
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+        <img
           *ngIf="selectedImage"
-          (click)="removeImage()"
-        >
-          <i class="fas fa-trash-alt"></i>
-        </button>
-      </div>
-      <img
-        *ngIf="selectedImage"
-        [src]="selectedImage"
-        alt="Image Preview"
-        class="max-w-full mb-4 rounded-lg"
-      />
-    </form>
-  </div>
-  <div mat-dialog-actions>
-    <button
-      class="btn btn-sm btn-error text-white"
-      mat-button
-      mat-dialog-close
-      cdkFocusInitial
-    >
-      Cancel
-    </button>
-    <button
-      class="btn btn-sm btn-success text-white"
-      mat-button
-      mat-dialog-close="yes"
-    >
-      Update
-    </button>
+          [src]="selectedImage"
+          alt="Image Preview"
+          class="max-w-full mb-4 rounded-lg"
+        />
+      </form>
+    </div>
+    <div mat-dialog-actions>
+      <button
+        class="btn btn-sm btn-error text-white"
+        mat-button
+        mat-dialog-close
+        cdkFocusInitial
+      >
+        Cancel
+      </button>
+      <button
+        class="btn btn-sm btn-success text-white"
+        mat-button
+        mat-dialog-close="yes"
+      >
+        Update
+      </button>
+    </div>
   </div>
 </ng-template>

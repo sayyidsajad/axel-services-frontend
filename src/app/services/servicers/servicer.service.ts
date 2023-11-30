@@ -56,4 +56,7 @@ export class ServicerService {
   listUnlist(id: string): Observable<any> {
     return this._http.patch('servicer/listUnlist', id)
   }
+  getMyDetails(): Observable<any> {
+    return this._http.get('servicer/getMyDetails')
+  }
 }

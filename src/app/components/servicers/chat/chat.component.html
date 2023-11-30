@@ -5,12 +5,18 @@
         class="flex flex-col items-center bg-indigo-100 border border-gray-200 mt-4 w-full py-6 px-4 rounded-lg"
       >
         <div class="h-20 w-20 rounded-full border overflow-hidden">
-          <img alt="Avatar" class="h-full w-full" />
+          <img
+            alt="Avatar"
+            class="h-full w-full"
+            [src]="this.myDetails.images[0]"
+          />
         </div>
         <div class="text-sm font-semibold mt-2">
-          {{ this.usersList[0].name }}
+          {{ this.myDetails.companyName }}
         </div>
-        <div class="text-xs text-gray-500">Lead UI/UX Designer</div>
+        <div class="text-xs text-gray-500">
+          {{ this.myDetails.serviceName }}
+        </div>
       </div>
       <div class="flex flex-col mt-8" *ngIf="usersList">
         <div
@@ -31,8 +37,17 @@
           </button>
         </div>
       </div>
+      <div *ngIf="this.noMessage" class="mt-4 text-gray-500">
+        No users available.
+      </div>
     </div>
-    <div class="flex flex-col flex-auto h-full p-6" *ngIf="this.messages">
+    <div class="flex flex-col flex-auto h-full p-6 overflow-hidden" *ngIf="!messages || messages.length === 0">
+      <img src="https://assets-global.website-files.com/625816a3416990dd61391b9b/64cb996efc2215e6cbcf2370_No-comments-yet.png" alt="No messages yet" class="mx-auto" />
+    </div>    
+    <div
+      class="flex flex-col flex-auto h-full p-6"
+      *ngIf="this.messages && messages.length > 0"
+    >
       <div
         class="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4"
       >

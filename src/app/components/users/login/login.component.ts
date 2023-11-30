@@ -38,15 +38,13 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.subscribe.add(this._userServices.userLogin(user).subscribe({
         next: (res) => {
-          if (res.verified === false) {
-            this._router.navigate(['otpVerification'], { queryParams: { email: res.email } });
+          if (res.verified === false) {            
+            this._router.navigate(['otpVerification'], { queryParams: { id: res.id } });
           } else {
             localStorage.setItem(environment.userSecret, res.access_token.toString());
+            this._toastr.success('LoggedIn Successfully', 'Axel Services');
             this._router.navigate(['home']);
           }
-        },
-        complete: () => {
-          this._toastr.success('LoggedIn Successfully', 'Axel Services');
         }
       }))
     }
@@ -55,6 +53,7 @@ export class LoginComponent {
     this._userServices.userGoogleLogin(user).subscribe({
       next: (res) => {
         localStorage.setItem(environment.userSecret, res.access_token.toString());
+        this._toastr.success('LoggedIn Successfully', 'Axel Services');
         this._router.navigate(['home']);
       }
     })
