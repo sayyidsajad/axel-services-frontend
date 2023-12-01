@@ -1,8 +1,8 @@
 export const environment = {
   production: true,
   socketEndPointLocal: 'http://localhost:3000',
-  socketEndPoint: 'https://axelservices.vercel.app',
-  apiUrl: 'https://axelservices.vercel.app/',
+  socketEndPoint: 'https://axelservices.online',
+  apiUrl: 'https://axelservices.online/',
   servicerSecret: 'servicerSecret',
   adminSecret: 'adminSecret',
   userSecret: 'userSecret',
