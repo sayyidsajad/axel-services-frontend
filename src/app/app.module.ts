@@ -14,7 +14,7 @@ import { environment } from 'src/environments/environment.development';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { GALLERY_CONFIG, GalleryConfig } from 'ng-gallery';
 import { LIGHTBOX_CONFIG, LightboxConfig } from 'ng-gallery/lightbox';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -32,14 +32,15 @@ import { MatDialogModule } from '@angular/material/dialog';
     BrowserAnimationsModule,
     SocialLoginModule,
     NgxSpinnerModule.forRoot({ type: 'ball-scale-ripple-multiple' }),
-    ],
-  providers: [MessagingService, {
-    provide: LIGHTBOX_CONFIG,
-    useValue: {
-      keyboardShortcuts: false,
-      exitAnimationTime: 1000
-    } as LightboxConfig
-  }, {
+  ],
+  providers: [MessagingService, { provide: MAT_DIALOG_DATA, useValue: {} },
+    {
+      provide: LIGHTBOX_CONFIG,
+      useValue: {
+        keyboardShortcuts: false,
+        exitAnimationTime: 1000
+      } as LightboxConfig
+    }, {
       provide: GALLERY_CONFIG,
       useValue: {
         autoHeight: true,

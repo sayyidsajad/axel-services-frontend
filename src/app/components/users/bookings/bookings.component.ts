@@ -1,6 +1,6 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Inject, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { IBooking } from 'src/app/services/users/types/user-component.types';
@@ -14,11 +14,17 @@ import Swal from 'sweetalert2';
   styleUrls: ['./bookings.component.css']
 })
 export class BookingsComponent {
+  action!: string;
   @ViewChild('callAPIDialog')
   callAPIDialog!: TemplateRef<any>;
+  @ViewChild('viewDetail')
+  viewDetail!: TemplateRef<any>;
   dialogForm!: FormGroup
-  constructor(private _userServices: UsersService, public _dialog: MatDialog, private _toastr: ToastrService, private _fb: FormBuilder) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { action: string }, private _userServices: UsersService, public _dialog: MatDialog, private _toastr: ToastrService, private _fb: FormBuilder) {
+    this.action = this.data.action;
+  }
   bookings!: IBooking[] | undefined;
+  bookingDetail!: any;
   private subscribe: Subscription = new Subscription()
 
   ngOnInit(): void {
@@ -34,22 +40,58 @@ export class BookingsComponent {
       )
     );
   }
-  
-  
 
-  cancel(id: string, amount: string) {
-    this.subscribe.add(
-      this._userServices.cancel(id, amount).subscribe({
-        next: () => {
-          this.bookingsList();
-          Swal.fire('Successfully Cancelled', '', 'success');
+  cancel(bookingId: string) {
+    const dialogRef = this._dialog.open(this.callAPIDialog, {
+      data: {
+        action: 'cancel',
+      },
+    });
+    this.dialogForm = this._fb.group({
+      textArea: ['', Validators.required],
+    })
+    this.subscribe.add(dialogRef.afterClosed().subscribe({
+      next: (result) => {
+        if (result !== undefined) {
+          if (result === 'yes') {
+            const user = this.dialogForm.getRawValue();
+            if (user.textArea !== '') {
+              this.cancelBooking(bookingId, user.textArea)
+            } else {
+              this._toastr.error('Enter the reason to cancel');
+              this.cancelBooking(bookingId)
+            }
+          }
         }
-      })
-    );
+      }
+    }))
   }
 
+
+  viewDetails(id: string) {
+    this.subscribe.add(this._userServices.viewDetails(id).subscribe({
+      next: (res) => {
+        this.bookingDetail = res.bookingDetails
+        this._dialog.open(this.viewDetail);
+      }
+    }))
+  }
+
+  cancelBooking(id: string, textArea?: string) {
+    this.subscribe.add(this._userServices.cancel(id, textArea).subscribe({
+      next: () => {
+        this.bookingsList()
+      }, complete: () => {
+        Swal.fire('Successfully Cancelled', '', 'success')
+      }
+    }))
+  }
   review(serviceId: string, userId: string) {
-    const dialogRef = this._dialog.open(this.callAPIDialog);
+    const dialogRef = this._dialog.open(this.callAPIDialog, {
+      data: {
+        action: 'review',
+      },
+    });
     this.dialogForm = this._fb.group({
       textArea: ['', Validators.required],
     })

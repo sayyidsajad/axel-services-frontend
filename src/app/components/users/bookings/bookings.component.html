@@ -19,6 +19,7 @@
             <th scope="col" class="px-6 py-3">ID</th>
             <th scope="col" class="px-6 py-3">Company Name</th>
             <th scope="col" class="px-6 py-3">Status</th>
+            <th scope="col" class="px-6 py-3">Details</th>
             <th scope="col" class="px-6 py-3">Action</th>
           </tr>
         </thead>
@@ -46,11 +47,19 @@
             >
               {{ booking.approvalStatus }}
             </td>
+            <td class="px-6 py-4">
+              <div class="flex items-center space-x-3">
+                <button
+                  (click)="viewDetails(booking._id)"
+                  class="text-blue-500 cursor-pointer"
+                >
+                  View Details
+                </button>
+              </div>
+            </td>
             <td *ngIf="booking.approvalStatus === 'Pending'" class="px-6 py-4">
               <button
-                (click)="
-                  cancel(booking._id, booking.services.amount.toString())
-                "
+                (click)="cancel(booking._id)"
                 class="font-medium btn btn-error text-white"
               >
                 Cancel
@@ -80,14 +89,14 @@
   </div>
 </div>
 <ng-template #callAPIDialog>
-  <h1 mat-dialog-title>Review</h1>
+  <h1 mat-dialog-title>{{ action }}</h1>
   <div mat-dialog-content>
     <form [formGroup]="dialogForm">
       <mat-form-field>
         <mat-label>Textarea</mat-label>
         <textarea
           formControlName="textArea"
-          placeholder="Give your feedback"
+          placeholder="Enter the reason"
           matInput
           required
         ></textarea>
@@ -110,6 +119,66 @@
     >
       Yes
     </button>
+  </div>
+</ng-template>
+<ng-template #viewDetail>
+  <div
+    class="p-6 bg-white shadow-md rounded-md w-full overflow-y-auto max-w-screen-md max-h-screen"
+  >
+    <h2 class="text-2xl font-bold mb-4">
+      {{ bookingDetail.service.serviceName }}
+    </h2>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div class="flex items-center mb-2">
+        <div class="font-bold mr-2">Date:</div>
+        <div>{{ bookingDetail.date | date }}</div>
+      </div>
+      <div class="flex items-center mb-2">
+        <div class="font-bold mr-2">Time:</div>
+        <div>{{ bookingDetail.time }}</div>
+      </div>
+      <div class="col-span-2">
+        <div class="grid grid-cols-2 gap-4">
+          <div
+            *ngFor="let image of bookingDetail.service.images"
+            class="rounded-md overflow-hidden"
+          >
+            <img
+              [src]="image"
+              alt="Service Image"
+              class="w-full h-auto rounded-md"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center mb-2">
+        <div class="font-bold mr-2">Address:</div>
+        <div>{{ bookingDetail.service.address }}</div>
+      </div>
+      <div class="flex items-center mb-2">
+        <div class="font-bold mr-2">Amount:</div>
+        <div>{{ bookingDetail.service.amount }}</div>
+      </div>
+      <div class="flex items-center mb-2">
+        <div class="font-bold mr-2">Category:</div>
+        <div>{{ bookingDetail.service.category }}</div>
+      </div>
+      <div class="flex items-center mb-2">
+        <div class="font-bold mr-2">Description:</div>
+        <div>{{ bookingDetail.service.description }}</div>
+      </div>
+    </div>
+
+    <div class="mt-6 flex justify-end">
+      <button
+        mat-button
+        mat-dialog-close
+        class="bg-blue-500 text-white px-4 py-2 rounded-md"
+      >
+        Close
+      </button>
+    </div>
   </div>
 </ng-template>
 <app-footer></app-footer>

@@ -73,12 +73,17 @@
         <div class="mt-4">
           <div class="flex space-x-4">
             <button
-              data-modal-target="staticModal"
-              data-modal-toggle="staticModal"
-              class="block w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              mat-button
+              (click)="openModal()"
+              class="custom-button block w-full text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center overflow-hidden"
               type="button"
             >
-              Book Now
+              <span class="circle1"></span>
+              <span class="circle2"></span>
+              <span class="circle3"></span>
+              <span class="circle4"></span>
+              <span class="circle5"></span>
+              <span class="text text-white">Book Now</span>
             </button>
           </div>
         </div>
@@ -89,56 +94,41 @@
 
 <div class="container mx-auto px-6 mt-8">
   <mat-tab-group class="bg-white shadow-md rounded-lg mt-4">
-    <mat-tab label="Reviews">
+    <mat-tab label="Reviews" *ngIf="reviews.length > 0 && reviews">
       <div
         class="p-4 flex justify-center items-center overflow-x-hidden overflow-y-auto scrollbar-hide"
       >
         <div class="max-w-6xl mx-auto">
-          <div
-            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-          >
-            <div
-              *ngFor="let review of reviews"
-              class="flex justify-center items-center"
-            >
-              <div
-                class="bg-white p-6 rounded-md shadow-md mb-4 hover:shadow-lg transition-transform transform hover:scale-105 h-full"
-              >
-                <div class="flex items-center mb-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div *ngFor="let review of reviews" class="flex justify-center items-center">
+              <div class="bg-white p-4 rounded-md shadow-md mb-4 hover:shadow-lg transition-transform transform hover:scale-105 h-full border border-gray-300">
+                <div class="flex items-center mb-2">
                   <div class="flex-shrink-0">
+                    <img *ngIf="!review.user.image"
+                    class="h-12 w-12 md:h-16 md:w-16 rounded-full"
+                    src="https://static.vecteezy.com/system/resources/previews/011/483/813/original/guy-anime-avatar-free-vector.jpg"
+                    alt="User Avatar"
+                  />
                     <img
-                      class="h-16 w-16 md:h-20 md:w-20 rounded-full"
-                      src="{{ review.user.avatar }}"
+                      class="h-12 w-12 md:h-16 md:w-16 rounded-full"
+                      [src]="review.user.image"
                       alt="User Avatar"
                     />
                   </div>
-                  <div class="ml-4">
-                    <p class="text-indigo-600 text-lg font-semibold">
-                      {{ review.user.name }}
-                    </p>
-                    <div class="flex items-center mt-1">
-                      <span class="text-gray-700 text-xs md:text-sm"
-                        >Rating:</span
-                      >
-                      <div class="ml-1 text-yellow-500">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                      </div>
-                    </div>
+                  <div class="ml-2">
+                    <p class="text-indigo-600 text-md font-semibold">{{ review.user.name }}</p>
                   </div>
                 </div>
-                <p class="text-gray-600 text-sm">"{{ review.review }}"</p>
+                <p class="text-gray-600 text-sm italic leading-tight">"{{ review.review }}"</p>
               </div>
             </div>
           </div>
+          
         </div>
       </div>
     </mat-tab>
 
-    <mat-tab label="Location">
+    <mat-tab label="Location" *ngIf="map">
       <div class="p-4">
         <div id="map" class="h-96 rounded-md shadow-md"></div>
       </div>
@@ -147,13 +137,13 @@
 </div>
 
 <div
-  id="staticModal"
+  *ngIf="showModal"
   data-modal-backdrop="static"
   tabindex="-1"
   aria-hidden="true"
-  class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+  class="fixed inset-0 flex items-center justify-center z-50 p-4"
 >
-  <div class="relative w-full max-w-2xl max-h-full">
+  <div class="relative w-full max-w-2xl">
     <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
       <div
         class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
@@ -162,6 +152,7 @@
           Axel Appointment
         </h5>
         <button
+          (click)="closeModal()"
           type="button"
           class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
           data-modal-hide="staticModal"
@@ -283,20 +274,14 @@
       >
         <button
           data-modal-hide="staticModal"
-          type="button"
-          class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
-        >
-          Decline
-        </button>
-        <button
-          data-modal-hide="staticModal"
-          type="button"
-          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:btn-disabled btn-neutral"
+          mat-raised-button
+          color="primary"
           [disabled]="
             firstFormGroup.status === 'INVALID' ||
             secondFormGroup.status === 'INVALID'
           "
           (click)="Done()"
+          class="text-white font-medium rounded-lg text-sm px-5 py-2.5"
         >
           Proceed to payment
         </button>

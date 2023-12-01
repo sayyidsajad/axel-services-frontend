@@ -4,8 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { IUserProfile } from 'src/app/services/users/types/user-types';
 import { UsersService } from 'src/app/services/users/users.service';
-import { WhiteSpace, Space, confirmPasswordValidator } from '../../validators/custom-validators';
 import { ToastrService } from 'ngx-toastr';
+import { Space, WhiteSpace, confirmPasswordValidator } from '../../validators/custom-validators';
 
 @Component({
   selector: 'app-user-profile',
@@ -23,6 +23,11 @@ export class UserProfileComponent {
   changePasswordToggle!: boolean;
   ngOnInit(): void {
     this.getUser()
+    this.changePasswordForm = this._fb.group({
+      currentPassword: ['', [Validators.required, Validators.minLength(8), Space.noSpaceAllowed]],
+      password: ['', [Validators.required, Validators.minLength(8), Space.noSpaceAllowed]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(8), Space.noSpaceAllowed]]
+    }, { validators: confirmPasswordValidator })
   }
 
   constructor(private _userServices: UsersService, public _dialog: MatDialog, private _fb: FormBuilder, private _toastr: ToastrService) { }
@@ -46,7 +51,7 @@ export class UserProfileComponent {
     }))
   }
   saveChanges() {
-    const update = this.changePasswordForm.getRawValue()    
+    const update = this.changePasswordForm.getRawValue()
     this.subscribe.add(this._userServices.editProfile(update.editName, update.editPhone).subscribe({
       next: () => {
         this._dialog.closeAll()
@@ -57,20 +62,17 @@ export class UserProfileComponent {
     }))
   }
   togglePasswordForm() {
-    this.changePasswordToggle = !this.changePasswordToggle;    
-    this.changePasswordForm = this._fb.group({
-      currentPassword: [null, [Validators.required, Validators.minLength(8), Space.noSpaceAllowed]],
-      password: [null, [Validators.required, Validators.minLength(8), Space.noSpaceAllowed]],
-      confirmPassword: [null, [Validators.required, Validators.minLength(8), Space.noSpaceAllowed, { validators: confirmPasswordValidator }]],
-    })
+    this.changePasswordToggle = !this.changePasswordToggle;
   }
   changePassword() {
     const changed = this.changePasswordForm.getRawValue()
-    console.log(changed);
-    
     this.subscribe.add(this._userServices.updatePassword(changed.currentPassword, changed.password).subscribe({
       next: () => {
+        this.togglePasswordForm()
         this.getUser()
+      },
+      complete: () => {
+        this._toastr.success('Successfully changed password')
       }
     }))
   }

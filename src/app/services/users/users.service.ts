@@ -39,8 +39,8 @@ export class UsersService {
   bookingsList(): Observable<IBookingsListResponse> {
     return this._http.get<IBookingsListResponse>('bookingsList')
   }
-  cancel(id: string, amount: string): Observable<void> {
-    return this._http.patch<void>('cancelBooked', { id, amount })
+  cancel(id: string, textArea?: string): Observable<void> {
+    return this._http.patch<void>('cancelBooked', { id, textArea })
   }
   userInbox(): Observable<IUserInboxResponse> {
     return this._http.get<IUserInboxResponse>('userInbox')
@@ -93,10 +93,13 @@ export class UsersService {
   findService(place?: string, categ?: string, date?: string): Observable<any> {
     return this._http.post('findSearched', { place, categ, date })
   }
-  editProfile(name: string, phone: number) {
+  editProfile(name: string, phone: number): Observable<any> {
     return this._http.patch('editProfile', { name, phone })
   }
-  updatePassword(currentPassword: string, password: string) {
+  updatePassword(currentPassword: string, password: string): Observable<any> {
     return this._http.patch('updatePassword', { currentPassword, password })
+  }
+  viewDetails(id: string): Observable<any> {
+    return this._http.get(`viewDetails?id=${id}`)
   }
 }

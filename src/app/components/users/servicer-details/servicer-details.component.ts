@@ -74,6 +74,7 @@ export class ServicerDetailsComponent {
   firstFormGroup!: FormGroup;
   thirdFormGroup!: FormGroup
   bookingSummary!: FormGroup
+  showModal = false;
   insertedSummary: any
   ngOnInit(): void {
     this.id = this._route.snapshot.paramMap.get("id");
@@ -123,8 +124,16 @@ export class ServicerDetailsComponent {
       }))
     }
   }
+  openModal() {
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
+  }
   bookNow(date: string, time: string, inserted: any) {
-    let reducedAmt = inserted['reducedAmt'] ? (+this.totalAmount - this.wallet) : +this.totalAmount    
+    this.closeModal()
+    let reducedAmt = inserted['reducedAmt'] ? (+this.totalAmount - this.wallet) : +this.totalAmount
     if (reducedAmt <= 0) {
       reducedAmt = this.totalAmount;
     }
@@ -179,7 +188,6 @@ export class ServicerDetailsComponent {
   openPaymentDoneDialog() {
     const dialogRef = this._dialog.open(this.callAPIDialog);
     dialogRef.afterClosed().subscribe(() => {
-      console.log('Dialog closed');
     });
   }
   takeScreenshot() {
@@ -203,6 +211,8 @@ export class ServicerDetailsComponent {
     this.subscribe.add(this._userServices.reviewsList(this.id).subscribe({
       next: (res) => {
         this.reviews = res.reviews
+        console.log(this.reviews);
+        
       }
     }))
   }
