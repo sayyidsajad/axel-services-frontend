@@ -10,3 +10,7 @@ table {
   td, th {
     width: 25%;
   }
+  .error-message {
+    color: red;
+  }
+  

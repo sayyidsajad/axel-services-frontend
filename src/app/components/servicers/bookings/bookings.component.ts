@@ -21,7 +21,7 @@ export class BookingsComponent {
   listBookings() {
     this.subscribe.add(this._servicerServices.listBookings().subscribe({
       next: (res) => {
-        this.bookings = res.bookings
+        this.bookings = res.bookings        
       }
     }))
   }

@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { IUserProfile, IUserProfileResponse } from 'src/app/services/users/types/user-types';
+import { IUserProfile } from 'src/app/services/users/types/user-types';
 import { UsersService } from 'src/app/services/users/users.service';
+import { WhiteSpace, Space } from '../../validators/custom-validators';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-profile',
@@ -10,15 +13,17 @@ import { UsersService } from 'src/app/services/users/users.service';
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent {
+  @ViewChild('callAPIDialog')
+  callAPIDialog!: TemplateRef<any>;
   selectedFile!: File
   private subscribe: Subscription = new Subscription()
   userDetails!: IUserProfile
-
+  editProfile!: FormGroup;
   ngOnInit(): void {
     this.getUser()
   }
 
-  constructor(private _userServices: UsersService) { }
+  constructor(private _userServices: UsersService, public _dialog: MatDialog, private _fb: FormBuilder, private _toastr: ToastrService) { }
 
   getUser() {
     this.subscribe.add(this._userServices.userProfile().subscribe({
@@ -38,7 +43,27 @@ export class UserProfileComponent {
       }
     }))
   }
-
+  saveChanges() {
+    const update = this.editProfile.getRawValue()
+    this.subscribe.add(this._userServices.editProfile(update.editName, update.editPhone).subscribe({
+      next: () => {
+        this._dialog.closeAll()
+        this.getUser()
+      }, complete: () => {
+        this._toastr.success('Updated Successfully')
+      }
+    }))
+  }
+  openDialog() {
+    this.editProfile = this._fb.group({
+      editName: [this.userDetails.name, [WhiteSpace.validate, Validators.required]],
+      editPhone: [this.userDetails.phone, [Validators.required,
+      Validators.minLength(10),
+      Validators.maxLength(10),
+      Validators.pattern(/^[0-9]+$/)]]
+    })
+    this._dialog.open(this.callAPIDialog);
+  }
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

@@ -44,7 +44,7 @@ export class AdditionalServicesComponent {
       service: ['', Validators.required],
       description: ['', Validators.required],
       amount: ['', Validators.required],
-      image: ['', Validators.required],
+      image: ['', Validators.required]
     })
   }
 
@@ -110,10 +110,18 @@ export class AdditionalServicesComponent {
   }
 
   updateService(id: string, categoryName: string, description: string, amount: string) {
-    this.subscribe.add(this._servicerServices.updateService().subscribe({
+    const data = new FormData()
+    data.append('id', id);
+    data.append('categoryName', categoryName);
+    data.append('description', description);
+    data.append('amount', amount);
+    data.append('image', this.selectedFile, this.selectedFile.name);
+    this.subscribe.add(this._servicerServices.updateService(data).subscribe({
       next: () => {
-        this.additionalServicesList()
-      },
+        this.dialogForm.reset()
+        this.selectedImage = null;
+        this.additionalServices.get('image')?.setValue(null);
+        this.additionalServicesList()      },
       complete: () => {
         Swal.fire('Successfully Updated', '', 'success')
       }
@@ -121,7 +129,11 @@ export class AdditionalServicesComponent {
   }
   onFileSelected(event: any) {
     this.selectedFile = <File>event.target.files[0]
-    this.selectedImage = this._sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(this.selectedFile));
+    this.selectedFile = event.target.files[0];
+    if (!this.additionalServices.get('image')?.hasError('invalidExtension') &&
+      !this.additionalServices.get('image')?.hasError('invalidImage')) {
+      this.selectedImage = this._sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(this.selectedFile));
+    }
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

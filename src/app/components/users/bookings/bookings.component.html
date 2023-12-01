@@ -1,15 +1,17 @@
 <app-users></app-users>
 <div class="bg-gray-100 min-h-screen">
-  <div class="container mx-auto py-10">
+  <p *ngIf="bookings && bookings.length === 0" class="text-center text-error">
+    <img
+      src="https://cdn.dribbble.com/users/456158/screenshots/5099794/empty_state___bookings_4x.png"
+      alt="No Bookings Image"
+      class="max-w-full mx-auto"
+    />
+  </p>
+
+  <div *ngIf="bookings && bookings.length > 0" class="container mx-auto py-10">
     <h3 class="text-2xl font-semibold mb-4">Booking History</h3>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <p *ngIf="!bookings" class="text-center text-error">
-        You haven't done any bookings yet.
-      </p>
-      <table
-        *ngIf="bookings"
-        class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
-      >
+      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead
           class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
         >

@@ -37,9 +37,7 @@ export class ServicesListComponent {
 
   servicesList() {
     const query: any = {}
-    if(this.categorySelected) query.category = this.categorySelected
-    console.log(query, 'in serviceslist');
-    
+    if(this.categorySelected) query.category = this.categorySelected    
     this.subscribe.add(
       this._userServices.servicerList(this.currentPage, query).subscribe({
         next:
@@ -102,12 +100,14 @@ export class ServicesListComponent {
   nextPage() {
     if (this.currentPage < this.totalPage) {
       this.currentPage++;
+      this.callPag(this.currentPage)
     }
   }
 
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
+      this.callPag(this.currentPage)
     }
   }
 

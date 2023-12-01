@@ -28,5 +28,6 @@ export interface IBooking {
     description: string;
     image: string;
     serviceName: string;
+    length?:number
   };
 }

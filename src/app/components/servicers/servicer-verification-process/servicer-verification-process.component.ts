@@ -25,7 +25,7 @@ interface AddressNameFormat {
 export class ServicerVerificationProcessComponent {
   selectedImage: SafeUrl | null = null; docs: File[] = [];
   length!: number;
-  selectedFile!: File
+  selectedFile!: File| null
   submit: boolean = false
   firstFormGroup!: FormGroup;
   secondFormGroup!: FormGroup;
@@ -177,6 +177,14 @@ export class ServicerVerificationProcessComponent {
     this.selectedFile = <File>event.target.files[0]
     this.selectedImage = this._sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(this.selectedFile));
   }
+  onDeleteImage(){
+    this.selectedFile = null
+    this.selectedImage = null;
+    const fileInput = document.getElementById('file_input') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
+  }
   categoriesList() {
     this.subscribe.add(
       this._servicerServices.categoriesList().subscribe({
@@ -186,21 +194,39 @@ export class ServicerVerificationProcessComponent {
       }))
   }
   onFileChange(event: any): void {
-    this.docs = <File[]>event.target.files;
+    const selectedFiles = event.target.files;
+    this.docs = Array.from(selectedFiles);
     this.length = this.docs.length;
   }
+  
+  getSanitizedUrl(file: File): SafeUrl {
+    return this._sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file));
+  }
+  
+  onDeleteImages(index: number): void {
+    this.docs.splice(index, 1);
+  }
+  
   verifyService() {
-    const data = new FormData()
+    Object.keys(this.firstFormGroup.controls).forEach(controlName => {
+      const control = this.firstFormGroup.get(controlName);
+    
+      // Check if the control is invalid
+      if (control && control.invalid) {
+        // Log or display the control name that is not valid
+        console.log(`Control ${controlName} is not valid.`);
+      }
+    });    const data = new FormData()
     data.append('serviceName', this.firstFormGroup?.get('serviceName')?.value);
     data.append('description', this.firstFormGroup?.get('description')?.value);
     data.append('category', this.firstFormGroup?.get('category')?.value);
     data.append('amount', this.firstFormGroup?.get('amount')?.value);
     data.append('formattedAddress', this.secondFormGroup.get('formattedAddress')?.value);
-    data.append('img', this.selectedFile, this.selectedFile.name);
+    if(this.selectedFile) data.append('img', this.selectedFile, this.selectedFile.name);
     for (let i = 0; i < this.length; i++) {
       data.append('docs', this.docs[i], this.docs[i].name);
     }
-    if (this.firstFormGroup.valid && this.secondFormGroup.valid && this.thirdFormGroup) {
+    if (this.firstFormGroup.valid && this.secondFormGroup.valid && this.thirdFormGroup) {      
       this.subscribe.add(this._servicerServices.servicerVerification(data, this.id).subscribe({
         next: (res) => {
           this._router.navigate(['servicer/adminServicerApproval'], { queryParams: { id: res.id } });

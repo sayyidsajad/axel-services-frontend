@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { UsersService } from 'src/app/services/users/users.service';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
@@ -10,7 +10,10 @@ declare var Razorpay: any
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MatDialog } from '@angular/material/dialog';
 const moment = _rollupMoment || _moment;
+import domtoimage from 'dom-to-image';
+
 interface TimeOption {
   value: string;
   viewValue: string;
@@ -62,13 +65,16 @@ export class ServicerDetailsComponent {
   wallet!: number
   service!: any;
   images!: GalleryItem[];
+  @ViewChild('callAPIDialog')
+  callAPIDialog!: TemplateRef<any>;
   private subscribe: Subscription = new Subscription()
   totalAmount!: number;
-  constructor(private _userServices: UsersService, private _route: ActivatedRoute, private _fb: FormBuilder, private _router: Router, private _toastr: ToastrService) {
+  constructor(public _dialog: MatDialog, private _userServices: UsersService, private _route: ActivatedRoute, private _fb: FormBuilder, private _router: Router, private _toastr: ToastrService) {
   }
   firstFormGroup!: FormGroup;
   thirdFormGroup!: FormGroup
   bookingSummary!: FormGroup
+  insertedSummary: any
   ngOnInit(): void {
     this.id = this._route.snapshot.paramMap.get("id");
     this.servicerDetails()
@@ -118,7 +124,10 @@ export class ServicerDetailsComponent {
     }
   }
   bookNow(date: string, time: string, inserted: any) {
-    const reducedAmt = inserted['reducedAmt'] ? (+this.totalAmount - this.wallet) : +this.totalAmount
+    let reducedAmt = inserted['reducedAmt'] ? (+this.totalAmount - this.wallet) : +this.totalAmount    
+    if (reducedAmt <= 0) {
+      reducedAmt = this.totalAmount;
+    }
     const RazorpayOptions = {
       description: 'Sample Razorpay Demo',
       currency: 'INR',
@@ -152,16 +161,43 @@ export class ServicerDetailsComponent {
     Razorpay.open(RazorpayOptions, successCallback, failureCallback)
   }
 
-  verifypayment(response: object, inserted: object) {
+  verifypayment(response: object, inserted: any) {
+    const loadingIndicator = this._toastr.info('Verifying booking...');
     this._userServices.verifyPayment(response, inserted)
       .subscribe({
-        next: () => {
-          this._router.navigate(['servicerDetails', this.id]);
-        }, complete: () => {
-          this._toastr.success("Payment success");
+        next: async () => {
+          this._toastr.clear(loadingIndicator.toastId);
+          this.insertedSummary = await inserted.inserted;
+          if (this.insertedSummary) {
+            this.openPaymentDoneDialog();
+            this._toastr.success('Payment success');
+          }
         }
-      })
+      });
   }
+
+  openPaymentDoneDialog() {
+    const dialogRef = this._dialog.open(this.callAPIDialog);
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('Dialog closed');
+    });
+  }
+  takeScreenshot() {
+    const dialogElement = document.getElementById('callAPIDialog');
+    if (dialogElement) {
+      domtoimage.toPng(dialogElement)
+        .then((dataUrl: string) => {
+          const link = document.createElement('a');
+          link.href = dataUrl;
+          link.download = 'screenshot.png';
+          link.click();
+        })
+        .catch((error) => {
+          this._toastr.error('Error capturing screenshot:', error);
+        });
+    }
+  }
+
 
   reviewsList() {
     this.subscribe.add(this._userServices.reviewsList(this.id).subscribe({
@@ -227,6 +263,9 @@ export class ServicerDetailsComponent {
       date1.getFullYear() === date2.getFullYear()
     );
   };
+  close() {
+    this._dialog.closeAll()
+  }
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

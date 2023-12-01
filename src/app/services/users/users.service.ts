@@ -16,20 +16,20 @@ export class UsersService {
   userGoogleLogin(socialUser: SocialUser): Observable<IGoogleLoginResponse> {
     return this._http.post<IGoogleLoginResponse>('googleLogin', socialUser)
   }
-  servicerList(page?: number, filters?: any ): Observable<IServicerListResponse> {
+  servicerList(page?: number, filters?: any): Observable<IServicerListResponse> {
     let params = new HttpParams()
     if (page) params = params.append('page', page)
-    if(filters) {
+    if (filters) {
       console.log(filters);
-      if(filters.category) params = params.append('category', filters.category)
+      if (filters.category) params = params.append('category', filters.category)
     }
     return this._http.get<IServicerListResponse>('servicerList', { params })
   }
   sendMail(id: string): Observable<IOtpVerificationResponse> {
     return this._http.get<IOtpVerificationResponse>(`otpVerification?id=${id}`)
   }
-  loadHome(id: string): Observable<void> {    
-    return this._http.patch<void>('home', {id})
+  loadHome(id: string): Observable<void> {
+    return this._http.patch<void>('home', { id })
   }
   servicerDetails(id: string): Observable<IServicerDetailsResponse> {
     return this._http.get<IServicerDetailsResponse>(`servicerDetails?id=${id}`)
@@ -93,5 +93,8 @@ export class UsersService {
   }
   findService(place?: string, categ?: string, date?: string): Observable<any> {
     return this._http.post('findSearched', { place, categ, date })
+  }
+  editProfile(name: string, phone: number) {
+    return this._http.patch('editProfile', { name, phone })
   }
 }

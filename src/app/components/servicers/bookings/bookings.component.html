@@ -114,6 +114,7 @@
               <th scope="col" class="px-6 py-3">Company Name</th>
               <th scope="col" class="px-6 py-3">Email</th>
               <th scope="col" class="px-6 py-3">Phone</th>
+              <th scope="col" class="px-6 py-3">Status</th>
               <th scope="col" class="px-6 py-3">Action</th>
             </tr>
           </thead>
@@ -143,6 +144,9 @@
               </td>
               <td class="px-6 py-4">
                 {{ booking.services.phone }}
+              </td>
+              <td class="px-6 py-4">
+                {{ booking.approvalStatus }}
               </td>
               <td class="px-6 py-4">
                 <button

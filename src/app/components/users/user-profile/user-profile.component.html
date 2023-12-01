@@ -1,5 +1,5 @@
 <app-users></app-users>
-<mat-tab-group animationDuration="2000ms">
+<mat-tab-group animationDuration="500ms">
   <mat-tab label="Profile">
     <div class="h-full bg-gray-200 p-8">
       <div class="bg-white rounded-lg shadow-xl pb-8">
@@ -52,27 +52,187 @@
                 <span class="text-gray-700">{{ userDetails.email }}</span>
               </li>
             </ul>
-            <button class="bg-blue-500 text-white px-4 py-2 rounded-md">
-              Edit Profile
+            <button
+              mat-button
+              (click)="openDialog()"
+              class="mt-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-3 rounded-full hover:from-blue-700 focus:outline-none focus:ring focus:border-blue-300"
+            >
+              <span class="flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  ></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M2 15l7-7 7 7"
+                  ></path>
+                </svg>
+                Edit Profile
+              </span>
             </button>
           </div>
         </div>
       </div>
     </div>
   </mat-tab>
-  <mat-tab label="Address">
-    <div class="hero min-h-screen bg-base-200">
-      <div class="hero-content flex-col lg:flex-row">
-        <div>
-          <h1 class="text-5xl font-bold">Address</h1>
-          <p class="py-6">Name: John Doe</p>
-          <p>Email: john.com</p>
-          <button class="btn btn-primary">Edit Profile</button>
-          <button class="btn btn-primary">Change Password</button>
-          <button class="btn btn-primary">Activity 3</button>
+  <ng-template #callAPIDialog>
+    <h2 mat-dialog-title class="text-3xl font-bold mb-4">Edit Profile</h2>
+    <mat-dialog-content class="mat-typography">
+      <div class="space-y-4">
+        <form [formGroup]="editProfile" (ngSubmit)="saveChanges()">
+          <div class="mb-4">
+            <label for="editName" class="block text-lg font-semibold mb-1"
+              >Name:</label
+            >
+            <input
+              id="editName"
+              type="text"
+              formControlName="editName"
+              name="editedName"
+              class="form-input w-full border-b-2 focus:outline-none focus:border-blue-500"
+              placeholder="Enter your full name"
+            />
+            <div
+              *ngIf="
+                editProfile.get('editName')?.hasError('required') &&
+                editProfile.get('editName')?.touched
+              "
+              class="text-red-500"
+            >
+              Name is required.
+            </div>
+            <div
+              *ngIf="
+                editProfile.get('editName')?.hasError('hasWhiteSpace') &&
+                editProfile.get('editName')?.touched
+              "
+              class="text-red-500"
+            >
+              Name cannot contain whitespace.
+            </div>
+          </div>
+          <div class="mb-4">
+            <label for="editPhone" class="block text-lg font-semibold mb-1"
+              >Mobile:</label
+            >
+            <input
+              id="editPhone"
+              type="text"
+              name="editedPhone"
+              formControlName="editPhone"
+              class="form-input w-full border-b-2 focus:outline-none focus:border-blue-500"
+              placeholder="Enter your mobile number"
+            />
+            <div
+              *ngIf="
+                editProfile.get('editPhone')?.hasError('required') &&
+                editProfile.get('editPhone')?.touched
+              "
+              class="text-red-500"
+            >
+              Mobile is required.
+            </div>
+            <div
+              *ngIf="
+                editProfile.get('editPhone')?.hasError('minlength') &&
+                editProfile.get('editPhone')?.touched
+              "
+              class="text-red-500"
+            >
+              Mobile must be at least 10 digits.
+            </div>
+            <div
+              *ngIf="
+                editProfile.get('editPhone')?.hasError('maxlength') &&
+                editProfile.get('editPhone')?.touched
+              "
+              class="text-red-500"
+            >
+              Mobile cannot be more than 10 digits.
+            </div>
+            <div
+              *ngIf="
+                editProfile.get('editPhone')?.hasError('pattern') &&
+                editProfile.get('editPhone')?.touched
+              "
+              class="text-red-500"
+            >
+              Invalid mobile number format.
+            </div>
+            <div
+              *ngIf="
+                editProfile.get('editPhone')?.hasError('hasWhiteSpace') &&
+                editProfile.get('editPhone')?.touched
+              "
+              class="text-red-500"
+            >
+              Mobile cannot contain whitespace.
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label for="editEmail" class="block text-lg font-semibold mb-1"
+              >Email:</label
+            >
+            <input
+              id="editEmail"
+              type="email"
+              name="editedEmail"
+              class="form-input w-full bg-gray-100 p-2 rounded-md"
+              placeholder="Enter your email"
+              [value]="userDetails.email"
+              readonly
+            />
+          </div>
+        </form>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button
+        mat-button
+        mat-dialog-close
+        class="text-gray-600 hover:text-gray-800"
+      >
+        Cancel
+      </button>
+      <button
+        (click)="saveChanges()"
+        mat-button
+        cdkFocusInitial
+        class="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-3 rounded-full hover:from-blue-700 focus:outline-none focus:ring focus:border-blue-300"
+      >
+        Save Changes
+      </button>
+    </mat-dialog-actions>
+  </ng-template>
+  <mat-tab label="Wallet">
+    <div class="h-full bg-gray-200 p-8">
+      <div class="flex flex-col items-center">
+        <h2 class="text-2xl font-bold mb-4">My Wallet</h2>
+        <div class="bg-white rounded-lg shadow-xl p-8 mb-8">
+          <p class="text-xl">
+            Current Balance: {{ userDetails.wallet | currency : "INR" }}
+          </p>
+        </div>
+        <div class="bg-white rounded-lg shadow-xl p-8">
+          <h3 class="text-xl font-bold mb-4">Wallet History</h3>
+          <div class="mb-4">
+            <p>hi</p>
+          </div>
         </div>
       </div>
     </div>
   </mat-tab>
+  <app-footer></app-footer>
 </mat-tab-group>
-<app-footer></app-footer>

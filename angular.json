@@ -16,7 +16,8 @@
             "allowedCommonJsDependencies": [
               "apexcharts",
               "sweetalert2",
-              "moment"
+              "moment",
+              "dom-to-image"
             ],
             "outputPath": "dist/axel-services",
             "index": "src/index.html",
