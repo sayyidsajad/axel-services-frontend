@@ -45,7 +45,7 @@ export class UserMgtComponent {
   userList() {
     this.subscribe.add(this._adminServices.userMgt().subscribe({
       next: (res) => {
-        this.dataSource = res.users
+        this.dataSource.data = res.users
       }
     }))
   }

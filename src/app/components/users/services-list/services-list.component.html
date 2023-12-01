@@ -41,21 +41,23 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div class="space-y-2">
+      <!-- <div class="space-y-2">
         <label class="text-sm font-medium text-gray-700 dark:text-gray-400"
-          >Rating</label
+          >Companies</label
         >
-        <select
-          class="w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded border border-gray-300 dark:bg-gray-700 dark:border-l-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-        >
-          <option value="all">All</option>
-          <option value="5">5 stars</option>
-          <option value="4">4 stars</option>
-          <option value="3">3 stars</option>
-          <option value="2">2 stars</option>
-          <option value="1">1 star</option>
-        </select>
-      </div>
+        <mat-form-field>
+          <mat-label>Choose a company</mat-label>
+          <mat-select
+            placeholder="Choose a company"
+            formControlName="company"
+            (selectionChange)="onCompanyChange($event)"
+          >
+            <mat-option *ngFor="let company of companies" [value]="company">{{
+              company
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
       <button
         class="w-full p-2.5 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
@@ -124,11 +126,13 @@
         </div>
       </div>
     </div>
-    <div *ngIf="
-    (filteredServices && filteredServices.length > 0) ||
-    (services && services.length > 0) ||
-    (sharedData && sharedData.length > 0) || searchValue!==''
-  "
+    <div
+      *ngIf="
+        (filteredServices && filteredServices.length > 0) ||
+        (services && services.length > 0) ||
+        (sharedData && sharedData.length > 0) ||
+        searchValue !== ''
+      "
       class="mt-4 flex justify-center"
     >
       <div class="pagination">

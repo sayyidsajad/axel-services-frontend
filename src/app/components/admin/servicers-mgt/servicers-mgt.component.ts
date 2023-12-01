@@ -38,7 +38,7 @@ export class ServicersMgtComponent {
     this.subscribe.add(
       this._adminServices.listServices().subscribe({
         next: (res) => {
-          this.dataSource = res.services
+          this.dataSource.data = res.services
         }
       }))
   }

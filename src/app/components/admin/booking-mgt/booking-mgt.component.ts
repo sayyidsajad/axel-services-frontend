@@ -50,7 +50,7 @@ export class BookingMgtComponent {
   listBookings() {
     this.subscribe.add(this._adminServices.listBookings().subscribe({
       next: (res) => {
-        this.dataSource = res.bookings
+        this.dataSource.data = res.bookings
       }
     }))
   }

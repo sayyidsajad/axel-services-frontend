@@ -84,13 +84,13 @@ export class AdditionalServicesComponent {
       }
     }))
   }
-  editCategory(id: string, service: string, description: string, amount: string) {
+  editCategory(id: string, service: string, description: string, amount: string, image: any) {
     const dialogRef = this._dialog.open(this.callAPIDialog);
     this.dialogForm = this._fb.group({
       service: [service, Validators.required],
       description: [description, Validators.required],
       amount: [amount, Validators.required],
-      image: [this.selectedFile, Validators.required]
+      image: [image, Validators.required]
     })
     this.subscribe.add(dialogRef.afterClosed().subscribe({
       next: (result) => {
@@ -121,7 +121,8 @@ export class AdditionalServicesComponent {
         this.dialogForm.reset()
         this.selectedImage = null;
         this.additionalServices.get('image')?.setValue(null);
-        this.additionalServicesList()      },
+        this.additionalServicesList()
+      },
       complete: () => {
         Swal.fire('Successfully Updated', '', 'success')
       }
@@ -146,7 +147,7 @@ export class AdditionalServicesComponent {
   additionalServicesList() {
     this.subscribe.add(this._servicerServices.additionalServices().subscribe({
       next: (res) => {
-        this.dataSource = res.additional
+        this.dataSource.data = res.additional
       }
     }))
   }

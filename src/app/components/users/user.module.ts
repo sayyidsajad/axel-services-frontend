@@ -45,6 +45,7 @@ import { MatListModule } from '@angular/material/list';
 import { SearchFilterPipe } from './pipe/search-filter.pipe';
 import { SharedService } from 'src/app/services/shared/shared.service';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
     MatDatepickerModule,
     MatChipsModule,
     MatStepperModule,
+    NgxSkeletonLoaderModule.forRoot({ animation: 'pulse', loadingText: 'This item is actually loading...' }),
     MatTabsModule,
     MatGridListModule,
     MatCardModule,

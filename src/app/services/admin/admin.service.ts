@@ -16,13 +16,13 @@ export class AdminService {
     return this._http.get<IServicer>(`admin/servicersApproval`)
   }
   approveServices(id: string): Observable<any> {
-    return this._http.post('admin/approveServicer', id)
+    return this._http.post('admin/approveServicer', { id })
   }
   userMgt(): Observable<IUser> {
     return this._http.get<IUser>('admin/userMgt')
   }
   blockUnblockUser(id: string): Observable<{ message: string }> {
-    return this._http.post<{ message: string }>('admin/blockUnblockUser', id)
+    return this._http.post<{ message: string }>('admin/blockUnblockUser', { id })
   }
   addCategory(categoryName: string, description: string): Observable<void> {
     return this._http.post<void>('admin/addCategory', { categoryName, description })
@@ -34,7 +34,7 @@ export class AdminService {
     return this._http.get<IBooking>('admin/listBookings')
   }
   listUnlist(id: string): Observable<{ message: string }> {
-    return this._http.patch<{ message: string }>('admin/listUnlist', id)
+    return this._http.patch<{ message: string }>('admin/listUnlist', { id })
   }
   cancelBooking(textArea: string, bookingId: string, userId: string): Observable<void> {
     return this._http.post<void>('admin/cancelBooking', { textArea, bookingId, userId })
@@ -43,7 +43,7 @@ export class AdminService {
     return this._http.get<IService>('admin/listServices')
   }
   blockServicer(id: string): Observable<{ message: string }> {
-    return this._http.post<{ message: string }>('admin/blockServicer', id)
+    return this._http.post<{ message: string }>('admin/blockServicer', { id })
   }
   updateCategory(id: string, categoryName: string, description: string): Observable<void> {
     return this._http.patch<void>('admin/updateCategory', { id, categoryName, description })

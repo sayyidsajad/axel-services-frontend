@@ -20,7 +20,7 @@ export class ServicerBookingsComponent {
   bookings!: Array<any>;
   dialogForm!: FormGroup
   private subscribe: Subscription = new Subscription()
-  displayedColumns: string[] = ['id', 'companyname', 'email', 'phone', 'actions'];
+  displayedColumns: string[] = ['id', 'companyname', 'email', 'phone', 'status', 'actions'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -51,9 +51,7 @@ export class ServicerBookingsComponent {
   listBookings() {
     this.subscribe.add(this._servicerServices.listBookings().subscribe({
       next: (res) => {
-        this.dataSource = res.bookings
-      }, error: (err) => {
-        this._toastr.error(err.error.message);
+        this.dataSource.data = res.bookings
       }
     }))
   }
@@ -77,8 +75,6 @@ export class ServicerBookingsComponent {
               }
             }
           }
-        }, error: (err) => {
-          this._toastr.error(err.error.message);
         }
       }))
     } else {

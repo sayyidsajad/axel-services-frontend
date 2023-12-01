@@ -20,7 +20,6 @@ export class UsersService {
     let params = new HttpParams()
     if (page) params = params.append('page', page)
     if (filters) {
-      console.log(filters);
       if (filters.category) params = params.append('category', filters.category)
     }
     return this._http.get<IServicerListResponse>('servicerList', { params })
@@ -96,5 +95,8 @@ export class UsersService {
   }
   editProfile(name: string, phone: number) {
     return this._http.patch('editProfile', { name, phone })
+  }
+  updatePassword(currentPassword: string, password: string) {
+    return this._http.patch('updatePassword', { currentPassword, password })
   }
 }

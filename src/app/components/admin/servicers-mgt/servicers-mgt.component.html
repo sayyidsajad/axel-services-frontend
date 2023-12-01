@@ -30,16 +30,11 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
       <td mat-cell *matCellDef="let row">
-        <button
-          (click)="block(row._id)"
-          class="px-4 py-2m btn-sm {{
-            row.isBlocked ? 'btn-success' : 'btn-error'
-          }} text-white rounded-md"
-        >
+        <button mat-button (click)="block(row._id)" color="{{ row.isBlocked ? 'warn' : 'primary' }}" class="px-4 py-2m btn-sm text-white rounded-md">
           {{ row.isBlocked ? "Unblock" : "Block" }}
         </button>
       </td>
-    </ng-container>
+    </ng-container>    
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     <tr class="mat-row" *matNoDataRow>

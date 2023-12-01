@@ -7,7 +7,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServicerApprovalComponent } from './servicer-approval/servicer-approval.component';
 import { ServicersOtpVerificationComponent } from './servicers-otp-verification/servicers-otp-verification.component';
 import { HeaderComponent } from './header/header.component';
-import { BookingsComponent } from './bookings/bookings.component';
 import { ServicerService } from 'src/app/services/servicers/servicer.service';
 import { ServicerNavComponent } from './servicer-nav/servicer-nav.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -42,7 +41,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     ServicerApprovalComponent,
     ServicersOtpVerificationComponent,
     HeaderComponent,
-    BookingsComponent,
     ServicerNavComponent,
     DashboardComponent,
     ServicerBookingsComponent,

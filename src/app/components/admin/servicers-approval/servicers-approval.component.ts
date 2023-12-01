@@ -48,7 +48,7 @@ export class ServicersApprovalComponent {
       this._adminServices.servicersApproval().subscribe({
         next:
           (res) => {
-            this.dataSource = res.approvals
+            this.dataSource.data = res.approvals
           }
       }))
   }

@@ -51,7 +51,7 @@ export class CategoryMgtComponent {
     const category = this.categoryForm.getRawValue();
     if (this.categoryForm.valid) {
       this.subscribe.add(this._adminServices.addCategory(category.categoryName, category.description).subscribe({
-        next: (res) => {
+        next: () => {
           this.categoryForm.reset()
           this.listCategories()
         }, complete: () => {
@@ -114,7 +114,7 @@ export class CategoryMgtComponent {
   listCategories() {
     this.subscribe.add(this._adminServices.listCategories().subscribe({
       next: (res) => {
-        this.dataSource = res.categories
+        this.dataSource.data = res.categories
       }
     }))
   }

@@ -22,6 +22,7 @@ export class ServicesListComponent {
   services!: Array<serviceData>;
   categories!: Array<any>
   categorySelected!: string
+  companySelected!:string
   totalPage!: number
   private subscribe: Subscription = new Subscription()
   filteredServices: Array<serviceData> = [];
@@ -67,6 +68,19 @@ export class ServicesListComponent {
           }
       }))
   }
+  // onCompanyChange(event: any): void {
+  //   this.companySelected = event.value;
+  //   const query: any = {}
+  //   if(this.companySelected) query.company = this.companySelected
+  //   this.subscribe.add(
+  //     this._userServices.servicerList(this.companySelected, query).subscribe({
+  //       next:
+  //         (res: any) => {
+  //           this.services = res.servicesFind.serviceList;
+  //           this.totalPage = res.servicesFind.totalPage
+  //         }
+  //     }))
+  // }
 
   onSearch() {
     const searchTerm = this.searchValue.toLowerCase();

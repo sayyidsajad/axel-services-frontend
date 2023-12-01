@@ -72,7 +72,7 @@ export class BannerComponent {
   listBanners() {
     this.subscribe.add(this._adminServices.listBanners().subscribe({
       next: (res) => {
-        this.dataSource = res.banners
+        this.dataSource.data = res.banners
       }
     }))
   }

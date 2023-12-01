@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { IUserProfile } from 'src/app/services/users/types/user-types';
 import { UsersService } from 'src/app/services/users/users.service';
-import { WhiteSpace, Space } from '../../validators/custom-validators';
+import { WhiteSpace, Space, confirmPasswordValidator } from '../../validators/custom-validators';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -19,6 +19,8 @@ export class UserProfileComponent {
   private subscribe: Subscription = new Subscription()
   userDetails!: IUserProfile
   editProfile!: FormGroup;
+  changePasswordForm!: FormGroup
+  changePasswordToggle!: boolean;
   ngOnInit(): void {
     this.getUser()
   }
@@ -44,13 +46,31 @@ export class UserProfileComponent {
     }))
   }
   saveChanges() {
-    const update = this.editProfile.getRawValue()
+    const update = this.changePasswordForm.getRawValue()    
     this.subscribe.add(this._userServices.editProfile(update.editName, update.editPhone).subscribe({
       next: () => {
         this._dialog.closeAll()
         this.getUser()
       }, complete: () => {
         this._toastr.success('Updated Successfully')
+      }
+    }))
+  }
+  togglePasswordForm() {
+    this.changePasswordToggle = !this.changePasswordToggle;    
+    this.changePasswordForm = this._fb.group({
+      currentPassword: [null, [Validators.required, Validators.minLength(8), Space.noSpaceAllowed]],
+      password: [null, [Validators.required, Validators.minLength(8), Space.noSpaceAllowed]],
+      confirmPassword: [null, [Validators.required, Validators.minLength(8), Space.noSpaceAllowed, { validators: confirmPasswordValidator }]],
+    })
+  }
+  changePassword() {
+    const changed = this.changePasswordForm.getRawValue()
+    console.log(changed);
+    
+    this.subscribe.add(this._userServices.updatePassword(changed.currentPassword, changed.password).subscribe({
+      next: () => {
+        this.getUser()
       }
     }))
   }
