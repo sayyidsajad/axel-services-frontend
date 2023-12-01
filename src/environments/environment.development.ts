@@ -1,13 +1,8 @@
 export const environment = {
   production: true,
   socketEndPointLocal: 'http://localhost:3000',
-<<<<<<< HEAD
-  socketEndPoint: 'http://localhost:3000',
-  apiUrl: 'http://localhost:3000/',
-=======
   socketEndPoint: 'https://axelservices.online',
   apiUrl: 'https://axelservices.online/',
->>>>>>> 24f48758647b4cfcb03c0f371fe9961be225b0fc
   servicerSecret: 'servicerSecret',
   adminSecret: 'adminSecret',
   userSecret: 'userSecret',
