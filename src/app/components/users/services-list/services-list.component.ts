@@ -17,13 +17,17 @@ export interface ChipColor {
 export class ServicesListComponent {
   sharedData: any;
   searchValue: string = '';
+  filterOptionService!: any
   currentPage: number = 1;
   constructor(private _userServices: UsersService, private router: Router, private _sharedDataService: SharedService) { }
   services!: Array<serviceData>;
   categories!: Array<any>
   categorySelected!: string
-  companySelected!:string
+  companySelected!: string
+  priceSelected!: number
   totalPage!: number
+  pagtination:boolean=false
+
   private subscribe: Subscription = new Subscription()
   filteredServices: Array<serviceData> = [];
   ngOnInit(): void {
@@ -38,27 +42,30 @@ export class ServicesListComponent {
 
   servicesList() {
     const query: any = {}
-    if(this.categorySelected) query.category = this.categorySelected    
+    if (this.categorySelected) query.category = this.categorySelected
     this.subscribe.add(
       this._userServices.servicerList(this.currentPage, query).subscribe({
         next:
           (res: any) => {
+            this.filterOptionService = res.servicesFind.serviceList.map((service: { serviceName: any; }) => service.serviceName)            
             this.services = res.servicesFind.serviceList;
             this.totalPage = res.servicesFind.totalPage
           }
       }))
   }
-  categoriesList(){
+  categoriesList() {
     this.subscribe.add(
       this._userServices.categoriesList().subscribe((res: any) => {
         this.categories = res.categories
       })
     )
   }
-  onCategoryChange(event: any): void {
+  onCategoryChange(event: any,category:string,price:number): void {
     this.categorySelected = event.value;
     const query: any = {}
-    if(this.categorySelected) query.category = this.categorySelected
+    if (this.categorySelected) query.category = this.categorySelected
+    if (this.companySelected) query.company = this.companySelected
+    if (this.priceSelected) query.price = this.priceSelected
     this.subscribe.add(
       this._userServices.servicerList(this.currentPage, query).subscribe({
         next:
@@ -68,25 +75,33 @@ export class ServicesListComponent {
           }
       }))
   }
-  // onCompanyChange(event: any): void {
-  //   this.companySelected = event.value;
-  //   const query: any = {}
-  //   if(this.companySelected) query.company = this.companySelected
-  //   this.subscribe.add(
-  //     this._userServices.servicerList(this.companySelected, query).subscribe({
-  //       next:
-  //         (res: any) => {
-  //           this.services = res.servicesFind.serviceList;
-  //           this.totalPage = res.servicesFind.totalPage
-  //         }
-  //     }))
-  // }
+  onCompanyChange(events: any): void {
+    this.companySelected = events.value;
+    const query: any = {}
+    if(this.companySelected) query.company = this.companySelected
+    const event:any={
+      value :this.categorySelected
+    }
+    this.onCategoryChange(event,this.companySelected,this.priceSelected)
+  }
+
+  onPriceChange(events: any): void {
+    this.priceSelected = events.value;
+    const query: any = {}
+    if(this.priceSelected) query.company = this.priceSelected
+    const event:any={
+      value :this.categorySelected
+    }
+    this.onCategoryChange(event,this.companySelected,this.priceSelected)
+  }
+
 
   onSearch() {
     const searchTerm = this.searchValue.toLowerCase();
     this.filteredServices = this.services.filter(service =>
       service.serviceName.toLowerCase().includes(searchTerm)
     );
+    this.pagtination =true
   }
   serviceDetails(id: string) {
     this.router.navigate(['/servicerDetails', id])
@@ -103,7 +118,7 @@ export class ServicesListComponent {
   callPag(page: number) {
     this.currentPage = page
     const query: any = {}
-    if(this.categorySelected) query.category = this.categorySelected
+    if (this.categorySelected) query.category = this.categorySelected
     this.subscribe.add(
       this._userServices.servicerList(page, query).subscribe((res: any) => {
         this.services = res.servicesFind.serviceList;

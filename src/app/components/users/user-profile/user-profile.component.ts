@@ -15,6 +15,8 @@ import { Space, WhiteSpace, confirmPasswordValidator } from '../../validators/cu
 export class UserProfileComponent {
   @ViewChild('callAPIDialog')
   callAPIDialog!: TemplateRef<any>;
+  @ViewChild('walletHistory')
+  walletHistory!: TemplateRef<any>;
   selectedFile!: File
   private subscribe: Subscription = new Subscription()
   userDetails!: IUserProfile
@@ -31,12 +33,11 @@ export class UserProfileComponent {
   }
 
   constructor(private _userServices: UsersService, public _dialog: MatDialog, private _fb: FormBuilder, private _toastr: ToastrService) { }
-
   getUser() {
     this.subscribe.add(this._userServices.userProfile().subscribe({
       next:
         (res) => {
-          this.userDetails = res.user
+          this.userDetails = res.user          
         }
     }))
   }
@@ -85,6 +86,9 @@ export class UserProfileComponent {
       Validators.pattern(/^[0-9]+$/)]]
     })
     this._dialog.open(this.callAPIDialog);
+  }
+  openWalletHistoryDialog() {
+    this._dialog.open(this.walletHistory);
   }
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()

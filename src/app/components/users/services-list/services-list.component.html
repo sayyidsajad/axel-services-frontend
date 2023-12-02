@@ -18,53 +18,64 @@
 </section>
 <div class="container mx-auto mt-5 flex flex-wrap">
   <aside
-    class="w-full sm:w-1/2 lg:w-1/4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg"
+    class="w-full sm:w-1/2 lg:w-1/4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg"
   >
-    <h5 class="text-xl font-semibold text-gray-900 dark:text-white">
+    <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
       Filter Options
-    </h5>
+    </h2>
     <div class="mt-4 space-y-4">
-      <div class="space-y-2">
-        <label class="text-sm font-medium text-gray-700 dark:text-gray-400"
-          >Category</label
-        >
+      <div class="flex flex-col space-y-2">
+        <label class="text-sm font-medium text-gray-700 dark:text-gray-400">
+          Services
+        </label>
+        <mat-form-field>
+          <mat-label>Choose a service</mat-label>
+          <mat-select
+            placeholder="Choose a service"
+            formControlName="service"
+            (selectionChange)="onCompanyChange($event)"
+          >
+            <mat-option
+              *ngFor="let service of filterOptionService"
+              [value]="service"
+            >
+              {{ service }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <label class="text-sm font-medium text-gray-700 dark:text-gray-400">
+          Category
+        </label>
         <mat-form-field>
           <mat-label>Choose a category</mat-label>
           <mat-select
             placeholder="Choose a category"
             formControlName="categ"
-            (selectionChange)="onCategoryChange($event)"
+            (selectionChange)="onCategoryChange($event,'',0)"
           >
-            <mat-option *ngFor="let categ of categories" [value]="categ">{{
-              categ
-            }}</mat-option>
+            <mat-option *ngFor="let categ of categories" [value]="categ">
+              {{ categ }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <label class="text-sm font-medium text-gray-700 dark:text-gray-400">
+          Price Range
+        </label>
+        <mat-form-field>
+          <mat-label>Choose a range</mat-label>
+          <mat-select
+            placeholder="Choose a range"
+            formControlName="priceRange"
+            (selectionChange)="onPriceChange($event)"
+          >
+            <mat-option value="1">Low to High</mat-option>
+            <mat-option value="-1">High to Low</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
-      <!-- <div class="space-y-2">
-        <label class="text-sm font-medium text-gray-700 dark:text-gray-400"
-          >Companies</label
-        >
-        <mat-form-field>
-          <mat-label>Choose a company</mat-label>
-          <mat-select
-            placeholder="Choose a company"
-            formControlName="company"
-            (selectionChange)="onCompanyChange($event)"
-          >
-            <mat-option *ngFor="let company of companies" [value]="company">{{
-              company
-            }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div> -->
-      <button
-        class="w-full p-2.5 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-      >
-        Apply Filters
-      </button>
     </div>
   </aside>
+
   <main class="w-full sm:w-1/2 lg:w-3/4 mt-5 sm:mt-0 p-4">
     <div class="mb-4 flex flex-col sm:flex-row items-center justify-between">
       <h4
@@ -126,6 +137,9 @@
         </div>
       </div>
     </div>
+    <div class="flex justify-center items-center h-screen" ngif="filteredServices.length == 0">
+      <h1>No any services</h1>
+    </div>
     <div
       *ngIf="
         (filteredServices && filteredServices.length > 0) ||
@@ -135,7 +149,7 @@
       "
       class="mt-4 flex justify-center"
     >
-      <div class="pagination">
+      <div class="pagination" *ngIf="pagtination">
         <button (click)="previousPage()" [disabled]="currentPage === 1">
           Previous
         </button>

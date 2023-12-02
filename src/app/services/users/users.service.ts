@@ -21,7 +21,10 @@ export class UsersService {
     if (page) params = params.append('page', page)
     if (filters) {
       if (filters.category) params = params.append('category', filters.category)
+      if (filters.company) params = params.append('company', filters.company)
+      if (filters.price) params = params.append('price', filters.price)
     }
+  console.log(filters,'insere')
     return this._http.get<IServicerListResponse>('servicerList', { params })
   }
   sendMail(id: string): Observable<IOtpVerificationResponse> {
