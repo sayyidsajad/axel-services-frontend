@@ -99,16 +99,24 @@
         class="p-4 flex justify-center items-center overflow-x-hidden overflow-y-auto scrollbar-hide"
       >
         <div class="max-w-6xl mx-auto">
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <div *ngFor="let review of reviews" class="flex justify-center items-center">
-              <div class="bg-white p-4 rounded-md shadow-md mb-4 hover:shadow-lg transition-transform transform hover:scale-105 h-full border border-gray-300">
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+          >
+            <div
+              *ngFor="let review of reviews"
+              class="flex justify-center items-center"
+            >
+              <div
+                class="bg-white p-4 rounded-md shadow-md mb-4 hover:shadow-lg transition-transform transform hover:scale-105 h-full border border-gray-300"
+              >
                 <div class="flex items-center mb-2">
                   <div class="flex-shrink-0">
-                    <img *ngIf="!review.user.image"
-                    class="h-12 w-12 md:h-16 md:w-16 rounded-full"
-                    src="https://static.vecteezy.com/system/resources/previews/011/483/813/original/guy-anime-avatar-free-vector.jpg"
-                    alt="User Avatar"
-                  />
+                    <img
+                      *ngIf="!review.user.image"
+                      class="h-12 w-12 md:h-16 md:w-16 rounded-full"
+                      src="https://static.vecteezy.com/system/resources/previews/011/483/813/original/guy-anime-avatar-free-vector.jpg"
+                      alt="User Avatar"
+                    />
                     <img
                       class="h-12 w-12 md:h-16 md:w-16 rounded-full"
                       [src]="review.user.image"
@@ -116,14 +124,17 @@
                     />
                   </div>
                   <div class="ml-2">
-                    <p class="text-indigo-600 text-md font-semibold">{{ review.user.name }}</p>
+                    <p class="text-indigo-600 text-md font-semibold">
+                      {{ review.user.name }}
+                    </p>
                   </div>
                 </div>
-                <p class="text-gray-600 text-sm italic leading-tight">"{{ review.review }}"</p>
+                <p class="text-gray-600 text-sm italic leading-tight">
+                  "{{ review.review }}"
+                </p>
               </div>
             </div>
           </div>
-          
         </div>
       </div>
     </mat-tab>

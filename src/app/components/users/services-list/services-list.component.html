@@ -137,7 +137,7 @@
         </div>
       </div>
     </div>
-    <div class="flex justify-center items-center h-screen" ngif="filteredServices.length == 0">
+    <div class="flex justify-center items-center h-screen" *ngIf="filteredServices.length==0 && services.length ===0">
       <h1>No any services</h1>
     </div>
     <div
