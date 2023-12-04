@@ -1,3 +1,4 @@
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -13,7 +14,6 @@ export class UsersComponent {
   private subscribe: Subscription = new Subscription()
   userImage!: string
   message!: string
-
   constructor(private _router: Router, private _userServices: UsersService) { }
 
   ngOnInit(): void {
@@ -28,10 +28,10 @@ export class UsersComponent {
         }
     }))
   }
-  
+
   logOut() {
-    localStorage.removeItem(environment.userSecret)
-    this._router.navigate(['/'])
+    this._router.navigate(['/']);
+    localStorage.removeItem(environment.userSecret);
   }
 
   ngOnDestroy(): void {

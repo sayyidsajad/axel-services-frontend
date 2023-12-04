@@ -11,4 +11,6 @@ export class AppComponent {
   ngOnInit(): void {
     initFlowbite();
   }
-}
+  ngOnDestroy(): void {
+
+  }}

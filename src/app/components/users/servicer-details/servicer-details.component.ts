@@ -210,9 +210,7 @@ export class ServicerDetailsComponent {
   reviewsList() {
     this.subscribe.add(this._userServices.reviewsList(this.id).subscribe({
       next: (res) => {
-        this.reviews = res.reviews
-        console.log(this.reviews);
-        
+        this.reviews = res.reviews        
       }
     }))
   }

@@ -33,6 +33,7 @@ import { ServicerVerificationProcessComponent } from './servicer-verification-pr
 import { MatStepperModule } from '@angular/material/stepper';
 import { AdditionalServicesComponent } from './additional-services/additional-services.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ScriptLoaderService } from 'src/app/services/scripts/script-loader.service';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ChartModule,
     FormsModule,
   ],
-  providers: [ServicerService,
+  providers: [ServicerService,ScriptLoaderService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

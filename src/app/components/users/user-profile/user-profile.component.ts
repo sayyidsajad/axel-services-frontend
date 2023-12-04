@@ -19,17 +19,17 @@ export class UserProfileComponent {
   walletHistory!: TemplateRef<any>;
   selectedFile!: File
   private subscribe: Subscription = new Subscription()
-  userDetails!: IUserProfile
+  userDetails!: any
   editProfile!: FormGroup;
   changePasswordForm!: FormGroup
   changePasswordToggle!: boolean;
   ngOnInit(): void {
-    this.getUser()
     this.changePasswordForm = this._fb.group({
       currentPassword: ['', [Validators.required, Validators.minLength(8), Space.noSpaceAllowed]],
       password: ['', [Validators.required, Validators.minLength(8), Space.noSpaceAllowed]],
       confirmPassword: ['', [Validators.required, Validators.minLength(8), Space.noSpaceAllowed]]
     }, { validators: confirmPasswordValidator })
+    this.getUser()
   }
 
   constructor(private _userServices: UsersService, public _dialog: MatDialog, private _fb: FormBuilder, private _toastr: ToastrService) { }

@@ -46,6 +46,7 @@ import { SearchFilterPipe } from './pipe/search-filter.pipe';
 import { SharedService } from 'src/app/services/shared/shared.service';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { ScriptLoaderService } from 'src/app/services/scripts/script-loader.service';
 
 @NgModule({
   declarations: [
@@ -100,7 +101,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
   providers: [UsersService, MessagingService,
     MatDatepickerModule,
     MatNativeDateModule,
-    OpenAiService, SharedService
+    OpenAiService, SharedService, ScriptLoaderService
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

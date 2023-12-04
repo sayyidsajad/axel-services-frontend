@@ -32,7 +32,6 @@
           <mat-label>Choose a service</mat-label>
           <mat-select
             placeholder="Choose a service"
-            formControlName="service"
             (selectionChange)="onCompanyChange($event)"
           >
             <mat-option
@@ -50,8 +49,7 @@
           <mat-label>Choose a category</mat-label>
           <mat-select
             placeholder="Choose a category"
-            formControlName="categ"
-            (selectionChange)="onCategoryChange($event,'',0)"
+            (selectionChange)="onCategoryChange($event, '', 0)"
           >
             <mat-option *ngFor="let categ of categories" [value]="categ">
               {{ categ }}
@@ -65,7 +63,6 @@
           <mat-label>Choose a range</mat-label>
           <mat-select
             placeholder="Choose a range"
-            formControlName="priceRange"
             (selectionChange)="onPriceChange($event)"
           >
             <mat-option value="1">Low to High</mat-option>
@@ -137,7 +134,15 @@
         </div>
       </div>
     </div>
-    <div class="flex justify-center items-center h-screen" *ngIf="filteredServices.length==0 && services.length ===0">
+    <div
+      class="flex justify-center items-center h-screen"
+      *ngIf="
+        filteredServices &&
+        filteredServices.length == 0 &&
+        services &&
+        services.length === 0
+      "
+    >
       <h1>No any services</h1>
     </div>
     <div

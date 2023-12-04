@@ -19,7 +19,7 @@
         <span class="text-gray-700 text-xl font-bold block">{{
           +service?.amount | currency : "INR"
         }}</span>
-        <div *ngIf="item.length">
+        <div *ngIf="item && item.length > 0">
           <h5>Add-ons</h5>
           <cdk-accordion class="example-accordion">
             <cdk-accordion-item
@@ -94,7 +94,7 @@
 
 <div class="container mx-auto px-6 mt-8">
   <mat-tab-group class="bg-white shadow-md rounded-lg mt-4">
-    <mat-tab label="Reviews" *ngIf="reviews.length > 0 && reviews">
+    <mat-tab label="Reviews" *ngIf="reviews">
       <div
         class="p-4 flex justify-center items-center overflow-x-hidden overflow-y-auto scrollbar-hide"
       >
@@ -138,7 +138,6 @@
         </div>
       </div>
     </mat-tab>
-
     <mat-tab label="Location" *ngIf="map">
       <div class="p-4">
         <div id="map" class="h-96 rounded-md shadow-md"></div>

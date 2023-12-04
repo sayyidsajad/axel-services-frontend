@@ -37,4 +37,12 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-
+df-messenger {
+    --df-messenger-bot-message: white;
+    --df-messenger-button-titlebar-color: black;
+    --df-messenger-chat-background-color: black;
+    --df-messenger-font-color: black;
+    --df-messenger-send-icon: black;
+    --df-messenger-user-message: white;
+  }
+  

@@ -1,13 +1,13 @@
 import { SocialUser } from '@abacritt/angularx-social-login';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, filter } from 'rxjs';
+import { Observable } from 'rxjs';
 import { IBookNowResponse, IBookingsListResponse, IGoogleLoginResponse, ILoginResponse, IOtpVerificationResponse, IServicerDetailsResponse, IServicerListResponse, ISignUpResponse, IUserInboxResponse, IVerifyPaymentResponse, IUserProfileResponse } from './types/user-types';
 
 @Injectable()
 export class UsersService {
   constructor(private _http: HttpClient) { }
-  userRegister(name: string, email: string, phone: number, password: string, confirmPassword: string): Observable<ISignUpResponse> {
+  userRegister(name: string, email: string, phone: number, password: string, confirmPassword: string): Observable<ISignUpResponse> {    
     return this._http.post<ISignUpResponse>('signup', { name, email, phone, password, confirmPassword })
   }
   userLogin(user: object): Observable<ILoginResponse> {
@@ -24,7 +24,6 @@ export class UsersService {
       if (filters.company) params = params.append('company', filters.company)
       if (filters.price) params = params.append('price', filters.price)
     }
-  console.log(filters,'insere')
     return this._http.get<IServicerListResponse>('servicerList', { params })
   }
   sendMail(id: string): Observable<IOtpVerificationResponse> {

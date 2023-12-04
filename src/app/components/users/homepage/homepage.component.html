@@ -21,7 +21,9 @@
                   </h3>
                 </div>
                 <img
-                  [defaultImage]="'loading.gif'"
+                  [defaultImage]="
+                    'https://cdn3.f-cdn.com/contestentries/101364/12028319/5405852381bab_thumb900.jpg'
+                  "
                   [lazyLoad]="banner.images[0]"
                   class="w-full h-full object-cover rounded-bl-lg rounded-br-lg"
                   alt="{{ banner.bannerName }} Image"
@@ -138,7 +140,7 @@
 
             <div
               *ngIf="
-                homeForm?.get('categ')?.hasError('required') &&
+                homeForm.get('categ')?.hasError('required') &&
                 homeForm.get('categ')?.touched
               "
             >
@@ -167,23 +169,23 @@
           <div
             class="mt-6 grid w-full grid-cols-2 justify-end space-x-4 md:flex"
           >
-          <button
-          mat-button
-          class="custom-button block w-full text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center overflow-hidden"
-          type="submit"
-        >
-          <span class="circle1"></span>
-          <span class="circle2"></span>
-          <span class="circle3"></span>
-          <span class="circle4"></span>
-          <span class="circle5"></span>
-          <span class="text text-white">Search</span>
-        </button>
+            <button
+              mat-button
+              class="custom-button block w-full text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center overflow-hidden"
+              type="submit"
+            >
+              <span class="circle1"></span>
+              <span class="circle2"></span>
+              <span class="circle3"></span>
+              <span class="circle4"></span>
+              <span class="circle5"></span>
+              <span class="text text-white">Search</span>
+            </button>
           </div>
         </form>
+        </div>
       </div>
     </div>
-  </div>
 
   <div class="flex flex-col bg-white m-auto p-auto">
     <h4

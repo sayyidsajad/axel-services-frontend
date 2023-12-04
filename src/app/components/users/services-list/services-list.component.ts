@@ -19,7 +19,6 @@ export class ServicesListComponent {
   searchValue: string = '';
   filterOptionService!: any
   currentPage: number = 1;
-  constructor(private _userServices: UsersService, private router: Router, private _sharedDataService: SharedService) { }
   services!: Array<serviceData>;
   categories!: Array<any>
   categorySelected!: string
@@ -27,9 +26,9 @@ export class ServicesListComponent {
   priceSelected!: number
   totalPage!: number
   pagtination:boolean=false
-
   private subscribe: Subscription = new Subscription()
   filteredServices: Array<serviceData> = [];
+  constructor(private _userServices: UsersService, private router: Router, private _sharedDataService: SharedService) { }
   ngOnInit(): void {
     this.categoriesList()
     this.sharedData = this._sharedDataService.getSharedData()

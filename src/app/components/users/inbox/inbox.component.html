@@ -44,7 +44,7 @@
             </svg>
           </button>
         </div>
-        <div *ngIf="inboxData.length > 0" class="text-right mb-4">
+        <div *ngIf="inboxData && inboxData.length > 0" class="text-right mb-4">
           <button
             class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg"
             (click)="clearAll()"

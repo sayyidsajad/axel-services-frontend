@@ -8,6 +8,7 @@ import { categoryData } from '../../admin/category-mgt/types/categories.types';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { ScriptLoaderService } from 'src/app/services/scripts/script-loader.service';
 
 interface AddressNameFormat {
   street_number: string;
@@ -25,7 +26,7 @@ interface AddressNameFormat {
 export class ServicerVerificationProcessComponent {
   selectedImage: SafeUrl | null = null; docs: File[] = [];
   length!: number;
-  selectedFile!: File| null
+  selectedFile!: File | null
   submit: boolean = false
   firstFormGroup!: FormGroup;
   secondFormGroup!: FormGroup;
@@ -33,7 +34,7 @@ export class ServicerVerificationProcessComponent {
   id!: string
   categories!: Array<categoryData>;
   private subscribe: Subscription = new Subscription()
-  constructor(private _sanitizer: DomSanitizer, private _fb: FormBuilder, private _servicerServices: ServicerService, private _router: Router, private _route: ActivatedRoute, private _toastr: ToastrService) { }
+  constructor(private _scriptLoaderService: ScriptLoaderService, private _sanitizer: DomSanitizer, private _fb: FormBuilder, private _servicerServices: ServicerService, private _router: Router, private _route: ActivatedRoute, private _toastr: ToastrService) { }
   ngOnInit(): void {
     this.subscribe.add(this._route.queryParams
       .subscribe({
@@ -170,14 +171,20 @@ export class ServicerVerificationProcessComponent {
   }
   onStepChange(event: any) {
     if (event.selectedIndex === 1) {
-      this.initMap();
+      window['initMap'] = () => {
+        this.initMap();
+      }
+      this.subscribe.add(
+        this._scriptLoaderService.loadScript(environment.googleMapScript, () => {
+        })
+      );
     }
   }
   onFileSelected(event: any) {
     this.selectedFile = <File>event.target.files[0]
     this.selectedImage = this._sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(this.selectedFile));
   }
-  onDeleteImage(){
+  onDeleteImage() {
     this.selectedFile = null
     this.selectedImage = null;
     const fileInput = document.getElementById('file_input') as HTMLInputElement;
@@ -198,35 +205,27 @@ export class ServicerVerificationProcessComponent {
     this.docs = Array.from(selectedFiles);
     this.length = this.docs.length;
   }
-  
+
   getSanitizedUrl(file: File): SafeUrl {
     return this._sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file));
   }
-  
+
   onDeleteImages(index: number): void {
     this.docs.splice(index, 1);
   }
-  
+
   verifyService() {
-    Object.keys(this.firstFormGroup.controls).forEach(controlName => {
-      const control = this.firstFormGroup.get(controlName);
-    
-      // Check if the control is invalid
-      if (control && control.invalid) {
-        // Log or display the control name that is not valid
-        console.log(`Control ${controlName} is not valid.`);
-      }
-    });    const data = new FormData()
+    const data = new FormData()
     data.append('serviceName', this.firstFormGroup?.get('serviceName')?.value);
     data.append('description', this.firstFormGroup?.get('description')?.value);
     data.append('category', this.firstFormGroup?.get('category')?.value);
     data.append('amount', this.firstFormGroup?.get('amount')?.value);
     data.append('formattedAddress', this.secondFormGroup.get('formattedAddress')?.value);
-    if(this.selectedFile) data.append('img', this.selectedFile, this.selectedFile.name);
+    if (this.selectedFile) data.append('img', this.selectedFile, this.selectedFile.name);
     for (let i = 0; i < this.length; i++) {
       data.append('docs', this.docs[i], this.docs[i].name);
     }
-    if (this.firstFormGroup.valid && this.secondFormGroup.valid && this.thirdFormGroup) {      
+    if (this.firstFormGroup.valid && this.secondFormGroup.valid && this.thirdFormGroup) {
       this.subscribe.add(this._servicerServices.servicerVerification(data, this.id).subscribe({
         next: (res) => {
           this._router.navigate(['servicer/adminServicerApproval'], { queryParams: { id: res.id } });
