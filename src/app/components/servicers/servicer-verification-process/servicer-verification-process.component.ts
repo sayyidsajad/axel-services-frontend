@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
 import { Space, WhiteSpace } from '../../validators/custom-validators';
 import { ServicerService } from 'src/app/services/servicers/servicer.service';
@@ -9,7 +9,6 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ScriptLoaderService } from 'src/app/services/scripts/script-loader.service';
-
 interface AddressNameFormat {
   street_number: string;
   route: string;
@@ -24,6 +23,8 @@ interface AddressNameFormat {
   styleUrls: ['./servicer-verification-process.component.css']
 })
 export class ServicerVerificationProcessComponent {
+  @ViewChild('captchaElem') captchaElem!:ElementRef;
+  useGlobalDomain = false;
   selectedImage: SafeUrl | null = null; docs: File[] = [];
   length!: number;
   selectedFile!: File | null
@@ -32,6 +33,7 @@ export class ServicerVerificationProcessComponent {
   secondFormGroup!: FormGroup;
   thirdFormGroup!: FormGroup;
   id!: string
+  siteKey: string = environment.recaptcha
   categories!: Array<categoryData>;
   private subscribe: Subscription = new Subscription()
   constructor(private _scriptLoaderService: ScriptLoaderService, private _sanitizer: DomSanitizer, private _fb: FormBuilder, private _servicerServices: ServicerService, private _router: Router, private _route: ActivatedRoute, private _toastr: ToastrService) { }
@@ -56,6 +58,7 @@ export class ServicerVerificationProcessComponent {
     });
     this.thirdFormGroup = this._fb.group({
       docs: ['', Validators.required],
+      recaptcha: ['', Validators.required]
     });
     this.categoriesList()
   }
@@ -209,10 +212,24 @@ export class ServicerVerificationProcessComponent {
   getSanitizedUrl(file: File): SafeUrl {
     return this._sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file));
   }
-
+// reset(){
+//   this.thirdFormGroup.
+// }
   onDeleteImages(index: number): void {
     this.docs.splice(index, 1);
   }
+  handleSuccess(e: any) {
+    this.subscribe.add(this._servicerServices.servicerRecaptcha('e').subscribe({
+      next: () => {        
+        this.useGlobalDomain = true
+      }, error: () => {
+        this.useGlobalDomain = false
+      }
+    }))
+  }
+
+
+
 
   verifyService() {
     const data = new FormData()
@@ -226,11 +243,15 @@ export class ServicerVerificationProcessComponent {
       data.append('docs', this.docs[i], this.docs[i].name);
     }
     if (this.firstFormGroup.valid && this.secondFormGroup.valid && this.thirdFormGroup) {
-      this.subscribe.add(this._servicerServices.servicerVerification(data, this.id).subscribe({
-        next: (res) => {
-          this._router.navigate(['servicer/adminServicerApproval'], { queryParams: { id: res.id } });
-        }
-      }))
+      if (this.useGlobalDomain === false) {
+        this._toastr.error('Invalid Captcha')
+      } else {
+        this.subscribe.add(this._servicerServices.servicerVerification(data, this.id).subscribe({
+          next: (res) => {
+            this._router.navigate(['servicer/adminServicerApproval'], { queryParams: { id: res.id } });
+          }
+        }))
+      }
     }
   }
 }

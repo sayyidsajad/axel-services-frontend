@@ -19,7 +19,7 @@ import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [
     AppComponent,
-    PageNotFoundComponent,
+    PageNotFoundComponent
   ],
   imports: [
     FormsModule,
@@ -58,7 +58,7 @@ import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
               environment.googleProvider)
-          }
+          },
         ],
         onError: (err) => {
           console.error(err);

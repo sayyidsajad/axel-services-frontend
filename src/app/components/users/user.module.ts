@@ -46,6 +46,7 @@ import { SearchFilterPipe } from './pipe/search-filter.pipe';
 import { SharedService } from 'src/app/services/shared/shared.service';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { CarouselModule } from 'primeng/carousel';
 import { ScriptLoaderService } from 'src/app/services/scripts/script-loader.service';
 
 @NgModule({
@@ -78,9 +79,11 @@ import { ScriptLoaderService } from 'src/app/services/scripts/script-loader.serv
     MatDatepickerModule,
     MatChipsModule,
     MatStepperModule,
+    CarouselModule,
     NgxSkeletonLoaderModule.forRoot({ animation: 'pulse', loadingText: 'This item is actually loading...' }),
     MatTabsModule,
     MatGridListModule,
+    
     MatCardModule,
     MatInputModule,
     MatFormFieldModule,

@@ -1,7 +1,12 @@
 <div class="navbar bg-black text-white">
   <div class="navbar-start">
     <div class="dropdown">
-      <label tabindex="0" class="btn btn-ghost lg:hidden">
+      <button
+        id="dropdownButton"
+        class="btn btn-ghost lg:hidden"
+        aria-expanded="false"
+        aria-haspopup="true"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-5 w-5"
@@ -16,9 +21,9 @@
             d="M4 6h16M4 12h8m-8 6h16"
           />
         </svg>
-      </label>
+      </button>
       <ul
-        tabindex="0"
+        aria-labelledby="dropdownButton"
         class="menu menu-sm dropdown-content text-black mt-3 z-[10] p-2 shadow bg-base-100 rounded-box w-52"
       >
         <li><a routerLink="/home">Home</a></li>
@@ -26,7 +31,6 @@
         <li><a>About</a></li>
       </ul>
     </div>
-    
     <a routerLink="/home" class="btn btn-ghost normal-case text-xl">A X E L</a>
   </div>
   <div class="navbar-center hidden lg:flex">
@@ -53,7 +57,7 @@
   </div>
   <div class="navbar-end">
     <div class="dropdown dropdown-end">
-      <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+      <button type="button" tabindex="0" class="btn btn-ghost btn-circle avatar">
         <div class="w-10 rounded-full">
           <img
             *ngIf="!userImage"
@@ -61,7 +65,8 @@
           />
           <img [src]="userImage" />
         </div>
-      </label>
+      </button>
+      
       <ul
         tabindex="0"
         class="text-black menu menu-sm dropdown-content mt-3 z-[10] p-2 shadow bg-base-100 rounded-box w-52"

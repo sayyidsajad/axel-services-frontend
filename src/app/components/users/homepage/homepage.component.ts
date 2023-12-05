@@ -31,7 +31,6 @@ export class HomepageComponent {
   @ViewChild('autocomplete') autocomplete!: ElementRef
   private scriptElement: HTMLScriptElement | null = null;
 
-
   ngOnInit(): void {
     window['initMap'] = () => {
       this.initMap();

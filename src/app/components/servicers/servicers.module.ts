@@ -34,6 +34,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { AdditionalServicesComponent } from './additional-services/additional-services.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ScriptLoaderService } from 'src/app/services/scripts/script-loader.service';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,8 @@ import { ScriptLoaderService } from 'src/app/services/scripts/script-loader.serv
     MatIconModule,
     MatTableModule,
     MatPaginatorModule,
+    NgxCaptchaModule,
+
     MatFormFieldModule,
     MatGridListModule,
     MatCardModule,

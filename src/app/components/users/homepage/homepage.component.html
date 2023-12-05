@@ -4,95 +4,38 @@
     class="w-full md:max-w-screen-lg mx-auto mt-20 mb-20 overflow-hidden rounded-t-xl bg-emerald-400/60 py-32 text-center shadow-xl shadow-gray-300"
   >
     <div class="grid grid-cols-1 gap-4 text-center bg-black">
-      <div
-        id="controls-carousel"
-        class="relative w-full"
-        data-carousel="static"
+      <p-carousel
+        [value]="banners"
+        [numVisible]="1"
+        [numScroll]="3"
+        [circular]="true"
+        [autoplayInterval]="3000"
       >
-        <div class="relative h-96 overflow-hidden rounded-lg shadow-md">
-          <div *ngFor="let banner of banners" class="w-full">
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-              <div
-                class="flex items-center justify-center h-full bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-lg overflow-hidden"
-              >
-                <div class="text-center text-white">
-                  <h3 class="text-3xl font-bold mb-4">
-                    {{ banner.bannerName }}
-                  </h3>
-                </div>
-                <img
-                  [defaultImage]="
-                    'https://cdn3.f-cdn.com/contestentries/101364/12028319/5405852381bab_thumb900.jpg'
-                  "
-                  [lazyLoad]="banner.images[0]"
-                  class="w-full h-full object-cover rounded-bl-lg rounded-br-lg"
-                  alt="{{ banner.bannerName }} Image"
-                />
-              </div>
+        <ng-template let-banner pTemplate="item">
+          <div
+            class="border-1 surface-border border-round m-2 text-center py-5 px-3"
+          >
+            <div class="mb-3">
+              <img
+                [defaultImage]="
+                  'https://cdn3.f-cdn.com/contestentries/101364/12028319/5405852381bab_thumb900.jpg'
+                "
+                [lazyLoad]="banner.images[0]"
+                class="w-full h-96 object-cover rounded-bl-lg rounded-br-lg"
+                alt="{{ banner.bannerName }} Image"
+              />
             </div>
           </div>
-        </div>
-        <button
-          type="button"
-          class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-          data-carousel-prev
-        >
-          <span
-            class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
-          >
-            <svg
-              class="w-4 h-4 text-white dark:text-gray-800"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 6 10"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 1 1 5l4 4"
-              />
-            </svg>
-            <span class="sr-only">Previous</span>
-          </span>
-        </button>
-        <button
-          type="button"
-          class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-          data-carousel-next
-        >
-          <span
-            class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
-          >
-            <svg
-              class="w-4 h-4 text-white dark:text-gray-800"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 6 10"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="m1 9 4-4-4-4"
-              />
-            </svg>
-            <span class="sr-only">Next</span>
-          </span>
-        </button>
-      </div>
+        </ng-template>
+      </p-carousel>
     </div>
+
     <img
       class="absolute top-0 left-0 -z-10 h-full w-full object-cover"
       src="https://images.unsplash.com/photo-1504672281656-e4981d70414b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
       alt=""
     />
   </div>
-
   <div class="m-10 w-full md:max-w-screen-md mx-auto">
     <div class="flex flex-col">
       <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
@@ -116,6 +59,7 @@
             <input
               type="name"
               name="search"
+              id="search"
               formControlName="search"
               #autocomplete
               class="h-12 w-full pl-12 pr-4 rounded-md border border-gray-300 bg-gray-100 shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
@@ -126,17 +70,19 @@
           <div
             class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
           >
-            <mat-form-field>
-              <mat-label>Choose a category</mat-label>
-              <mat-select
-                placeholder="Choose a category"
-                formControlName="categ"
-              >
-                @for (categ of categories; track categ) {
-                <mat-option [value]="categ">{{ categ }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
+          <mat-form-field>
+            <mat-label>Choose a category</mat-label>
+            <mat-select
+              name="categ"
+              id="categ"
+              placeholder="Choose a category"
+              formControlName="categ"
+            >
+              <mat-option *ngFor="let categ of categories" [value]="categ">{{ categ }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          
 
             <div
               *ngIf="
@@ -153,6 +99,8 @@
                 <input
                   matInput
                   [matDatepicker]="dp"
+                  name="date"
+                  id="date"
                   formControlName="date"
                   [min]="date"
                 />
@@ -183,9 +131,9 @@
             </button>
           </div>
         </form>
-        </div>
       </div>
     </div>
+  </div>
 
   <div class="flex flex-col bg-white m-auto p-auto">
     <h4
@@ -230,7 +178,10 @@
     </div>
   </div>
 
-  <div class="flex flex-col bg-white m-auto p-auto">
+  <div
+    class="flex flex-col bg-white m-auto p-auto"
+    *ngIf="services && services.length > 0"
+  >
     <h4
       class="flex py-5 lg:px-20 md:px-10 px-5 lg:mx-40 md:mx-20 mx-5 font-bold text-4xl text-gray-800"
     >
@@ -245,12 +196,12 @@
           >
             <img
               [src]="service.images[0]"
-              alt="{{ service.categoryInfo.categoryName }}"
+              alt="{{ service.categoryInfo?.categoryName }}"
               class="w-full h-40 object-cover rounded-t-lg"
             />
             <div class="p-4">
               <h6 class="text-xl font-semibold">
-                {{ service.categoryInfo.categoryName }}
+                {{ service.categoryInfo?.categoryName }}
               </h6>
               <p class="text-gray-700">
                 {{ +service.amount | currency : "INR" }}
