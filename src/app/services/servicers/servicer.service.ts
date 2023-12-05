@@ -21,7 +21,7 @@ export class ServicerService {
     return this._http.get(`servicer/servicerOtpVerification?id=${id}`)
   }
   servicerDashboard(id: string): Observable<any> {
-    return this._http.post('servicer/servicerDashboard', id)
+    return this._http.post('servicer/servicerDashboard', {id})
   }
   categoriesList(): Observable<any> {
     return this._http.get('servicer/categoriesList')

@@ -34,8 +34,8 @@ export class DashboardComponent {
     this.subscribe.add(
       this._adminServices.dashboardReports().subscribe({
         next: (res) => {
-          this.currentMonthEarning = res.currentMonthEarnings[0].profitValue
-          this.currentYearEarning = res.currentYearEarning[0].profitValue
+          this.currentMonthEarning = res.currentMonthEarnings[0]?.profitValue ?? 0
+          this.currentYearEarning = res.currentYearEarning[0]?.profitValue?? 0
           const documentStyle = getComputedStyle(document.documentElement);
           const textColor = documentStyle.getPropertyValue('--text-color');
           this.data = {

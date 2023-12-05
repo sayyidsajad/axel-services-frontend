@@ -8,14 +8,14 @@
           <img
             alt="Avatar"
             class="h-full w-full"
-            [src]="this.myDetails.images[0]"
+            [src]="this.myDetails?.images[0]"
           />
         </div>
         <div class="text-sm font-semibold mt-2">
-          {{ this.myDetails.companyName }}
+          {{ this.myDetails?.companyName }}
         </div>
         <div class="text-xs text-gray-500">
-          {{ this.myDetails.serviceName }}
+          {{ this.myDetails?.serviceName }}
         </div>
       </div>
       <div class="flex flex-col mt-8" *ngIf="usersList">

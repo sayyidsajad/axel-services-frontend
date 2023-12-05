@@ -19,13 +19,13 @@ export class CategoryMgtComponent {
   private subscribe: Subscription = new Subscription()
   dataSource: MatTableDataSource<any>;
   categories!: Array<categoryData>;
+  @ViewChild('callAPIDialog')
   callAPIDialog!: TemplateRef<any>;
   categoryForm!: FormGroup
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
-  @ViewChild('callAPIDialog')
   dialogForm!: FormGroup
   categoryName!: string;
   description!: string;
@@ -69,27 +69,29 @@ export class CategoryMgtComponent {
       }
     }))
   }
-  editCategory(id: string, categoryName: string, description: string) {
-    const dialogRef = this._dialog.open(this.callAPIDialog);
-    this.dialogForm = this._fb.group({
-      categoryName: [categoryName, Validators.required],
-      description: [description, Validators.required],
-    })
-    this.subscribe.add(dialogRef.afterClosed().subscribe({
-      next: (result) => {
-        if (result !== undefined) {
-          if (result === 'yes') {
-            const categ = this.dialogForm.getRawValue();
-            if (categ.categoryName !== '' && categ.description !== '') {
-              this.updateCategory(id, categ.categoryName, categ.description)
-            } else {
-              this._toastr.error('Both fields are required.');
-              this.updateCategory(id, categoryName, description)
+  editCategory(id: string, categoryName: string, description: string) {    
+    if (id && categoryName && description) {
+      const dialogRef = this._dialog.open(this.callAPIDialog);
+      this.dialogForm = this._fb.group({
+        categoryName: [categoryName, Validators.required],
+        description: [description, Validators.required],
+      })
+      this.subscribe.add(dialogRef.afterClosed().subscribe({
+        next: (result) => {
+          if (result !== undefined) {
+            if (result === 'yes') {
+              const categ = this.dialogForm.getRawValue();
+              if (categ.categoryName !== '' && categ.description !== '') {
+                this.updateCategory(id, categ.categoryName, categ.description)
+              } else {
+                this._toastr.error('Both fields are required.');
+                this.updateCategory(id, categoryName, description)
+              }
             }
           }
         }
-      }
-    }))
+      }))
+    }
   }
 
   updateCategory(id: string, categoryName: string, description: string) {

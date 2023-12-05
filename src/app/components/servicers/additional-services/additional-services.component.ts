@@ -19,33 +19,30 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 export class AdditionalServicesComponent {
   selectedImage: SafeUrl | null = null;
-  @ViewChild('callAPIDialog')
-  callAPIDialog!: TemplateRef<any>;
-  dialogForm!: FormGroup
-  private subscribe: Subscription = new Subscription()
+  @ViewChild('callAPIDialog') callAPIDialog!: TemplateRef<any>;
+  dialogForm!: FormGroup;
+  private subscribe: Subscription = new Subscription();
   dataSource: MatTableDataSource<any>;
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
-  @ViewChild(MatSort)
-  sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
   displayedColumns: string[] = ['image', 'id', 'service', 'description', 'amount', 'list', 'action'];
   categoryName!: string;
   description!: string;
-  selectedFile!: File
-  additionalServices!: FormGroup
+  selectedFile: File | null = null;
+  additionalServices!: FormGroup;
 
   constructor(private _sanitizer: DomSanitizer, private _servicerServices: ServicerService, private _fb: FormBuilder, public _dialog: MatDialog, private _toastr: ToastrService) {
     this.dataSource = new MatTableDataSource();
   }
 
   ngOnInit(): void {
-    this.additionalServicesList()
+    this.additionalServicesList();
     this.additionalServices = this._fb.group({
       service: ['', Validators.required],
       description: ['', Validators.required],
       amount: ['', Validators.required],
-      image: ['', Validators.required]
-    })
+      image: [null, Validators.required]
+    });
   }
 
   ngAfterViewInit() {
@@ -54,25 +51,25 @@ export class AdditionalServicesComponent {
   }
 
   onSubmit() {
-    if (this.additionalServices.valid) {
-      const data = new FormData()
-      data.append('service', this.additionalServices?.get('service')?.value);
-      data.append('description', this.additionalServices?.get('description')?.value);
-      data.append('amount', this.additionalServices?.get('amount')?.value);
+    if (this.additionalServices.valid && this.selectedFile) {
+      const data = new FormData();
+      data.append('service', this.additionalServices.get('service')?.value);
+      data.append('description', this.additionalServices.get('description')?.value);
+      data.append('amount', this.additionalServices.get('amount')?.value);
       data.append('image', this.selectedFile, this.selectedFile.name);
       this.subscribe.add(this._servicerServices.createService(data).subscribe({
         next: () => {
-          this.additionalServices.reset()
+          this.additionalServices.reset();
           this.selectedImage = null;
-          this.additionalServices.get('image')?.setValue(null);
-          this.additionalServicesList()
+          this.selectedFile = null;
+          this.additionalServicesList();
         },
         complete: () => {
-          Swal.fire('Successfully Added', '', 'success')
+          Swal.fire('Successfully Added', '', 'success');
         }
-      }))
+      }));
     } else {
-      this._toastr.error('Invalid Form Details')
+      this._toastr.error('Invalid Form Details');
     }
   }
 
@@ -110,32 +107,38 @@ export class AdditionalServicesComponent {
   }
 
   updateService(id: string, categoryName: string, description: string, amount: string) {
-    const data = new FormData()
+    const data = new FormData();
     data.append('id', id);
     data.append('categoryName', categoryName);
     data.append('description', description);
     data.append('amount', amount);
-    data.append('image', this.selectedFile, this.selectedFile.name);
+
+    if (this.selectedFile) {
+      data.append('image', this.selectedFile, this.selectedFile.name);
+    }
+
     this.subscribe.add(this._servicerServices.updateService(data).subscribe({
       next: () => {
-        this.dialogForm.reset()
+        this.dialogForm.reset();
         this.selectedImage = null;
-        this.additionalServices.get('image')?.setValue(null);
-        this.additionalServicesList()
+        this.selectedFile = null;
+        this.additionalServicesList();
       },
       complete: () => {
-        Swal.fire('Successfully Updated', '', 'success')
+        Swal.fire('Successfully Updated', '', 'success');
       }
-    }))
+    }));
   }
   onFileSelected(event: any) {
-    this.selectedFile = <File>event.target.files[0]
     this.selectedFile = event.target.files[0];
-    if (!this.additionalServices.get('image')?.hasError('invalidExtension') &&
-      !this.additionalServices.get('image')?.hasError('invalidImage')) {
-      this.selectedImage = this._sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(this.selectedFile));
+    if (this.selectedFile) {
+      if (!this.additionalServices.get('image')?.hasError('invalidExtension') &&
+        !this.additionalServices.get('image')?.hasError('invalidImage')) {
+        this.selectedImage = URL.createObjectURL(this.selectedFile) as SafeUrl;
+      }
     }
   }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
