@@ -1,52 +1,38 @@
 <app-users></app-users>
-<section
-  class="bg-center bg-no-repeat bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/conference.jpg')] bg-gray-700 bg-blend-multiply"
->
-  <div class="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
-    <h2
-      class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl"
-    >
+
+<section class="bg-center bg-no-repeat bg-cover bg-blend-multiply" style="background-image: url('https://flowbite.s3.amazonaws.com/docs/jumbotron/conference.jpg');">
+  <div class="px-4 mx-auto max-w-screen-xl text-center py-8 md:py-16 lg:py-24">
+    <h2 class="mb-4 text-xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-none text-white">
       Access Anywhere <br />Axel Services
     </h2>
-    <p
-      class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-4 md:px-8 lg:px-16"
-    >
-      Axel Services is a platform where you get unlimited access to services
-      needed by individuals in society.
+    <p class="mb-4 text-sm md:text-lg text-gray-300 md:px-8 lg:px-16">
+      Axel Services is a platform where you get unlimited access to services needed by individuals in society.
     </p>
   </div>
 </section>
+
 <div class="container mx-auto mt-5 flex flex-wrap">
-  <aside
-    class="w-full sm:w-1/2 lg:w-1/4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg"
-  >
-    <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
+  <aside class="w-full sm:w-1/2 lg:w-1/4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+    <h2 class="text-lg md:text-xl lg:text-2xl font-semibold text-gray-800 dark:text-white mb-4">
       Filter Options
     </h2>
     <div class="mt-4 space-y-4">
       <div class="flex flex-col space-y-2">
-        <label class="text-sm font-medium text-gray-700 dark:text-gray-400">
-          Services
-        </label>
+        <mat-label>Services</mat-label>
         <mat-form-field>
-          <mat-label>Choose a service</mat-label>
           <mat-select
+            id="service"
+            name="service"
             placeholder="Choose a service"
             (selectionChange)="onCompanyChange($event)"
           >
-            <mat-option
-              *ngFor="let service of filterOptionService"
-              [value]="service"
-            >
+            <mat-option *ngFor="let service of filterOptionService" [value]="service">
               {{ service }}
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <label class="text-sm font-medium text-gray-700 dark:text-gray-400">
-          Category
-        </label>
+        <mat-label>Category</mat-label>
         <mat-form-field>
-          <mat-label>Choose a category</mat-label>
           <mat-select
             placeholder="Choose a category"
             (selectionChange)="onCategoryChange($event, '', 0)"
@@ -56,12 +42,11 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <label class="text-sm font-medium text-gray-700 dark:text-gray-400">
-          Price Range
-        </label>
+        <mat-label>Price Range</mat-label>
         <mat-form-field>
-          <mat-label>Choose a range</mat-label>
           <mat-select
+            name="price"
+            id="price"
             placeholder="Choose a range"
             (selectionChange)="onPriceChange($event)"
           >
@@ -75,23 +60,22 @@
 
   <main class="w-full sm:w-1/2 lg:w-3/4 mt-5 sm:mt-0 p-4">
     <div class="mb-4 flex flex-col sm:flex-row items-center justify-between">
-      <h4
-        class="text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-4xl mb-2 sm:mb-0"
-      >
-        <span
-          class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400"
-          >Services</span
-        >
+      <h4 class="text-lg md:text-2xl lg:text-3xl font-extrabold text-gray-900 dark:text-white mb-2 sm:mb-0">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
+          Services
+        </span>
       </h4>
-      <div class="flex items-center mt-3 sm:mt-0">
+      <div class="flex items-center mt-3 sm:mt-0 space-x-2">
         <input
           [(ngModel)]="searchValue"
+          id="search"
+          name="search"
           type="text"
           placeholder="Search..."
-          class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          class="px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
         />
         <button
-          class="ml-2 px-4 py-2 text-sm font-medium text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:outline-none focus:ring focus:border-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-dark:focus:border-blue-800"
+          class="px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:outline-none focus:ring focus:border-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-dark:focus:border-blue-800"
         >
           Search
         </button>
@@ -99,77 +83,40 @@
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      <div
-        class="max-w-md w-full sm:w-full lg:w-full h-400 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex"
-        *ngFor="
-          let service of (filteredServices.length > 0
-            ? filteredServices
-            : services
-          ) | searchFilterPipe : searchValue
-        "
-      >
+      <div class="max-w-md w-full sm:w-full lg:w-full h-400 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex" *ngFor="let service of (filteredServices.length > 0 ? filteredServices : services) | searchFilterPipe : searchValue">
         <div class="p-5 flex-grow">
           <a href="#">
-            <img
-              src="{{ service.images[0] }}"
-              alt="{{ service.serviceName }}"
-              class="mb-4 rounded-md w-full h-48 object-cover object-center"
-            />
-            <h5 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+            <img src="{{ service.images[0] }}" alt="{{ service.serviceName }}" class="mb-4 rounded-md w-full h-48 object-cover object-center" />
+            <h5 class="mb-2 text-lg md:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
               Company: {{ service.companyName }}
             </h5>
           </a>
-          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+          <p class="mb-3 text-sm md:text-base lg:text-lg font-normal text-gray-700 dark:text-gray-400">
             {{ service.serviceName }}
           </p>
-          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+          <p class="mb-3 text-sm md:text-base lg:text-lg font-normal text-gray-700 dark:text-gray-400">
             {{ service.amount | currency : "INR" }}
           </p>
           <div class="flex justify-between">
-            <a (click)="serviceDetails(service._id)" class="btn btn-primary"
-              >View Details</a
-            >
+            <a (click)="serviceDetails(service._id)" class="btn btn-primary">View Details</a>
             <a href="#" class="btn btn-primary">Book Now</a>
           </div>
         </div>
       </div>
     </div>
-    <div
-      class="flex justify-center items-center h-screen"
-      *ngIf="
-        filteredServices &&
-        filteredServices.length == 0 &&
-        services &&
-        services.length === 0
-      "
-    >
-      <h1>No any services</h1>
+
+    <div class="flex justify-center items-center h-screen" *ngIf="filteredServices && filteredServices.length == 0 && services && services.length === 0">
+      <h1>No services available</h1>
     </div>
-    <div
-      *ngIf="
-        (filteredServices && filteredServices.length > 0) ||
-        (services && services.length > 0) ||
-        (sharedData && sharedData.length > 0) ||
-        searchValue !== ''
-      "
-      class="mt-4 flex justify-center"
-    >
+
+    <div *ngIf="(filteredServices && filteredServices.length > 0) || (services && services.length > 0) || (sharedData && sharedData.length > 0) || searchValue !== ''" class="mt-4 flex justify-center">
       <div class="pagination" *ngIf="pagtination">
-        <button (click)="previousPage()" [disabled]="currentPage === 1">
-          Previous
-        </button>
-        <button
-          *ngFor="let page of pageArr()"
-          [class.active]="currentPage === page"
-          (click)="callPag(page)"
-        >
-          {{ page }}
-        </button>
-        <button (click)="nextPage()" [disabled]="currentPage === totalPage">
-          Next
-        </button>
+        <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+        <button *ngFor="let page of pageArr()" [class.active]="currentPage === page" (click)="callPag(page)">{{ page }}</button>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPage">Next</button>
       </div>
     </div>
   </main>
 </div>
+
 <app-footer></app-footer>

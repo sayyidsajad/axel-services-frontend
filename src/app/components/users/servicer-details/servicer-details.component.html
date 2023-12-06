@@ -199,11 +199,13 @@
           <form [formGroup]="firstFormGroup">
             <ng-template matStepLabel>Select Your Date</ng-template>
             <mat-form-field class="example-full-width">
-              <mat-label>Choose a date</mat-label>
               <input
                 matInput
                 [matDatepicker]="picker"
                 [min]="date"
+                name="date"
+                id="date"
+                placeholder="Choose a date"
                 formControlName="date"
                 (dateChange)="addEvent($event)"
               />
@@ -235,8 +237,7 @@
           <form [formGroup]="secondFormGroup">
             <ng-template matStepLabel>Select Your Time</ng-template>
             <mat-form-field>
-              <mat-label>Choose a Time</mat-label>
-              <mat-select formControlName="time">
+              <mat-select name="time" id="time" formControlName="time" placeholder="Choose a time">
                 <mat-option
                   *ngFor="let hourOption of updatedHours"
                   [value]="hourOption.value"
@@ -259,16 +260,12 @@
         </mat-step>
         <mat-step [stepControl]="bookingSummary">
           <ng-template matStepLabel>Booking Summary</ng-template>
-          <p>
-            Date: {{ firstFormGroup.get("date")?.value | date : "dd/MM/yyyy" }}
-          </p>
+          <p>Date: {{ firstFormGroup.get("date")?.value | date : "dd/MM/yyyy" }}</p>
           <p>Time: {{ secondFormGroup.get("time")?.value }}</p>
           <p>Service Name: {{ service?.serviceName }}</p>
           <p>Amount: {{ +totalAmount | currency : "INR" }}</p>
           <form *ngIf="wallet > 0" [formGroup]="thirdFormGroup">
-            <label for="Wallet"
-              >Wallet Balance: {{ wallet | currency : "INR" }}</label
-            >
+            <label for="Wallet">Wallet Balance: {{ wallet | currency : "INR" }}</label>
             <p>
               Deduct from Wallet:
               <input type="checkbox" formControlName="walletChecked" />
@@ -278,6 +275,7 @@
             <button mat-button matStepperPrevious>Back</button>
           </div>
         </mat-step>
+        
       </mat-vertical-stepper>
       <div
         class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600"
