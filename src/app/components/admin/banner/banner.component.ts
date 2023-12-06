@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { WhiteSpace } from '../../validators/custom-validators';
+import { Space, WhiteSpace, noNumbersValidator } from '../../validators/custom-validators';
 import { ToastrService } from 'ngx-toastr';
 import { AdminService } from 'src/app/services/admin/admin.service';
 import { Subscription } from 'rxjs';
@@ -34,8 +34,8 @@ export class BannerComponent {
   sort!: MatSort;
   constructor(private _fb: FormBuilder, private _toastr: ToastrService, private _adminServices: AdminService) {
     this.bannerForm = this._fb.group({
-      bannerName: ['', [Validators.required, WhiteSpace.validate]],
-      description: ['', [Validators.required, WhiteSpace.validate]],
+      bannerName: ['', [Validators.required, WhiteSpace.validate, Space.noSpaceAllowed, , noNumbersValidator]],
+      description: ['', [Validators.required, WhiteSpace.validate, Space.noSpaceAllowed, noNumbersValidator]],
       images: ['', Validators.required],
     })
     this.dataSource = new MatTableDataSource();
@@ -69,6 +69,26 @@ export class BannerComponent {
       this._toastr.error('Invalid Form Details')
     }
   }
+  getErrorMessage(controlName: string): string {
+    const control = this.bannerForm.get(controlName);
+    if (!control || !control.invalid) {
+      return '';
+    }
+    if (control.hasError('required')) {
+      return `${controlName.charAt(0).toUpperCase() + controlName.slice(1)} is required`;
+    }
+    if (control.hasError('noSpaceAllowed')) {
+      return 'Spaces not allowed';
+    }
+    if (control.hasError('whitespace')) {
+      return 'White Spaces Not Allowed';
+    }
+    if (control.hasError('noNumbers')) {
+      return 'Numbers Not Allowed';
+    }
+    return 'Invalid input';
+  }
+
   listBanners() {
     this.subscribe.add(this._adminServices.listBanners().subscribe({
       next: (res) => {

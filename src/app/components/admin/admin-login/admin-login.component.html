@@ -1,78 +1,64 @@
 <div class="hero min-h-screen bg-black">
   <div class="hero-content flex-col lg:flex-row-reverse">
     <div class="text-center lg:text-left">
-      <h5 class="text-5xl font-bold text-white">
+      <h3 class="text-5xl font-bold text-white">
         Access Everywhere,<br />Axel Services !
-      </h5>
+      </h3>
     </div>
     <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
       <div class="card-body">
         <div class="text-center lg:text-center">
-          <h5 class="text-3xl font-bold">Axel Admin</h5>
+          <h3 class="text-3xl font-bold">Axel Admin</h3>
         </div>
         <div class="text-red-700 text-center" *ngIf="message">
           {{ message }}
         </div>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="form-control">
-            <label class="label">
-              <span class="label-text">Email</span>
-            </label>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              class="input input-bordered"
-              formControlName="email"
-              required
-            />
-            <span
-              class="validation text-red-500"
-              *ngIf="loginForm.get('email')?.touched && loginForm.controls['email'].errors?.['required']"
-              >Email is required</span
-            >
-            <span
-              class="validation text-red-500"
-              *ngIf="loginForm.get('email')?.hasError('noSpaceAllowed')"
-              >Spaces not allowed</span
-            >
+            <mat-form-field>
+              <mat-label>Enter your email</mat-label>
+              <input
+                matInput
+                placeholder="pat@example.com"
+                formControlName="email"
+              />
+              @if (this.loginForm.get('email')?.invalid) {
+              <mat-error>{{ getErrorMessage("email") }}</mat-error>
+              }
+            </mat-form-field>
           </div>
           <div class="form-control">
-            <label class="label">
-              <span class="label-text">Password</span>
-            </label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              class="input input-bordered"
-              formControlName="password"
-              required
-            />
-            <span
-              class="validation text-red-500"
-              *ngIf="loginForm.get('password')?.touched && loginForm.controls['password'].errors?.['required']"
-              >Password is required</span
-            >
-            <span
-              class="validation text-red-500"
-              *ngIf="loginForm.get('password')?.hasError('noSpaceAllowed')"
-              >Spaces not allowed</span
-            >
-          </div>
-          <div class="form-control">
-            <label class="label">
-              <a href="#" class="label-text-alt link link-hover"
-                >Forgot password?</a
+            <mat-form-field>
+              <mat-label>Enter your password</mat-label>
+              <input
+                matInput
+                [type]="hide ? 'password' : 'text'"
+                formControlName="password"
+              />
+              @if (this.loginForm.get('password')?.invalid) {
+              <mat-error>{{ getErrorMessage("password") }}</mat-error>
+              }
+              <button
+                mat-icon-button
+                matSuffix
+                (click)="hide = !hide"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide"
               >
-            </label>
-          </div>
-          <div class="form-control mt-6">
-            <button
-              type="submit"
-              [disabled]="!loginForm.valid"
-              class="btn btn-primary"
-            >
-              Login
-            </button>
+                <mat-icon>{{
+                  hide ? "visibility_off" : "visibility"
+                }}</mat-icon>
+              </button>
+            </mat-form-field>
+            <div class="form-control mt-6">
+              <button
+                type="submit"
+                [disabled]="!loginForm.valid"
+                class="btn btn-primary"
+              >
+                Login
+              </button>
+            </div>
           </div>
         </form>
       </div>

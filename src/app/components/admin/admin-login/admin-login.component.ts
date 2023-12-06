@@ -16,7 +16,7 @@ export class AdminLoginComponent {
   private subscribe: Subscription = new Subscription()
   loginForm!: FormGroup;
   message!: string;
-
+  hide = true;
   constructor(private _fb: FormBuilder, private _adminServices: AdminService, private _router: Router, private _toastr: ToastrService) { }
 
   ngOnInit(): void {
@@ -25,7 +25,33 @@ export class AdminLoginComponent {
       password: ['', [Validators.required, Validators.minLength(8), Space.noSpaceAllowed]],
     })
   }
-
+  getErrorMessage(controlName: string): string {
+    const control = this.loginForm.get(controlName);
+    if (!control || !control.invalid) {
+      return '';
+    }
+    if (control.hasError('required')) {
+      return `${controlName.charAt(0).toUpperCase() + controlName.slice(1)} is required`;
+    }
+    if (control.hasError('noSpaceAllowed')) {
+      return 'Spaces not allowed';
+    }
+    if (control.hasError('whitespace')) {
+      return 'White Spaces Not Allowed';
+    }
+    if (control.hasError('noNumbers')) {
+      return 'Numbers Not Allowed';
+    }
+    if (control.hasError('email')) {
+      return 'Invalid Email';
+    }
+    if (controlName === 'password') {
+      if (control.hasError('minlength')) {
+        return 'Password must be at least 8 characters long';
+      }
+    }
+    return 'Invalid Email';
+  }
   onSubmit() {
     const user = this.loginForm.getRawValue();
     if (this.loginForm.valid) {

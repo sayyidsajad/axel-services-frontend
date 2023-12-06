@@ -1,19 +1,8 @@
-<h5
-  class="mb-4 text-2xl md:text-2xl lg:text-2xl font-extrabold leading-none my-3 mx-3 tracking-tight text-gray-900 dark:text-white"
->
-  <span class="decoration-8 decoration-blue-400 dark:decoration-blue-600"
-    >Category Management</span
-  >
-</h5>
+<h2 class="text-3xl font-bold mb-6">Category Mgt</h2>
+
 <mat-grid-list cols="3" rowHeight="2:2">
   <mat-grid-tile>
     <form class="p-4" [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
-      <span
-        class="validation text-red-500"
-        *ngIf="categoryForm.get('categoryName')?.touched && categoryForm.controls['categoryName'].errors?.['required']"
-      >
-        Category is required
-      </span>
       <mat-form-field class="mb-6 w-full">
         <label for="label">Category Name</label>
         <input
@@ -24,13 +13,10 @@
           placeholder="example (Mechanical)"
           required
         />
+        @if (this.categoryForm.get('categoryName')?.invalid) {
+        <mat-error>{{ getErrorMessage("categoryName") }}</mat-error>
+        }
       </mat-form-field>
-      <span
-        class="validation text-red-500"
-        *ngIf="categoryForm.get('description')?.touched && categoryForm.controls['description'].errors?.['required']"
-      >
-        Description is required
-      </span>
       <mat-form-field class="mb-6 w-full">
         <mat-label>Description</mat-label>
         <textarea
@@ -38,6 +24,9 @@
           id="description"
           matInput
         ></textarea>
+        @if (this.categoryForm.get('description')?.invalid) {
+        <mat-error>{{ getErrorMessage("description") }}</mat-error>
+        }
       </mat-form-field>
       <button
         type="submit"

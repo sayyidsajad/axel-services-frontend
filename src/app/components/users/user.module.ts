@@ -48,6 +48,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { CarouselModule } from 'primeng/carousel';
 import { ScriptLoaderService } from 'src/app/services/scripts/script-loader.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,6 @@ import { ScriptLoaderService } from 'src/app/services/scripts/script-loader.serv
     NgxSkeletonLoaderModule.forRoot({ animation: 'pulse', loadingText: 'This item is actually loading...' }),
     MatTabsModule,
     MatGridListModule,
-    
     MatCardModule,
     MatInputModule,
     MatFormFieldModule,
@@ -99,7 +99,8 @@ import { ScriptLoaderService } from 'src/app/services/scripts/script-loader.serv
     MatSelectModule,
     MatCheckboxModule,
     MatListModule,
-    LazyLoadImageModule
+    LazyLoadImageModule,
+    MatIconModule,
   ],
   providers: [UsersService, MessagingService,
     MatDatepickerModule,

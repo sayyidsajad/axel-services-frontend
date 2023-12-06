@@ -56,15 +56,16 @@
               <circle cx="11" cy="11" r="8" class=""></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65" class=""></line>
             </svg>
-            <input
-              type="name"
-              name="search"
+            <div class="form-control">
+              <mat-form-field>
+              <mat-label>Location</mat-label>
+              <input type="text" name="search"
               id="search"
               formControlName="search"
-              #autocomplete
-              class="h-12 w-full pl-12 pr-4 rounded-md border border-gray-300 bg-gray-100 shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-              placeholder="Search by Location"
-            />
+              placeholder="Enter a location"
+              #autocomplete matInput>
+            </mat-form-field>
+          </div>
           </div>
 
           <div
@@ -94,13 +95,13 @@
 
             <div class="flex flex-col">
               <mat-form-field>
-                <mat-label>Choose a date</mat-label>
                 <input
                   matInput
                   [matDatepicker]="dp"
                   name="date"
                   id="date"
                   formControlName="date"
+                  placeholder="Choose a date"
                   [min]="date"
                 />
                 <mat-hint>MM/DD/YYYY</mat-hint>

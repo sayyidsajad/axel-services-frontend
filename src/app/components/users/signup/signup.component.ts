@@ -14,7 +14,7 @@ import { Space, WhiteSpace, confirmPasswordValidator } from '../../validators/cu
 export class SignupComponent {
   registerForm!: FormGroup
   private subscribe: Subscription = new Subscription()
-
+  hide = true
   ngOnInit(): void {
     this.registerForm = this._fb.group({
       name: ['', [WhiteSpace.validate, Validators.required]],

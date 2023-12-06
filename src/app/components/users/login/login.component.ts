@@ -19,7 +19,7 @@ export class LoginComponent {
   loginForm!: FormGroup
   private subscribe: Subscription = new Subscription()
   loggedIn!: boolean;
-
+  hide = true
   ngOnInit(): void {
     this._authService.authState.subscribe({
       next: (user) => {
@@ -38,7 +38,7 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.subscribe.add(this._userServices.userLogin(user).subscribe({
         next: (res) => {
-          if (res.verified === false) {            
+          if (res.verified === false) {
             this._router.navigate(['otpVerification'], { queryParams: { id: res.id } });
           } else {
             localStorage.setItem(environment.userSecret, res.access_token.toString());

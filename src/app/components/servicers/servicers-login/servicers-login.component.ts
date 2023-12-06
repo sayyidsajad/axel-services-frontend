@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 export class ServicersLoginComponent {
   loginForm!: FormGroup
   message!: string;
+  hide = true
   private subscribe: Subscription = new Subscription()
 
   ngOnInit(): void {
@@ -45,7 +46,33 @@ export class ServicersLoginComponent {
         }))
     }
   }
-
+  getErrorMessage(controlName: string): string {
+    const control = this.loginForm.get(controlName);
+    if (!control || !control.invalid) {
+      return '';
+    }
+    if (control.hasError('required')) {
+      return `${controlName.charAt(0).toUpperCase() + controlName.slice(1)} is required`;
+    }
+    if (control.hasError('noSpaceAllowed')) {
+      return 'Spaces not allowed';
+    }
+    if (control.hasError('whitespace')) {
+      return 'White Spaces Not Allowed';
+    }
+    if (control.hasError('noNumbers')) {
+      return 'Numbers Not Allowed';
+    }
+    if (control.hasError('email')) {
+      return 'Invalid Email';
+    }
+    if (controlName === 'password') {
+      if (control.hasError('minlength')) {
+        return 'Password must be at least 8 characters long';
+      }
+    }
+    return 'Invalid Email';
+  }
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

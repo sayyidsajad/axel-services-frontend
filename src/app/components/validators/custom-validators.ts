@@ -27,10 +27,14 @@ export const confirmPasswordValidator: ValidatorFn = (
 };
 
 
+export const noNumbersValidator: ValidatorFn = (
+    control: AbstractControl
+): ValidationErrors | null => {
+    const value = control.value as string;
+    const hasNumber = /\d/.test(value);
 
-
-
-
+    return hasNumber ? { 'noNumbers': true } : null;
+};
 
 
 

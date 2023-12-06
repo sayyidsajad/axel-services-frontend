@@ -61,7 +61,6 @@ import { NgxCaptchaModule } from 'ngx-captcha';
     MatTableModule,
     MatPaginatorModule,
     NgxCaptchaModule,
-
     MatFormFieldModule,
     MatGridListModule,
     MatCardModule,

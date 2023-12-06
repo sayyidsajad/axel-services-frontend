@@ -81,9 +81,9 @@
         </button>
       </div>
     </div>
-
+  
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      <div class="max-w-md w-full sm:w-full lg:w-full h-400 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex" *ngFor="let service of (filteredServices.length > 0 ? filteredServices : services) | searchFilterPipe : searchValue">
+      <div class="max-w-md w-full sm:w-full lg:w-full h-400 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mx-auto sm:mx-0 mt-4" *ngFor="let service of (filteredServices.length > 0 ? filteredServices : services) | searchFilterPipe : searchValue">
         <div class="p-5 flex-grow">
           <a href="#">
             <img src="{{ service.images[0] }}" alt="{{ service.serviceName }}" class="mb-4 rounded-md w-full h-48 object-cover object-center" />
@@ -104,19 +104,22 @@
         </div>
       </div>
     </div>
-
+  
     <div class="flex justify-center items-center h-screen" *ngIf="filteredServices && filteredServices.length == 0 && services && services.length === 0">
       <h1>No services available</h1>
     </div>
-
+  
     <div *ngIf="(filteredServices && filteredServices.length > 0) || (services && services.length > 0) || (sharedData && sharedData.length > 0) || searchValue !== ''" class="mt-4 flex justify-center">
       <div class="pagination" *ngIf="pagtination">
-        <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
-        <button *ngFor="let page of pageArr()" [class.active]="currentPage === page" (click)="callPag(page)">{{ page }}</button>
-        <button (click)="nextPage()" [disabled]="currentPage === totalPage">Next</button>
+        <button (click)="previousPage()" [disabled]="currentPage === 1" class="mr-2 px-4 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-800 focus:outline-none focus:ring focus:border-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-dark:focus:border-blue-800">Previous</button>
+        <button *ngFor="let page of pageArr()" [class.active]="currentPage === page" (click)="callPag(page)" class="mx-2 px-4 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-800 focus:outline-none focus:ring focus:border-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-dark:focus:border-blue-800">{{ page }}</button>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPage" class="ml-2 px-4 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-800 focus:outline-none focus:ring focus:border-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-dark:focus:border-blue-800">Next</button>
       </div>
     </div>
   </main>
+  
+  
 </div>
 
 <app-footer></app-footer>
+

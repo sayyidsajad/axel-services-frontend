@@ -9,6 +9,7 @@ import { MatSort } from '@angular/material/sort';
 import Swal from 'sweetalert2';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { Space, WhiteSpace, noNumbersValidator } from '../../validators/custom-validators';
 @Component({
   selector: 'app-category-mgt',
   templateUrl: './category-mgt.component.html',
@@ -36,12 +37,30 @@ export class CategoryMgtComponent {
 
   ngOnInit(): void {
     this.categoryForm = this._fb.group({
-      categoryName: ['', Validators.required],
-      description: ['', Validators.required],
+      categoryName: ['', [Validators.required, Space.noSpaceAllowed, WhiteSpace.validate, noNumbersValidator]],
+      description: ['', [Validators.required, Space.noSpaceAllowed, WhiteSpace.validate, noNumbersValidator]],
     })
     this.listCategories()
   }
-
+  getErrorMessage(controlName: string): string {
+    const control = this.categoryForm.get(controlName);
+    if (!control || !control.invalid) {
+      return '';
+    }
+    if (control.hasError('required')) {
+      return `${controlName.charAt(0).toUpperCase() + controlName.slice(1)} is required`;
+    }
+    if (control.hasError('noSpaceAllowed')) {
+      return 'Spaces not allowed';
+    }
+    if (control.hasError('whitespace')) {
+      return 'White Spaces Not Allowed';
+    }
+    if (control.hasError('noNumbers')) {
+      return 'Numbers Not Allowed';
+    }
+    return 'Invalid input';
+  }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -69,7 +88,7 @@ export class CategoryMgtComponent {
       }
     }))
   }
-  editCategory(id: string, categoryName: string, description: string) {    
+  editCategory(id: string, categoryName: string, description: string) {
     if (id && categoryName && description) {
       const dialogRef = this._dialog.open(this.callAPIDialog);
       this.dialogForm = this._fb.group({

@@ -8,8 +8,18 @@
       enctype="multipart/form-data"
     >
       <mat-form-field class="mb-4">
-        <mat-label>Banner Name</mat-label>
-        <input formControlName="bannerName" placeholder="Example" matInput />
+        <mat-label class="block text-sm font-medium text-gray-700"
+          >Banner Name</mat-label
+        >
+        <input
+          formControlName="bannerName"
+          placeholder="Example"
+          matInput
+          class="mt-1 p-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+        />
+        @if (this.bannerForm.get('bannerName')?.invalid) {
+          <mat-error>{{ getErrorMessage('bannerName') }}</mat-error>    
+        }
       </mat-form-field>
       <mat-form-field class="mb-4 col-span-2">
         <mat-label>Description</mat-label>
@@ -18,6 +28,9 @@
           placeholder="Description"
           formControlName="description"
         ></textarea>
+        @if (this.bannerForm.get('description')?.invalid) {
+          <mat-error>{{ getErrorMessage('description') }}</mat-error>    
+              }
       </mat-form-field>
       <div class="mb-4">
         <label
