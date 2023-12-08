@@ -23,7 +23,7 @@ export class ChatComponent {
 
   ngOnInit(): void {
     this.subscribe.add(
-      this._route.queryParams.subscribe({
+      this._route.params.subscribe({
         next: (params) => {
           this.id = params['id'];
           this._userServices.getRecentChats(this.id).subscribe({
@@ -41,9 +41,7 @@ export class ChatComponent {
         }
       })
     );
-
   }
-
   recentChat() {
     this.subscribe.add(this._userServices.getRecentChats(this.id).subscribe({
       next: (res) => {
@@ -59,6 +57,7 @@ export class ChatComponent {
     if (this.messageForm.valid) {
       this._socketService.sendMessage(this.Roomid, message.message, this.id, this.userId, 'User', 'Servicer')
       this._socketService.subscribeToMessages((err, data) => this.handleMessage(data))
+      this.messageForm.reset()
     }
   }
 

@@ -85,6 +85,18 @@
               <span class="circle5"></span>
               <span class="text text-white">Book Now</span>
             </button>
+            <button
+            mat-button
+            class="custom-button block w-full text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center overflow-hidden"
+            type="button"
+          >
+            <span class="circle1"></span>
+            <span class="circle2"></span>
+            <span class="circle3"></span>
+            <span class="circle4"></span>
+            <span class="circle5"></span>
+            <span class="text text-white" (click)="chat()">Chat</span>
+          </button>
           </div>
         </div>
       </div>
@@ -208,6 +220,7 @@
                 placeholder="Choose a date"
                 formControlName="date"
                 (dateChange)="addEvent($event)"
+
               />
               <mat-hint>MM/DD/YYYY</mat-hint>
               <mat-datepicker-toggle
@@ -216,12 +229,16 @@
               ></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
-
+            <div *ngIf="allTimesBooked" class="error-message bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-md mt-4">
+              Please select another date. All times are booked on the selected date.
+            </div>
+            
             <div>
               <button
                 mat-button
                 matStepperNext
-                [disabled]="firstFormGroup.status === 'INVALID'"
+                [disabled]="firstFormGroup.status === 'INVALID'  || allTimesBooked"
+                
               >
                 Next
               </button>
@@ -241,6 +258,7 @@
                 <mat-option
                   *ngFor="let hourOption of updatedHours"
                   [value]="hourOption.value"
+                  [disabled]="hourOption.disabled"
                 >
                   {{ hourOption.viewValue }}
                 </mat-option>

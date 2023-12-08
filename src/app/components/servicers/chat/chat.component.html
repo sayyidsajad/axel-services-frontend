@@ -41,22 +41,22 @@
         No users available.
       </div>
     </div>
-    <div class="flex flex-col flex-auto h-full p-6 overflow-hidden" *ngIf="!messages || messages.length === 0">
-      <img src="https://assets-global.website-files.com/625816a3416990dd61391b9b/64cb996efc2215e6cbcf2370_No-comments-yet.png" alt="No messages yet" class="mx-auto" />
-    </div>    
     <div
       class="flex flex-col flex-auto h-full p-6"
       *ngIf="this.messages && messages.length > 0"
     >
       <div
-        class="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4"
+        #chatContainer
+        class="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4 overflow-y-auto"
       >
-        <div class="flex flex-col h-full overflow-x-auto mb-4">
-          <div class="flex flex-col h-full">
-            <div class="grid grid-cols-12 gap-y-2" *ngFor="let msg of messages">
-              <div
-                class="col-start-1 col-end-8 p-3 rounded-lg"
-                *ngIf="msg.senderType === 'User'"
+        <div class="flex flex-col-reverse h-full overflow-x-auto mb-4">
+          <div class="grid grid-cols-12 gap-y-2">
+            <div
+              *ngFor="let msg of messages"
+              class="col-start-1 col-end-13 p-3 rounded-lg"
+            >
+              <ng-container
+                *ngIf="msg.senderType === 'User'; else servicerTemplate"
               >
                 <div class="flex flex-row items-center">
                   <div
@@ -67,17 +67,11 @@
                   <div
                     class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl"
                   >
-                    <div>
-                      {{ msg.text }}
-                    </div>
+                    <div>{{ msg.text }}</div>
                   </div>
                 </div>
-              </div>
-
-              <div
-                class="col-start-6 col-end-13 p-3 rounded-lg"
-                *ngIf="msg.senderType === 'Servicer'"
-              >
+              </ng-container>
+              <ng-template #servicerTemplate>
                 <div class="flex items-center justify-start flex-row-reverse">
                   <div
                     class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
@@ -87,12 +81,10 @@
                   <div
                     class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl"
                   >
-                    <div>
-                      {{ msg.text }}
-                    </div>
+                    <div>{{ msg.text }}</div>
                   </div>
                 </div>
-              </div>
+              </ng-template>
             </div>
           </div>
         </div>
@@ -100,7 +92,7 @@
           class="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4"
         >
           <div class="flex-grow ml-4">
-            <form [formGroup]="messageForm">
+            <form [formGroup]="messageForm" (ngSubmit)="sendMessage()">
               <div class="relative w-full">
                 <input
                   type="text"
@@ -112,7 +104,6 @@
           </div>
           <div class="ml-4">
             <button
-              (click)="sendMessage()"
               class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
             >
               <span>Send</span>

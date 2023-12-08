@@ -28,7 +28,7 @@ export class ServicesListComponent {
   pagtination:boolean=false
   private subscribe: Subscription = new Subscription()
   filteredServices: Array<serviceData> = [];
-  constructor(private _userServices: UsersService, private router: Router, private _sharedDataService: SharedService) { }
+  constructor(private _userServices: UsersService, private _router: Router, private _sharedDataService: SharedService) { }
   ngOnInit(): void {
     this.categoriesList()
     this.sharedData = this._sharedDataService.getSharedData()
@@ -103,7 +103,7 @@ export class ServicesListComponent {
     this.pagtination =true
   }
   serviceDetails(id: string) {
-    this.router.navigate(['/servicerDetails', id])
+    this._router.navigate(['/servicerDetails', id])
   }
 
   pageArr() {

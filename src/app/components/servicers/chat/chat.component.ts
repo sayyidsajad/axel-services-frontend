@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessagingService } from 'src/app/services/messaging/messaging.service';
 import { ChatData } from './types/chat.types';
@@ -20,6 +20,8 @@ export class ChatComponent {
   Roomid!: string;
   servicerId!: string;
   userId!: string
+  @ViewChild('chatContainer')
+  private chatContainer!: ElementRef;
   myDetails!: any
   constructor(private _socketService: MessagingService, private _fb: FormBuilder, private _servicerServices: ServicerService) { }
 
@@ -33,7 +35,7 @@ export class ChatComponent {
       if (res.message === 'No users available.') {
         this.noMessage = res.message
       } else {
-        this.usersList = res.message
+        this.usersList = res.uniqueUserSenderTypes        
       }
     }))
   }
@@ -57,12 +59,21 @@ export class ChatComponent {
       }
     }))
   }
-
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
   sendMessage() {
     const message = this.messageForm.getRawValue();
     if (this.messageForm.valid) {
+      this.scrollToBottom();
       this._socketService.sendMessage(this.Roomid, message.message, this.id, this.servicerId, 'Servicer', 'User')
       this._socketService.subscribeToMessages((err, data) => this.handleMessage(data))
+      this.messageForm.reset()
+    }
+  }
+  scrollToBottom() {
+    if (this.chatContainer) {
+      this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
     }
   }
 

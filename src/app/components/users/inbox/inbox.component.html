@@ -1,59 +1,39 @@
 <app-users></app-users>
 <div class="min-h-screen flex flex-col bg-gray-100">
   <header class="bg-blue-500 text-white py-4 text-center">Inbox</header>
-  <main class="flex-1 py-6">
+  <main class="flex-1 py-6 overflow-y-auto">
     <div class="container mx-auto">
       <div class="w-full max-w-md mx-auto">
-        <div
-          *ngFor="let inbox of inboxData; let service; of: serviceData"
-          class="bg-white shadow-md mb-4 rounded-lg p-4 relative"
-        >
+        <div *ngFor="let inbox of inboxData" class="bg-white shadow-md mb-4 rounded-lg p-4 relative overflow-y-auto max-h-80">
           <div class="flex items-center justify-between">
             <div class="items-center">
-              <div class="font-semibold text-lg text-blue-600">Jese Leos</div>
+              <div class="font-semibold text-md text-blue-600">Cancellation</div>
               <div class="text-gray-700 ml-2">
-                Booking Id: {{ inbox.bookingId }}
+                Booking Id: {{ inbox.bookingDetails?.bookingId }}
               </div>
               <div class="text-gray-700 ml-2">
-                Service Name: {{ service.serviceName }}
+                Service Name: {{ inbox.bookingDetails?.service.serviceName }}
               </div>
               <div class="text-gray-700 ml-2">
                 Cancel Reason: {{ inbox.cancelReason }}
               </div>
-              <div class="text-gray-700 ml-2">{{ inbox.cancelReason }}</div>
             </div>
           </div>
-          <button
-            type="button"
-            class="rounded-full bg-red-500 hover:bg-red-600 text-white w-8 h-8 absolute top-2 right-2"
-            aria-label="Close"
-          >
-            <svg
-              class="w-4 h-4 m-auto"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 14"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-              />
+          <button (click)="deleteOne(inbox._id)" type="button" class="rounded-full bg-red-500 hover:bg-red-600 text-white w-8 h-8 absolute top-2 right-2" aria-label="Close">
+            <svg class="w-4 h-4 m-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
             </svg>
           </button>
         </div>
         <div *ngIf="inboxData && inboxData.length > 0" class="text-right mb-4">
-          <button
-            class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg"
-            (click)="clearAll()"
-          >
+          <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg" (click)="clearAll()">
             Clear All
           </button>
         </div>
       </div>
     </div>
   </main>
-  <app-footer></app-footer>
 </div>
+
+
+<app-footer></app-footer>

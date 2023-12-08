@@ -25,8 +25,10 @@ export class InboxComponent {
           this.inboxData = []
           this._toastr.error('Your Inbox Empty');
         } else {
-          this.inboxData = res.inbox
-          this.serviceData = res.service
+          this.inboxData = res.inbox   
+          console.log(this.inboxData);
+                           
+          this.serviceData = res.service          
         }
       }
     }))
@@ -40,7 +42,14 @@ export class InboxComponent {
         }
     }))
   }
-
+  deleteOne(inboxId:string) {
+    this.subscribe.add(this._userServices.deleteOne(inboxId).subscribe({
+      next:
+        () => {
+          this.userInbox()
+        }
+    }))
+  }
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

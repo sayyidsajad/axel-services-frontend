@@ -7,7 +7,7 @@ import { IBookNowResponse, IBookingsListResponse, IGoogleLoginResponse, ILoginRe
 @Injectable()
 export class UsersService {
   constructor(private _http: HttpClient) { }
-  userRegister(name: string, email: string, phone: number, password: string, confirmPassword: string): Observable<ISignUpResponse> {        
+  userRegister(name: string, email: string, phone: number, password: string, confirmPassword: string): Observable<ISignUpResponse> {
     return this._http.post<ISignUpResponse>('signup', { name, email, phone, password, confirmPassword })
   }
   userLogin(user: object): Observable<ILoginResponse> {
@@ -103,5 +103,8 @@ export class UsersService {
   }
   viewDetails(id: string): Observable<any> {
     return this._http.get(`viewDetails?id=${id}`)
+  }
+  deleteOne(inboxId: string): Observable<any> {
+    return this._http.patch('clearOne', { inboxId })
   }
 }

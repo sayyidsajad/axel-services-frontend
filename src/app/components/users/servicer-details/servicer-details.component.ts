@@ -69,6 +69,7 @@ export class ServicerDetailsComponent {
   callAPIDialog!: TemplateRef<any>;
   private subscribe: Subscription = new Subscription()
   totalAmount!: number;
+  allTimesBooked: boolean = false;
   constructor(public _dialog: MatDialog, private _userServices: UsersService, private _route: ActivatedRoute, private _fb: FormBuilder, private _router: Router, private _toastr: ToastrService) {
   }
   firstFormGroup!: FormGroup;
@@ -102,6 +103,8 @@ export class ServicerDetailsComponent {
       }
     }))
   }
+
+  
   Done() {
     const firstField = this.firstFormGroup.getRawValue()
     const secondField = this.secondFormGroup.getRawValue()
@@ -184,6 +187,9 @@ export class ServicerDetailsComponent {
         }
       });
   }
+  chat() {    
+    this._router.navigate(['chat',this.id])
+  }
 
   openPaymentDoneDialog() {
     const dialogRef = this._dialog.open(this.callAPIDialog);
@@ -231,7 +237,7 @@ export class ServicerDetailsComponent {
   filterDates() {
     this.subscribe.add(this._userServices.filterDates(this.id).subscribe({
       next: (res) => {
-        this.backendDates = res.filterDates;
+        this.backendDates = res.filterDates;        
       }
     }));
   }
@@ -240,7 +246,10 @@ export class ServicerDetailsComponent {
       next: (res) => {
         this.updatedHours = this.hoursOptions.filter((option) => {
           return !res.filterTimes.includes(option.value);
-        });
+        });         
+        const allTimesBooked = this.updatedHours.length === 0;
+        this.secondFormGroup.get('time')?.updateValueAndValidity();
+        this.allTimesBooked = allTimesBooked;       
         const currentTime = new Date();
         const currentHour = currentTime.getHours();
         const currentMinutes = currentTime.getMinutes();
@@ -253,17 +262,38 @@ export class ServicerDetailsComponent {
           return isLaterThanCurrentTime;
         });
       }
-
     }));
   }
-  myFilter = (d: Date | null): boolean => {
-    if (!d) {
-      return true;
-    }
-    const backendDateObjects = this.backendDates.map((backendDate) => new Date(backendDate));
-    const isDisabled = backendDateObjects.some((backendDate) => this.isSameDate(d, backendDate));
-    return !isDisabled;
-  };
+
+// Update your date filter function
+myFilter = (d: Date | null): boolean => {
+  if (!d) {
+    return true;
+  }
+
+  const backendDateTimeObjects = this.backendDates.map((backendDate) => new Date(backendDate));
+  const isDisabledDate = backendDateTimeObjects.some((backendDateTime) =>
+    this.isSameDate(d, backendDateTime)
+  );
+
+  if (isDisabledDate) {
+    this.allTimesBooked = this.hoursOptions.every((option) =>
+      backendDateTimeObjects.some(
+        (backendDateTime) =>
+          this.isSameDate(d, backendDateTime) &&
+          backendDateTime.getHours() === parseInt(option.value, 10)
+      )
+    );
+
+    return this.allTimesBooked;
+  }
+
+  this.allTimesBooked = false;
+
+  return false;
+};
+  
+  
   isSameDate(date1: Date, date2: Date): boolean {
     return (
       date1.getDate() === date2.getDate() &&
