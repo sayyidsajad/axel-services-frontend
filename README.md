@@ -28,4 +28,16 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 # axel-services-frontend
 
-Axel Services Frontend
+Welcome to the Axel Services Frontend repository! This Angular-based project provides users with a seamless interface to explore available services based on locations. We've crafted a delightful user experience using Tailwind CSS, Daisy UI, Angular Material, and PrimeNG.
+
+## Features
+
+- **Intuitive UI**: Explore services effortlessly with a thoughtfully designed user interface.
+
+- **Tailwind CSS Styling**: Enjoy a visually appealing and responsive design with Tailwind CSS.
+
+- **Daisy UI Components**: Leverage the power of Daisy UI components for enhanced user interactions.
+
+- **Angular Material**: Enhance UI consistency and user experience with Angular Material components.
+
+- **PrimeNG Integration**: Access advanced UI components from PrimeNG for a polished frontend.
