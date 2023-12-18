@@ -13,12 +13,12 @@
           />
 
           <img
-          *ngIf="!userDetails || !userDetails.image"
-          src="https://static.vecteezy.com/system/resources/previews/011/483/813/original/guy-anime-avatar-free-vector.jpg"
-          class="w-40 border-4 border-white rounded-full"
-          alt="Profile Picture"
-        />
-        
+            *ngIf="!userDetails || !userDetails.image"
+            src="https://static.vecteezy.com/system/resources/previews/011/483/813/original/guy-anime-avatar-free-vector.jpg"
+            class="w-40 border-4 border-white rounded-full"
+            alt="Profile Picture"
+          />
+
           <p class="text-2xl">{{ userDetails?.name }}</p>
           <div class="flex items-center space-x-2 mt-2">
             <label for="uploadImage" class="cursor-pointer">
@@ -485,28 +485,58 @@
           </div>
           <p>My Wallet</p>
           <p>Balance: {{ userDetails?.wallet | currency : "INR" }}</p>
+          <button mat-button (click)="toggleWalletHistory()">
+            Wallet History
+          </button>
+        </div>
+      </div>
+      <div *ngIf="showWalletHistory">
+        <mat-form-field>
+          <mat-label>Filter</mat-label>
+          <input
+            matInput
+            (keyup)="applyFilter($event)"
+            placeholder="Ex. Mia"
+            #input
+          />
+        </mat-form-field>
+        <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.date | date : "short" }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="amount">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.amount | currency : "INR" }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Description
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.description }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="3">
+                No data matching the filter "{{ input.value }}"
+              </td>
+            </tr>
+          </table>
+
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            aria-label="Select page of users"
+          ></mat-paginator>
         </div>
       </div>
     </div>
   </mat-tab>
-  <ng-template let-data #walletHistory>
-    <h2 mat-dialog-title>User Wallet History - {{ data.name }}</h2>
-    <mat-dialog-content class="mat-typography">
-      <div class="wallet-history">
-        <h3>Wallet History</h3>
-        <ul>
-          <li *ngFor="let transaction of data.walletHistory">
-            {{ transaction.date | date : "medium" }} -
-            {{ transaction.description }}:
-            {{ transaction.amount | currency : "INR" }}
-          </li>
-        </ul>
-      </div>
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button mat-dialog-close>Close</button>
-    </mat-dialog-actions>
-  </ng-template>
-
   <app-footer></app-footer>
 </mat-tab-group>

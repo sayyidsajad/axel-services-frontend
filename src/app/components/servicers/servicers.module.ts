@@ -35,6 +35,7 @@ import { AdditionalServicesComponent } from './additional-services/additional-se
 import { MatDialogModule } from '@angular/material/dialog';
 import { ScriptLoaderService } from 'src/app/services/scripts/script-loader.service';
 import { NgxCaptchaModule } from 'ngx-captcha';
+import { ReviewsComponent } from './reviews/reviews.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { NgxCaptchaModule } from 'ngx-captcha';
     ChatComponent,
     ServicerVerificationProcessComponent,
     AdditionalServicesComponent,
+    ReviewsComponent
   ],
   imports: [
     CommonModule,

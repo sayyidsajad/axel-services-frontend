@@ -41,7 +41,7 @@ export class AdditionalServicesComponent {
       service: ['', Validators.required],
       description: ['', Validators.required],
       amount: ['', Validators.required],
-      image: [null, Validators.required]
+      image: [null]
     });
   }
 
@@ -82,29 +82,41 @@ export class AdditionalServicesComponent {
     }))
   }
   editCategory(id: string, service: string, description: string, amount: string, image: any) {
+    if (image) {
+      this.selectedImage = this._sanitizer.bypassSecurityTrustUrl(image) as SafeUrl;
+    } else {
+      this.selectedImage = null;
+    }
+
+    if (image) {
+      this.selectedFile = null;
+    }
+
     const dialogRef = this._dialog.open(this.callAPIDialog);
     this.dialogForm = this._fb.group({
       service: [service, Validators.required],
       description: [description, Validators.required],
       amount: [amount, Validators.required],
       image: [image, Validators.required]
-    })
+    });
+
     this.subscribe.add(dialogRef.afterClosed().subscribe({
       next: (result) => {
         if (result !== undefined) {
           if (result === 'yes') {
             const service = this.dialogForm.getRawValue();
             if (service.service !== '' && service.description !== '') {
-              this.updateService(id, service.service, service.description, service.amount)
+              this.updateService(id, service.service, service.description, service.amount);
             } else {
               this._toastr.error('Both fields are required.');
-              this.updateService(id, service, description, amount)
+              this.updateService(id, service, description, amount);
             }
           }
         }
       }
-    }))
+    }));
   }
+
 
   updateService(id: string, categoryName: string, description: string, amount: string) {
     const data = new FormData();
@@ -130,13 +142,30 @@ export class AdditionalServicesComponent {
     }));
   }
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
-    if (this.selectedFile) {
+    const inputElement = event.target as HTMLInputElement;
+    const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+    if (inputElement.files && inputElement.files.length > 0) {
+      const originalFile = inputElement.files[0];
+      const extension = this.getFileExtension(originalFile.name);
+      if (allowedExtensions.includes(extension)) {
+        this.selectedFile = new File([originalFile], originalFile.name, { type: originalFile.type });
+      } else {
+        this._toastr.error('Please select a valid image file (jpg, jpeg, png, or gif).');
+        this.selectedFile = null;
+        this.selectedImage = null
+        inputElement.value = '';
+        return;
+      }
       if (!this.additionalServices.get('image')?.hasError('invalidExtension') &&
         !this.additionalServices.get('image')?.hasError('invalidImage')) {
-        this.selectedImage = URL.createObjectURL(this.selectedFile) as SafeUrl;
+        this.selectedImage = this._sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(this.selectedFile)) as SafeUrl;
       }
     }
+  }
+
+
+  getFileExtension(filename: string): string {
+    return filename.split('.').pop() || '';
   }
 
   applyFilter(event: Event) {

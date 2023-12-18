@@ -6,6 +6,9 @@ import { IUserProfile } from 'src/app/services/users/types/user-types';
 import { UsersService } from 'src/app/services/users/users.service';
 import { ToastrService } from 'ngx-toastr';
 import { Space, WhiteSpace, confirmPasswordValidator } from '../../validators/custom-validators';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-user-profile',
@@ -15,13 +18,15 @@ import { Space, WhiteSpace, confirmPasswordValidator } from '../../validators/cu
 export class UserProfileComponent {
   @ViewChild('callAPIDialog')
   callAPIDialog!: TemplateRef<any>;
-  @ViewChild('walletHistory')
-  walletHistory!: TemplateRef<any>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+  walletHistory!: Array<any>;
   selectedFile!: File
   private subscribe: Subscription = new Subscription()
   userDetails!: any
   editProfile!: FormGroup;
   changePasswordForm!: FormGroup
+  showWalletHistory = false;
   changePasswordToggle!: boolean;
   ngOnInit(): void {
     this.changePasswordForm = this._fb.group({
@@ -32,15 +37,19 @@ export class UserProfileComponent {
     this.getUser()
   }
 
-  constructor(private _userServices: UsersService, public _dialog: MatDialog, private _fb: FormBuilder, private _toastr: ToastrService) { }
+  constructor(private _userServices: UsersService, public _dialog: MatDialog, private _fb: FormBuilder, private _toastr: ToastrService) {
+    this.dataSource = new MatTableDataSource();
+   }
   getUser() {
     this.subscribe.add(this._userServices.userProfile().subscribe({
       next:
         (res) => {
-          this.userDetails = res.user          
+          this.userDetails = res.user     
+          this.dataSource.data = res.user.walletHistory                                   
         }
     }))
   }
+  
   changeProfile(event: any) {
     this.selectedFile = <File>event.target.files[0]
     const data = new FormData()
@@ -65,6 +74,9 @@ export class UserProfileComponent {
   togglePasswordForm() {
     this.changePasswordToggle = !this.changePasswordToggle;
   }
+  toggleWalletHistory(): void {
+    this.showWalletHistory = !this.showWalletHistory;
+  }
   changePassword() {
     const changed = this.changePasswordForm.getRawValue()
     this.subscribe.add(this._userServices.updatePassword(changed.currentPassword, changed.password).subscribe({
@@ -87,9 +99,23 @@ export class UserProfileComponent {
     })
     this._dialog.open(this.callAPIDialog);
   }
-  openWalletHistoryDialog() {
-    this._dialog.open(this.walletHistory);
+  displayedColumns: string[] = ['date', 'amount', 'description'];
+  dataSource = new MatTableDataSource<any>();
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

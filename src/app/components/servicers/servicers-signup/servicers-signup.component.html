@@ -20,7 +20,7 @@
                 formControlName="companyName"
               />
               @if (this.registerForm.get('companyName')?.invalid) {
-              <!-- <mat-error>{{ getErrorMessage("companyName") }}</mat-error> -->
+              <mat-error>{{ getErrorMessage("companyName") }}</mat-error>
               }
             </mat-form-field>
           </div>
@@ -33,7 +33,7 @@
                 formControlName="email"
               />
               @if (this.registerForm.get('email')?.invalid) {
-              <!-- <mat-error>{{ getErrorMessage("email") }}</mat-error> -->
+              <mat-error>{{ getErrorMessage("email") }}</mat-error>
               }
             </mat-form-field>
           </div>
@@ -46,7 +46,7 @@
                 formControlName="phone"
               />
               @if (this.registerForm.get('phone')?.invalid) {
-              <!-- <mat-error>{{ getErrorMessage("email") }}</mat-error> -->
+              <mat-error>{{ getErrorMessage("phone") }}</mat-error>
               }
             </mat-form-field>
           </div>
@@ -60,7 +60,7 @@
                 placeholder="Enter Password"
               />
               @if (this.registerForm.get('password')?.invalid) {
-              <!-- <mat-error>{{ getErrorMessage("password") }}</mat-error> -->
+              <mat-error>{{ getErrorMessage("password") }}</mat-error>
               }
               <button
                 mat-icon-button
@@ -85,7 +85,7 @@
                 placeholder="Enter Confirm Password"
               />
               @if (this.registerForm.get('confirmPassword')?.invalid) {
-              <!-- <mat-error>{{ getErrorMessage("password") }}</mat-error> -->
+              <mat-error>{{ getErrorMessage("confirmPassword") }}</mat-error>
               }
               <button
                 mat-icon-button
@@ -120,6 +120,18 @@
             class="btn bg-white text-black hover:bg-gray-700 hover:text-white"
           >
             Login
+          </button>
+        </div>
+        <div class="form-control">
+          <label class="label">
+            <a class="label-text-alt">Want to be a User?</a>
+          </label>
+          <button
+            routerLink="/signup"
+            type="button"
+            class="btn bg-white text-black hover:bg-gray-700 hover:text-white"
+          >
+            Sign Up
           </button>
         </div>
       </div>

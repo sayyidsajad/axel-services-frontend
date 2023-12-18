@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
 import { UsersService } from 'src/app/services/users/users.service';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
@@ -13,7 +13,12 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
 const moment = _rollupMoment || _moment;
 import domtoimage from 'dom-to-image';
-
+import { ScriptLoaderService } from 'src/app/services/scripts/script-loader.service';
+declare global {
+  interface Window {
+    initMap: () => void;
+  }
+}
 interface TimeOption {
   value: string;
   viewValue: string;
@@ -54,6 +59,7 @@ export class ServicerDetailsComponent {
     { value: '11pm', viewValue: '11 PM', },
     { value: '12am', viewValue: '12 AM', },
   ] as TimeOption[]
+  place!: any
 
   backendDates: any[] = [];
   map: google.maps.Map | undefined;
@@ -70,10 +76,13 @@ export class ServicerDetailsComponent {
   private subscribe: Subscription = new Subscription()
   totalAmount!: number;
   allTimesBooked: boolean = false;
-  constructor(public _dialog: MatDialog, private _userServices: UsersService, private _route: ActivatedRoute, private _fb: FormBuilder, private _router: Router, private _toastr: ToastrService) {
+  private scriptElement: HTMLScriptElement | null = null;
+  @ViewChild('autocomplete') autocomplete!: ElementRef
+  constructor(private _scriptLoaderService: ScriptLoaderService, public _dialog: MatDialog, private _userServices: UsersService, private _route: ActivatedRoute, private _fb: FormBuilder, private _router: Router, private _toastr: ToastrService) {
   }
   firstFormGroup!: FormGroup;
   thirdFormGroup!: FormGroup
+  addressFormGroup!: FormGroup
   bookingSummary!: FormGroup
   showModal = false;
   insertedSummary: any
@@ -87,6 +96,9 @@ export class ServicerDetailsComponent {
     });
     this.secondFormGroup = this._fb.group({
       time: [null, Validators.required],
+    });
+    this.addressFormGroup = this._fb.group({
+      search: [null, Validators.required],
     });
     this.thirdFormGroup = this._fb.group({ walletChecked: [false] });
     this.filterDates()
@@ -104,13 +116,13 @@ export class ServicerDetailsComponent {
     }))
   }
 
-  
+
   Done() {
     const firstField = this.firstFormGroup.getRawValue()
     const secondField = this.secondFormGroup.getRawValue()
     const thirdField = this.thirdFormGroup.getRawValue()
     if (thirdField.walletChecked) {
-      this.subscribe.add(this._userServices.bookNow(this.id, firstField.date, secondField.time, this.wallet).subscribe({
+      this.subscribe.add(this._userServices.bookNow(this.id, firstField.date, secondField.time,this.place, this.wallet).subscribe({
         next: (res) => {
           const inputDate = moment(firstField.date);
           const formattedDate = inputDate.format("ddd MMM DD YYYY HH:mm:ss [GMT]Z") + " (India Standard Time)";
@@ -118,7 +130,7 @@ export class ServicerDetailsComponent {
         }
       }))
     } else {
-      this.subscribe.add(this._userServices.bookNow(this.id, firstField.date, secondField.time).subscribe({
+      this.subscribe.add(this._userServices.bookNow(this.id, firstField.date, secondField.time,this.place).subscribe({
         next: (res) => {
           const inputDate = moment(firstField.date);
           const formattedDate = inputDate.format("ddd MMM DD YYYY HH:mm:ss [GMT]Z") + " (India Standard Time)";
@@ -129,6 +141,13 @@ export class ServicerDetailsComponent {
   }
   openModal() {
     this.showModal = true;
+    window['initMap'] = () => {
+      this.initMap();
+    }
+    this.subscribe.add(
+      this._scriptLoaderService.loadScript(environment.googleMapScript, () => {
+      })
+    );
   }
 
   closeModal() {
@@ -187,10 +206,34 @@ export class ServicerDetailsComponent {
         }
       });
   }
-  chat() {    
-    this._router.navigate(['chat',this.id])
+  chat() {
+    this._router.navigate(['chat', this.id])
+  }
+  initMap() {
+    const inputElement = this.autocomplete.nativeElement;
+    const autocomplete = new google.maps.places.Autocomplete(
+      inputElement,
+      {
+        types: ['geocode'],
+        componentRestrictions: { 'country': ['IN'] },
+        fields: ['place_id', 'geometry', 'name'],
+      });
+
+    autocomplete.addListener('place_changed', () => {
+      this.onSelected(autocomplete);
+    });
   }
 
+  onSelected(autocomplete: any) {
+    const inputElement = this.autocomplete.nativeElement;
+    const place = autocomplete.getPlace();
+    if (place.name) {
+      this.place = place.name
+    }
+    if (!place.geometry) {
+      inputElement.placeholder = 'Enter your location...';
+    }
+  }
   openPaymentDoneDialog() {
     const dialogRef = this._dialog.open(this.callAPIDialog);
     dialogRef.afterClosed().subscribe(() => {
@@ -212,11 +255,10 @@ export class ServicerDetailsComponent {
     }
   }
 
-
   reviewsList() {
     this.subscribe.add(this._userServices.reviewsList(this.id).subscribe({
       next: (res) => {
-        this.reviews = res.reviews        
+        this.reviews = res.reviews
       }
     }))
   }
@@ -237,7 +279,7 @@ export class ServicerDetailsComponent {
   filterDates() {
     this.subscribe.add(this._userServices.filterDates(this.id).subscribe({
       next: (res) => {
-        this.backendDates = res.filterDates;        
+        this.backendDates = res.filterDates;
       }
     }));
   }
@@ -246,10 +288,10 @@ export class ServicerDetailsComponent {
       next: (res) => {
         this.updatedHours = this.hoursOptions.filter((option) => {
           return !res.filterTimes.includes(option.value);
-        });         
+        });
         const allTimesBooked = this.updatedHours.length === 0;
         this.secondFormGroup.get('time')?.updateValueAndValidity();
-        this.allTimesBooked = allTimesBooked;       
+        this.allTimesBooked = allTimesBooked;
         const currentTime = new Date();
         const currentHour = currentTime.getHours();
         const currentMinutes = currentTime.getMinutes();
@@ -265,35 +307,33 @@ export class ServicerDetailsComponent {
     }));
   }
 
-// Update your date filter function
-myFilter = (d: Date | null): boolean => {
-  if (!d) {
-    return true;
-  }
-
-  const backendDateTimeObjects = this.backendDates.map((backendDate) => new Date(backendDate));
-  const isDisabledDate = backendDateTimeObjects.some((backendDateTime) =>
-    this.isSameDate(d, backendDateTime)
-  );
-
-  if (isDisabledDate) {
-    this.allTimesBooked = this.hoursOptions.every((option) =>
-      backendDateTimeObjects.some(
-        (backendDateTime) =>
-          this.isSameDate(d, backendDateTime) &&
-          backendDateTime.getHours() === parseInt(option.value, 10)
-      )
+  myFilter = (d: Date | null): boolean => {
+    if (!d) {
+      return true;
+    }
+    const backendDateTimeObjects = this.backendDates.map((backendDate) => new Date(backendDate));
+    const isDisabledDate = backendDateTimeObjects.some((backendDateTime) =>
+      this.isSameDate(d, backendDateTime)
     );
 
-    return this.allTimesBooked;
-  }
+    if (isDisabledDate) {
+      this.allTimesBooked = this.hoursOptions.every((option) =>
+        backendDateTimeObjects.some(
+          (backendDateTime) =>
+            this.isSameDate(d, backendDateTime) &&
+            backendDateTime.getHours() === parseInt(option.value, 10)
+        )
+      );
 
-  this.allTimesBooked = false;
+      return this.allTimesBooked;
+    }
 
-  return false;
-};
-  
-  
+    this.allTimesBooked = false;
+
+    return false;
+  };
+
+
   isSameDate(date1: Date, date2: Date): boolean {
     return (
       date1.getDate() === date2.getDate() &&

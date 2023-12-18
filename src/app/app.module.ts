@@ -15,6 +15,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { GALLERY_CONFIG, GalleryConfig } from 'ng-gallery';
 import { LIGHTBOX_CONFIG, LightboxConfig } from 'ng-gallery/lightbox';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { StarRatingModule } from 'angular-star-rating';
+
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
+    StarRatingModule.forRoot(),
     SocialLoginModule,
     NgxSpinnerModule.forRoot({ type: 'ball-scale-ripple-multiple' }),
   ],

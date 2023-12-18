@@ -18,7 +18,7 @@ export class ChatComponent {
   messageForm!: FormGroup
   Roomid!: string;
   userId!: string;
-
+  serviceDetails!:any
   constructor(private _socketService: MessagingService, private _route: ActivatedRoute, private _fb: FormBuilder, private _userServices: UsersService) { }
 
   ngOnInit(): void {
@@ -26,6 +26,7 @@ export class ChatComponent {
       this._route.params.subscribe({
         next: (params) => {
           this.id = params['id'];
+          this.servicerDetails()
           this._userServices.getRecentChats(this.id).subscribe({
             next: (res) => {
               this.Roomid = res.message._id;
@@ -41,6 +42,13 @@ export class ChatComponent {
         }
       })
     );
+  }
+  servicerDetails(){
+    this.subscribe.add(this._userServices.servicerDetails(this.id).subscribe({
+      next: (res) => {
+     this.serviceDetails=res.servicesFind     
+      }
+    }))
   }
   recentChat() {
     this.subscribe.add(this._userServices.getRecentChats(this.id).subscribe({

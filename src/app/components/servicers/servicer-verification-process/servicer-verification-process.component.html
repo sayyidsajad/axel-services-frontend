@@ -117,6 +117,7 @@
               class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
               id="file_input"
               type="file"
+              accept="image/jpeg, image/png"
             />
           </div>
           <span
@@ -271,6 +272,7 @@
                       type="file"
                       class="opacity-0 absolute inset-0 w-full h-full cursor-pointer"
                       multiple
+                      accept="image/jpeg, image/png"
                       (change)="onFileChange($event)"
                     />
                   </div>
@@ -297,14 +299,14 @@
                     </div>
                   </div>
                 </div>
-                  <ngx-recaptcha2
+                  <!-- <ngx-recaptcha2
                   #captchaElem
                   [useGlobalDomain]="false"
                   (success)="handleSuccess($event)"
                   [siteKey]="siteKey"
                   formControlName="recaptcha"
                   >
-                </ngx-recaptcha2>
+                </ngx-recaptcha2> -->
               </form>
             </div>
           </div>

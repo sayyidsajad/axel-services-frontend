@@ -11,6 +11,7 @@ import { ServicerBookingsComponent } from './servicer-bookings/servicer-bookings
 import { ChatComponent } from './chat/chat.component';
 import { ServicerVerificationProcessComponent } from './servicer-verification-process/servicer-verification-process.component';
 import { AdditionalServicesComponent } from './additional-services/additional-services.component';
+import { ReviewsComponent } from './reviews/reviews.component';
 
 const routes: Routes = [
   { path: '', title: 'Login', component: ServicersLoginComponent, canActivate: [ServicerGuardOut, ServicerGuardConfig] },
@@ -23,6 +24,7 @@ const routes: Routes = [
       { path: 'dashboard', title: 'Servicer Dashboard', component: DashboardComponent, canActivate: [ServicerGuardIn] },
       { path: 'bookings', title: 'Servicer Bookings', component: ServicerBookingsComponent, canActivate: [ServicerGuardIn] },
       { path: 'additionalServices', title: 'Additional Services', component: AdditionalServicesComponent, canActivate: [ServicerGuardIn] },
+      { path: 'reviews', title: 'Chat', component: ReviewsComponent, canActivate: [ServicerGuardIn] },
       { path: 'chat', title: 'Chat', component: ChatComponent, canActivate: [ServicerGuardIn] }
     ]
   },

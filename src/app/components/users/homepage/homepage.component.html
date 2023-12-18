@@ -1,7 +1,7 @@
 <app-users></app-users>
 <div class="container mx-auto">
   <div
-    class="w-full md:max-w-screen-lg mx-auto mt-20 mb-20 overflow-hidden rounded-t-xl bg-emerald-400/60 py-32 text-center shadow-xl shadow-gray-300"
+    class="w-full md:max-w-screen-lg mx-auto mt-20 mb-20 overflow-hidden rounded-t-xl bg-emerald-400 py-32 text-center shadow-xl shadow-gray-300"
   >
     <div class="grid grid-cols-1 gap-4 text-center bg-black">
       <p-carousel
@@ -37,7 +37,7 @@
     />
   </div>
   <div class="m-10 w-full md:max-w-screen-md mx-auto">
-    <h1 class="text-3xl font-bold mb-6 text-center text-emerald-600">Book on the Go</h1>
+    <h1 class="text-3xl font-bold mb-6 text-center text-black">Book on the Go</h1>
     <div class="flex flex-col items-center">
       <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-lg w-full max-w-md">
         <form class="space-y-6" [formGroup]="homeForm" (ngSubmit)="onSubmit()">
@@ -71,9 +71,11 @@
                   class="w-full px-4 py-2 border-b-2 border-blue-500 focus:outline-none focus:border-blue-700"
                 />
               </mat-form-field>
+              <mat-error *ngIf="homeForm.get('search')?.invalid && (homeForm.get('search')?.touched || homeForm.get('search')?.dirty)">
+                {{ getErrorMessage('search') }}
+              </mat-error>
             </div>
           </div>
-  
           <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
             <mat-form-field class="w-full">
               <mat-select
@@ -86,28 +88,31 @@
                 <mat-option *ngFor="let categ of categories" [value]="categ">{{ categ }}</mat-option>
               </mat-select>
             </mat-form-field>
-  
-            <div *ngIf="homeForm.get('categ')?.hasError('required') && homeForm.get('categ')?.touched" class="text-red-500">
-              Please select a category.
-            </div>
-  
-            <div class="flex flex-col">
-              <mat-form-field>
-                <input
-                  matInput
-                  [matDatepicker]="dp"
-                  name="date"
-                  id="date"
-                  formControlName="date"
-                  placeholder="Choose a date"
-                  [min]="date"
-                  class="w-full"
-                />
-                <mat-hint>MM/DD/YYYY</mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
-                <mat-datepicker #dp></mat-datepicker>
-              </mat-form-field>
-            </div>
+    
+            <mat-form-field class="example-full-width">
+              <input
+                matInput
+                [matDatepicker]="picker"
+                [min]="date"
+                name="date"
+                id="date"
+                placeholder="Choose a date"
+                formControlName="date"
+
+              />
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-error *ngIf="homeForm.get('categ')?.invalid && (homeForm.get('categ')?.touched || homeForm.get('categ')?.dirty)">
+              {{ getErrorMessage('categ') }}
+            </mat-error>
+            <mat-error *ngIf="homeForm.get('date')?.invalid && (homeForm.get('date')?.touched || homeForm.get('date')?.dirty)">
+              {{ getErrorMessage('date') }}
+            </mat-error>
           </div>
   
           <div class="mt-6 grid w-full grid-cols-2 md:flex justify-end">
@@ -145,9 +150,19 @@
               <h6 class="text-xl font-semibold">{{ service.serviceName }}</h6>
               <p class="text-gray-700">{{ +service.amount | currency : "INR" }}</p>
               <div class="flex justify-center items-center mt-4">
-                <button class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 focus:outline-none" (click)="serviceDetails(service._id)">
-                  View Details
-                </button>
+              <button
+              mat-button
+              (click)="serviceDetails(service._id)"
+              class="custom-button block w-full text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center overflow-hidden"
+              type="button"
+            >
+              <span class="circle1"></span>
+              <span class="circle2"></span>
+              <span class="circle3"></span>
+              <span class="circle4"></span>
+              <span class="circle5"></span>
+              <span class="text text-white">Book Now</span>
+            </button>             
               </div>
             </div>
           </div>
@@ -175,9 +190,19 @@
               <h6 class="text-xl font-semibold text-center">{{ service.categoryInfo?.categoryName }}</h6>
               <p class="text-gray-700 text-center">{{ +service.amount | currency : "INR" }}</p>
               <div class="flex justify-center items-center mt-4">
-                <button class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 focus:outline-none" (click)="serviceDetails(service._id)">
-                  View Details
-                </button>
+                <button
+                mat-button
+                (click)="serviceDetails(service._id)"
+                class="custom-button block w-full text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center overflow-hidden"
+                type="button"
+              >
+                <span class="circle1"></span>
+                <span class="circle2"></span>
+                <span class="circle3"></span>
+                <span class="circle4"></span>
+                <span class="circle5"></span>
+                <span class="text text-white">Book Now</span>
+              </button> 
               </div>
             </div>
           </div>

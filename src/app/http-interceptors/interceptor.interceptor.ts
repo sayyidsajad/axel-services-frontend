@@ -48,11 +48,11 @@ export class InterceptorInterceptor implements HttpInterceptor {
     return next.handle(newRequest).pipe(
       tap((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse) {
-          this._spinner.hide();
+          this._spinner.hide();          
         }
       }),
       catchError((error: HttpErrorResponse) => {
-        this._spinner.hide();
+        this._spinner.hide();        
         this._errorHandlerService.handleError(error);
         return throwError(() => error);
       })

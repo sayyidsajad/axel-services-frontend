@@ -71,41 +71,48 @@
         >
         <form [formGroup]="additionalServices">
           <input
-            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-            id="image"
-            type="file"
-            formControlName="image"
-            accept="image/jpeg, image/png"
-          />
-          <div *ngIf="additionalServices.get('image')?.hasError('required')">
-            Please select an image.
-          </div>
+          id="image"
+          type="file"
+          (change)="onFileSelected($event)"
+          accept="image/jpeg, image/png"
+          required
+        />
+        
+        <div *ngIf="additionalServices.get('image')?.touched && additionalServices.get('image')?.hasError('required')">
+          <p class="text-red-500">Image is required.</p>
+        </div>
+        
         </form>
       </div>
       <div class="relative mb-4">
-        <img
-          *ngIf="selectedImage"
-          [src]="selectedImage"
-          alt="Image Preview"
-          class="max-w-full"
-        />
-        <button
-          class="absolute top-2 right-2 bg-white text-red-500 border border-red-500 px-3 py-1 rounded cursor-pointer transition duration-300 hover:bg-red-500 hover:text-white"
-          type="button"
-          *ngIf="selectedImage"
-          (click)="removeImage()"
-        >
-          <i class="fas fa-trash-alt rounded-sm"></i>
-        </button>
       </div>
+   
+   
       <button
         type="submit"
-        [disabled]="!additionalServices.valid"
+        [disabled]="!this.additionalServices.valid"
         mat-raised-button
         color="primary"
       >
         Submit
       </button>
+      <div class="relative">
+        <img
+          *ngIf="selectedImage"
+          [src]="selectedImage"
+          alt="Image Preview"
+          class="max-w-full mb-4 rounded-lg"
+        />
+      
+        <button
+          class="absolute top-0 right-0 bg-white text-red-500 border border-red-500 px-3 py-1 rounded cursor-pointer transition duration-300 hover:bg-red-500 hover:text-white"
+          type="button"
+          *ngIf="selectedImage"
+          (click)="removeImage()"
+        >
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </div>      
     </form>
   </mat-grid-tile>
 </mat-grid-list>
@@ -218,22 +225,23 @@
             formControlName="amount"
           />
         </mat-form-field>
-        <div class="flex items-center mb-4 relative">
-          <input
-            class="flex-grow text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-            id="image"
-            type="file"
-            (change)="onFileSelected($event)"
-          />
-          <button
-            class="bg-white text-red-500 border border-red-500 px-3 py-1 ml-2 rounded cursor-pointer transition duration-300 hover:bg-red-500 hover:text-white"
-            type="button"
-            *ngIf="selectedImage"
-            (click)="removeImage()"
-          >
-            <i class="fas fa-trash-alt"></i>
-          </button>
-        </div>
+          <div class="flex items-center mb-4 relative">
+            <input
+              class="flex-grow text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              id="image"
+              type="file"
+              accept="image/jpeg, image/png"
+              (change)="onFileSelected($event)"
+            />
+            <button
+              class="bg-white text-red-500 border border-red-500 px-3 py-1 ml-2 rounded cursor-pointer transition duration-300 hover:bg-red-500 hover:text-white"
+              type="button"
+              *ngIf="selectedImage"
+              (click)="removeImage()"
+            >
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
         <img
           *ngIf="selectedImage"
           [src]="selectedImage"

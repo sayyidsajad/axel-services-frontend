@@ -23,7 +23,7 @@ interface AddressNameFormat {
   styleUrls: ['./servicer-verification-process.component.css']
 })
 export class ServicerVerificationProcessComponent {
-  @ViewChild('captchaElem') captchaElem!:ElementRef;
+  // @ViewChild('captchaElem') captchaElem!:ElementRef;
   useGlobalDomain = false;
   selectedImage: SafeUrl | null = null; docs: File[] = [];
   length!: number;
@@ -58,7 +58,6 @@ export class ServicerVerificationProcessComponent {
     });
     this.thirdFormGroup = this._fb.group({
       docs: ['', Validators.required],
-      recaptcha: ['', Validators.required]
     });
     this.categoriesList()
   }
@@ -183,10 +182,24 @@ export class ServicerVerificationProcessComponent {
       );
     }
   }
-  onFileSelected(event: any) {
-    this.selectedFile = <File>event.target.files[0]
-    this.selectedImage = this._sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(this.selectedFile));
+  onFileSelected(event: any): void {
+    const selectedFile = <File>event.target.files[0];
+    const extension = this.getFileExtension(selectedFile.name);
+    const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+    if (!allowedExtensions.includes(extension)) {
+      this._toastr.error('Please select a valid image file (jpg, jpeg, png, or gif).');
+      return;
+    }
+    const maxFileSize = 5 * 1024 * 1024;
+    if (selectedFile.size > maxFileSize) {
+      this._toastr.error('Selected file exceeds the maximum allowed size.');
+      return;
+    }
+    this.selectedFile = selectedFile;
+    this.selectedImage = this._sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(selectedFile));
   }
+
   onDeleteImage() {
     this.selectedFile = null
     this.selectedImage = null;
@@ -205,28 +218,46 @@ export class ServicerVerificationProcessComponent {
   }
   onFileChange(event: any): void {
     const selectedFiles = event.target.files;
+
+    for (let i = 0; i < selectedFiles.length; i++) {
+      const file = selectedFiles[i];
+      const extension = this.getFileExtension(file.name);
+      const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+      if (!allowedExtensions.includes(extension)) {
+        this._toastr.error('Please select valid image files (jpg, jpeg, png, or gif).');
+        this.docs = [];
+        return;
+      }
+    }
+
     this.docs = Array.from(selectedFiles);
     this.length = this.docs.length;
   }
 
+  getFileExtension(filename: string): string {
+    return filename.split('.').pop() || '';
+  }
+
+
   getSanitizedUrl(file: File): SafeUrl {
     return this._sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file));
   }
-// reset(){
-//   this.thirdFormGroup.
-// }
+  // reset(){
+  //   this.thirdFormGroup.
+  // }
   onDeleteImages(index: number): void {
     this.docs.splice(index, 1);
   }
-  handleSuccess(e: any) {
-    this.subscribe.add(this._servicerServices.servicerRecaptcha('e').subscribe({
-      next: () => {        
-        this.useGlobalDomain = true
-      }, error: () => {
-        this.useGlobalDomain = false
-      }
-    }))
-  }
+  // handleSuccess(e: any) {
+  //   this.subscribe.add(this._servicerServices.servicerRecaptcha('e').subscribe({
+  //     next: () => {        
+  //       this.useGlobalDomain = true
+  //     }, error: () => {
+  //       this.useGlobalDomain = false
+  //     }
+  //   }))
+  // }
 
 
 
@@ -243,16 +274,14 @@ export class ServicerVerificationProcessComponent {
       data.append('docs', this.docs[i], this.docs[i].name);
     }
     if (this.firstFormGroup.valid && this.secondFormGroup.valid && this.thirdFormGroup) {
-      if (this.useGlobalDomain === false) {
-        this._toastr.error('Invalid Captcha')
-      } else {
-        this.subscribe.add(this._servicerServices.servicerVerification(data, this.id).subscribe({
-          next: (res) => {
-            this._router.navigate(['servicer/adminServicerApproval'], { queryParams: { id: res.id } });
-          }
-        }))
-      }
+
+      this.subscribe.add(this._servicerServices.servicerVerification(data, this.id).subscribe({
+        next: (res) => {
+          this._router.navigate(['servicer/adminServicerApproval'], { queryParams: { id: res.id } });
+        }
+      }))
     }
+
   }
 }
 

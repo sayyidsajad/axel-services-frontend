@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { AdminService } from 'src/app/services/admin/admin.service';
 import { serviceData } from '../../users/homepage/types/user.types';
 import { Subscription } from 'rxjs';
@@ -6,6 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-servicers-approval',
@@ -13,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./servicers-approval.component.css']
 })
 export class ServicersApprovalComponent {
-  displayedColumns: string[] = ['id', 'companyname', 'email', 'phone', 'approvalstatus', 'actions'];
+  displayedColumns: string[] = ['id', 'companyname', 'email', 'phone', 'approvalstatus', 'viewdetails', 'actions'];
   private subscribe: Subscription = new Subscription()
   dataSource: MatTableDataSource<serviceData>;
   paginator!: MatPaginator;
@@ -21,8 +22,10 @@ export class ServicersApprovalComponent {
   approvals!: Array<serviceData>;
   @ViewChild(MatSort)
   sort!: MatSort;
+  @ViewChild('viewDetail')
+  viewDetail!: TemplateRef<any>;
 
-  constructor(private _adminServices: AdminService, private _toastr: ToastrService) {
+  constructor(public _dialog: MatDialog, private _adminServices: AdminService, private _toastr: ToastrService) {
     this.dataSource = new MatTableDataSource();
   }
 
@@ -60,6 +63,11 @@ export class ServicersApprovalComponent {
         res.message === "Not Approved" ? this._toastr.warning('Servicer Approval has been cancelled') : this._toastr.success('Servicer has been approved')
       }
     }))
+  }
+  viewDetails(servicer: serviceData): void {    
+    this._dialog.open(this.viewDetail, {
+      data: servicer,
+    });
   }
 
   ngOnDestroy(): void {

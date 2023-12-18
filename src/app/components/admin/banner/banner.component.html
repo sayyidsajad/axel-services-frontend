@@ -78,6 +78,36 @@
           <img [src]="row.images[0]" alt="Image" />
         </td>
       </ng-container>
+      <ng-container matColumnDef="list">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>List</th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+          class="{{ row.list ? 'text-success' : 'text-error' }}"
+        >
+          {{ row.list ? "Listed" : "Unlisted" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+        <td mat-cell *matCellDef="let row">
+          <!-- <button
+            mat-raised-button
+            (click)="editCategory(row._id, row.categoryName, row.description)"
+            class="btn btn-secondary btn-xs"
+          >
+            Edit
+          </button> -->
+          <button
+            (click)="listUnlist(row._id)"
+            class="btn mt-2 {{
+              row.list ? 'btn-error' : 'btn-success'
+            }} btn-xs ms-2 text-white"
+          >
+            {{ row.list ? "Unlist" : "List" }}
+          </button>
+        </td>
+      </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       <tr class="mat-row" *matNoDataRow>

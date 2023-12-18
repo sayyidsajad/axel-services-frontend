@@ -16,7 +16,7 @@ export class ServicersSignupComponent {
 hide = true
   ngOnInit(): void {
     this.registerForm = this._fb.group({
-      companyName: ['', [Validators.required, WhiteSpace.validate]],
+      companyName: ['', [Space.noSpaceAllowed,Validators.required, WhiteSpace.validate]],
       email: ['', [Space.noSpaceAllowed, Validators.required, Validators.email, Validators.pattern("^[a-z0-9](\.?[a-z0-9]){0,}@g(oogle)?mail\.com$")]],
       phone: ['', [Validators.required,
       Validators.minLength(10),
@@ -24,7 +24,7 @@ hide = true
       Validators.pattern(/^[0-9]+$/),
       Space.noSpaceAllowed]],
       password: ['', [Validators.required, Validators.minLength(8), Space.noSpaceAllowed]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(8), Space.noSpaceAllowed]]
+      confirmPassword: ['', [Validators.required, Validators.minLength(8), Space.noSpaceAllowed,confirmPasswordValidator]]
     }, { validators: confirmPasswordValidator })
   }
   constructor(private _fb: FormBuilder, private _servicerServices: ServicerService, private _router: Router) { }
@@ -39,7 +39,59 @@ hide = true
       }))
     }
   }
-
+  getErrorMessage(controlName: string): string {
+    const control = this.registerForm.get(controlName);
+  
+    if (!control || !control.invalid) {
+      return '';
+    }
+  
+    const fieldName = this.capitalizeFirstLetter(controlName);
+  
+    if (control.hasError('required')) {
+      return `${fieldName} is required`;
+    }
+  
+    if (control.hasError('whitespace')) {
+      return `${fieldName} cannot contain whitespaces`;
+    }
+  
+    if (control.hasError('noSpaceAllowed')) {
+      return `${fieldName} cannot contain spaces`;
+    }
+  
+    if (control.hasError('noNumbers')) {
+      return `${fieldName} cannot contain numbers`;
+    }
+  
+    if (control.hasError('email')) {
+      return `Invalid ${fieldName} format`;
+    }
+  
+    if (controlName === 'password') {
+      if (control.hasError('minlength')) {
+        return `${fieldName} must be at least 8 characters long`;
+      }
+    }
+  
+    if (controlName === 'confirmPassword') {
+      if (control.hasError('minlength')) {
+        return `${fieldName} must be at least 8 characters long`;
+      }
+  
+      if (control.hasError('PasswordNoMatch')) {
+        return 'Passwords do not match';
+      }
+    }
+  
+    return `Invalid ${fieldName}`;
+  }
+  
+  
+  private capitalizeFirstLetter(text: string): string {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
+  
   ngOnDestroy(): void {
     this.subscribe.unsubscribe()
   }

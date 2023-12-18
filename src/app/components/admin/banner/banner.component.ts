@@ -26,7 +26,7 @@ export class BannerComponent {
   length!: number;
   selectedFile!: File
   bannerForm!: FormGroup
-  displayedColumns: string[] = ['bannerName', 'description', 'image'];
+  displayedColumns: string[] = ['bannerName', 'description', 'image','list','action'];
   dataSource!: MatTableDataSource<BannerData>;
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -43,11 +43,29 @@ export class BannerComponent {
   }
   onFileChange(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
+
     if (inputElement && inputElement.files) {
-      this.docs = Array.from(inputElement.files);
-      this.length = this.docs.length;
+      const files = Array.from(inputElement.files);
+      const invalidFiles = files.filter(file => {
+        const extension = this.getFileExtension(file.name);
+        return !['jpg', 'jpeg', 'png', 'gif'].includes(extension);
+      });
+
+      if (invalidFiles.length > 0) {
+        this._toastr.error('Please select valid image files (jpg, jpeg, png, or gif).');
+        inputElement.value = '';
+        this.docs = [];
+        this.length = 0;
+        return;
+      }
+      this.docs = files;
+      this.length = files.length;
     }
   }
+  getFileExtension(filename: string): string {
+    return filename.split('.').pop() || '';
+  }
+
   bannerSubmit() {
     if (this.bannerForm.valid) {
       const data = new FormData()
@@ -93,6 +111,14 @@ export class BannerComponent {
     this.subscribe.add(this._adminServices.listBanners().subscribe({
       next: (res) => {
         this.dataSource.data = res.banners
+      }
+    }))
+  }
+  listUnlist(id: string) {
+    this.subscribe.add(this._adminServices.bannerListUnlist(id).subscribe({
+      next: (res) => {
+        this.listBanners()
+        res.message === 'Listed' ? this._toastr.success('Banner has been listed') : this._toastr.warning('Banner has been unlisted')
       }
     }))
   }

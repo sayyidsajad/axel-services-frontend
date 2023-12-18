@@ -20,7 +20,7 @@
                 formControlName="email"
               />
               @if (this.loginForm.get('email')?.invalid) {
-              <!-- <mat-error>{{ getErrorMessage("email") }}</mat-error> -->
+              <mat-error>{{ getErrorMessage("email") }}</mat-error>
               }
             </mat-form-field>
           </div>
@@ -35,7 +35,7 @@
                 placeholder="Enter Password"
               />
               @if (this.loginForm.get('password')?.invalid) {
-              <!-- <mat-error>{{ getErrorMessage("password") }}</mat-error> -->
+              <mat-error>{{ getErrorMessage("password") }}</mat-error>
               }
               <button
                 mat-icon-button
@@ -68,12 +68,7 @@
               Login
             </button>
             </div>
-            
           </div>
-          
-          
-          
-          
         </form>
         <asl-google-signin-button type='standard' size='medium' shape="pill"
         text="continue_with">
@@ -88,6 +83,18 @@
             class="btn bg-black text-white hover:bg-success"
           >
             Register
+          </button>
+        </div>
+        <div class="form-control">
+          <label class="label">
+            <a class="label-text-alt text-white">Login as a servicer?</a>
+          </label>
+          <button
+            routerLink="/servicer"
+            type="button"
+            class="btn bg-black text-white hover:bg-success"
+          >
+            Sign In
           </button>
         </div>
       </div>

@@ -35,8 +35,8 @@ export class UsersService {
   servicerDetails(id: string): Observable<IServicerDetailsResponse> {
     return this._http.get<IServicerDetailsResponse>(`servicerDetails?id=${id}`)
   }
-  bookNow(id: string, date: string, time: string, walletChecked?: number): Observable<IBookNowResponse> {
-    return this._http.post<IBookNowResponse>(`bookNow`, { id, date, time, walletChecked })
+  bookNow(id: string, date: string, time: string, place: string, walletChecked?: number): Observable<IBookNowResponse> {
+    return this._http.post<IBookNowResponse>(`bookNow`, { id, date, time, place, walletChecked })
   }
   bookingsList(): Observable<IBookingsListResponse> {
     return this._http.get<IBookingsListResponse>('bookingsList')

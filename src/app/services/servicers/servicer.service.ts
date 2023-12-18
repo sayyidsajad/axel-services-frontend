@@ -62,4 +62,7 @@ export class ServicerService {
   servicerRecaptcha(recaptcha: string): Observable<any> {    
     return this._http.get(`servicer/recaptcha?recaptcha=${recaptcha}`)
   }
+  listReviews(): Observable<any> {    
+    return this._http.get(`servicer/listReviews`)
+  }
 }

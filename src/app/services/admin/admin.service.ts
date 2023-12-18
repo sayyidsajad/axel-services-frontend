@@ -36,6 +36,11 @@ export class AdminService {
   listUnlist(id: string): Observable<{ message: string }> {
     return this._http.patch<{ message: string }>('admin/listUnlist', { id })
   }
+  bannerListUnlist(id: string): Observable<{ message: string }> {
+    console.log(id);
+    
+    return this._http.patch<{ message: string }>('admin/bannerListUnlist', { id })
+  }
   cancelBooking(textArea: string, bookingId: string, userId: string): Observable<void> {
     return this._http.post<void>('admin/cancelBooking', { textArea, bookingId, userId })
   }

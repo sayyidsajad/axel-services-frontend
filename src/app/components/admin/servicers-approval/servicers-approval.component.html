@@ -33,6 +33,14 @@
         {{ row.isApproved ? "Approved" : "Cancelled" }}
       </td>
     </ng-container>
+    <ng-container matColumnDef="viewdetails">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-icon-button (click)="viewDetails(row)">
+          <mat-icon>visibility</mat-icon>
+        </button>
+      </td>
+    </ng-container>
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
       <td mat-cell *matCellDef="let row">
@@ -55,47 +63,31 @@
     aria-label="Select page of users"
   ></mat-paginator>
 </div>
-
-<!-- <div class="flowbite">
-    <div class="flex">
-      <aside class="w-64 bg-gray-50 dark:bg-gray-800">
-      </aside>
-      <main class="flex-1 p-4 overflow-x-auto">
-        <div class="min-w-full border border-gray-200">
-          <table class="w-full">
-            <thead>
-              <tr>
-                <th class="p-3 text-left">Company Name</th>
-                <th class="p-3 text-left">Email</th>
-                <th class="p-3 text-left">Phone</th>
-                <th class="p-3 text-left">Approval Status</th>
-                <th class="p-3 text-left">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let approval of approvals" class="border-t border-gray-200">
-                <td class="p-3">
-                      <div class="font-bold">{{approval.companyName}}</div>
-                     
-                </td>
-                <td>
-                    <div class="text-sm text-gray-500">{{approval.email}}</div>
-                </td>
-                <td>
-                    <div class="text-sm text-gray-500">{{approval.phone}}</div>
-                </td>
-                <td>
-                    <div class="text-sm text-gray-500">{{approval.isApproved?'Approved':'Cancelled'}}</div>
-                </td>
-                <td class="p-3">
-                  <button (click)="approve(approval._id)"
-                    class="px-4 py-2m btn-sm {{approval.isApproved?'btn-error':'btn-success'}} text-white rounded-md">{{approval.isApproved?'Cancel':'Approve'}}</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </main>
+<ng-template #viewDetail let-data>
+  <div class="p-6 bg-white shadow-md rounded-md w-full overflow-y-auto max-w-screen-md max-h-screen">
+    <h2 class="text-2xl font-bold mb-4">{{ data?.companyName }} Details</h2>
+    <p><strong>Email:</strong> {{ data?.email }}</p>
+    <p><strong>Phone:</strong> {{ data?.phone }}</p>
+    <p><strong>Address:</strong> {{ data?.address }}</p>
+    <p><strong>Amount:</strong> {{ data?.amount }}</p>
+    <p><strong>Category:</strong> {{ data?.category }}</p>
+    <p><strong>Description:</strong> {{ data?.description }}</p>
+    <p><strong>Verification Document:</strong></p>
+    <img [src]="data.image" alt="Service Image" class="max-w-full mb-2">
+        <div *ngIf="data?.images && data?.images.length">
+      <p><strong>Images:</strong></p>
+      <div *ngFor="let image of data.images">
+        <img src="{{ image }}" alt="Service Image" class="max-w-full mb-2">
+      </div>
+    </div>
+    <div class="mt-6 flex justify-end">
+      <button mat-button mat-dialog-close class="bg-blue-500 text-white px-4 py-2 rounded-md">
+        Close
+      </button>
     </div>
   </div>
-   -->
+</ng-template>
+
+
+
+

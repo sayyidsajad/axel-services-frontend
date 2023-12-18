@@ -49,6 +49,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { CarouselModule } from 'primeng/carousel';
 import { ScriptLoaderService } from 'src/app/services/scripts/script-loader.service';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -100,7 +102,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatCheckboxModule,
     MatListModule,
     LazyLoadImageModule,
+    MatPaginatorModule,
     MatIconModule,
+    MatTableModule
   ],
   providers: [UsersService, MessagingService,
     MatDatepickerModule,

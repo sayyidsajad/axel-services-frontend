@@ -82,6 +82,7 @@ export interface IUserProfile {
 }
 
 export interface IUserProfileResponse {
+  walletHistory: any
   user: IUserProfile;
 }
 
