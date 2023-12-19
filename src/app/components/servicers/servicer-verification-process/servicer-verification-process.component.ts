@@ -274,7 +274,6 @@ export class ServicerVerificationProcessComponent {
       data.append('docs', this.docs[i], this.docs[i].name);
     }
     if (this.firstFormGroup.valid && this.secondFormGroup.valid && this.thirdFormGroup) {
-
       this.subscribe.add(this._servicerServices.servicerVerification(data, this.id).subscribe({
         next: (res) => {
           this._router.navigate(['servicer/adminServicerApproval'], { queryParams: { id: res.id } });

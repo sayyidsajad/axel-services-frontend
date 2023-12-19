@@ -52,6 +52,18 @@ export class UserProfileComponent {
   
   changeProfile(event: any) {
     this.selectedFile = <File>event.target.files[0]
+    const extension = this.getFileExtension(this.selectedFile.name);
+    const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+    if (!allowedExtensions.includes(extension)) {
+      this._toastr.error('Please select a valid image file (jpg, jpeg, png, or gif).');
+      return;
+    }
+    const maxFileSize = 5 * 1024 * 1024;
+    if (this.selectedFile.size > maxFileSize) {
+      this._toastr.error('Selected file exceeds the maximum allowed size.');
+      return;
+    }
     const data = new FormData()
     data.append('img', this.selectedFile, this.selectedFile.name);
     this.subscribe.add(this._userServices.profilePicture(data).subscribe({
@@ -60,6 +72,10 @@ export class UserProfileComponent {
       }
     }))
   }
+  getFileExtension(filename: string): string {
+    return filename.split('.').pop() || '';
+  }
+
   saveChanges() {
     const update = this.changePasswordForm.getRawValue()
     this.subscribe.add(this._userServices.editProfile(update.editName, update.editPhone).subscribe({

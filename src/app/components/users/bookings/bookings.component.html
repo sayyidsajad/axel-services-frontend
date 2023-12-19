@@ -100,9 +100,22 @@
           matInput
           required
         ></textarea>
+        <mat-error *ngIf="dialogForm.get('textArea')?.hasError('required')">
+          Please enter a valid statement.
+        </mat-error>
+        <mat-error *ngIf="dialogForm.get('textArea')?.hasError('noSpaceAllowed')">
+          Spaces are not allowed.
+        </mat-error>
+        <mat-error *ngIf="dialogForm.get('textArea')?.hasError('validate')">
+          White spaces are not allowed.
+        </mat-error>
+        <mat-error *ngIf="dialogForm.get('textArea')?.hasError('noNumbers')">
+         Numbers not allowed.
+        </mat-error>
       </mat-form-field>
     </form>
   </div>
+  
   <div mat-dialog-actions>
     <button
       class="btn btn-sm btn-error text-white"
@@ -116,6 +129,7 @@
       class="btn btn-sm btn-success text-white"
       mat-button
       mat-dialog-close="yes"
+      [disabled]="!this.dialogForm.valid"
     >
       Yes
     </button>
@@ -128,7 +142,6 @@
     <h2 class="text-2xl font-bold mb-4">
       {{ bookingDetail.service.serviceName }}
     </h2>
-
     <div class="grid grid-cols-2 gap-4">
       <div class="flex items-center mb-2">
         <div class="font-bold mr-2">Date:</div>

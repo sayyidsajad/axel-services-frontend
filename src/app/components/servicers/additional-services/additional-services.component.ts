@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Space, WhiteSpace, noNumbersValidator } from '../../validators/custom-validators';
 
 
 @Component({
@@ -38,9 +39,9 @@ export class AdditionalServicesComponent {
   ngOnInit(): void {
     this.additionalServicesList();
     this.additionalServices = this._fb.group({
-      service: ['', Validators.required],
-      description: ['', Validators.required],
-      amount: ['', Validators.required],
+      service: ['', [Validators.required, Space.noSpaceAllowed, WhiteSpace.validate, noNumbersValidator]],
+      description: ['', [Validators.required, WhiteSpace.validate]],
+      amount: ['', [Validators.required, Space.noSpaceAllowed, WhiteSpace.validate]],
       image: [null]
     });
   }

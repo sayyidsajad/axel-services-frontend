@@ -122,7 +122,7 @@ export class ServicerDetailsComponent {
     const secondField = this.secondFormGroup.getRawValue()
     const thirdField = this.thirdFormGroup.getRawValue()
     if (thirdField.walletChecked) {
-      this.subscribe.add(this._userServices.bookNow(this.id, firstField.date, secondField.time,this.place, this.wallet).subscribe({
+      this.subscribe.add(this._userServices.bookNow(this.id, firstField.date, secondField.time, this.place, this.wallet).subscribe({
         next: (res) => {
           const inputDate = moment(firstField.date);
           const formattedDate = inputDate.format("ddd MMM DD YYYY HH:mm:ss [GMT]Z") + " (India Standard Time)";
@@ -130,7 +130,7 @@ export class ServicerDetailsComponent {
         }
       }))
     } else {
-      this.subscribe.add(this._userServices.bookNow(this.id, firstField.date, secondField.time,this.place).subscribe({
+      this.subscribe.add(this._userServices.bookNow(this.id, firstField.date, secondField.time, this.place).subscribe({
         next: (res) => {
           const inputDate = moment(firstField.date);
           const formattedDate = inputDate.format("ddd MMM DD YYYY HH:mm:ss [GMT]Z") + " (India Standard Time)";
@@ -197,6 +197,9 @@ export class ServicerDetailsComponent {
     this._userServices.verifyPayment(response, inserted)
       .subscribe({
         next: async () => {
+          this.firstFormGroup.reset()
+          this.secondFormGroup.reset()
+          this.thirdFormGroup.reset()
           this._toastr.clear(loadingIndicator.toastId);
           this.insertedSummary = await inserted.inserted;
           if (this.insertedSummary) {

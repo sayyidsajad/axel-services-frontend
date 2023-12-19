@@ -7,6 +7,7 @@ import { IBooking } from 'src/app/services/users/types/user-component.types';
 import { IBookingsListResponse } from 'src/app/services/users/types/user-types';
 import { UsersService } from 'src/app/services/users/users.service';
 import Swal from 'sweetalert2';
+import { Space, WhiteSpace, noNumbersValidator } from '../../validators/custom-validators';
 
 @Component({
   selector: 'app-bookings',
@@ -48,11 +49,11 @@ export class BookingsComponent {
       },
     });
     this.dialogForm = this._fb.group({
-      textArea: ['', Validators.required],
+      textArea: ['', [Validators.required, Space.noSpaceAllowed, WhiteSpace.validate, noNumbersValidator]],
     })
     this.subscribe.add(dialogRef.afterClosed().subscribe({
       next: (result) => {
-        if (result !== undefined) {
+        if (result !== undefined && this.dialogForm.valid) {
           if (result === 'yes') {
             const user = this.dialogForm.getRawValue();
             if (user.textArea !== '') {
@@ -93,7 +94,7 @@ export class BookingsComponent {
       },
     });
     this.dialogForm = this._fb.group({
-      textArea: ['', Validators.required],
+      textArea: ['', [Validators.required, Space.noSpaceAllowed, WhiteSpace.validate, noNumbersValidator]],
     })
     this.subscribe.add(dialogRef.afterClosed().subscribe({
       next: (result) => {

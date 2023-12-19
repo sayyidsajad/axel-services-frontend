@@ -372,7 +372,7 @@
         <p>Details:</p>
         <div class="py-2 text-left">
           <p><strong>Booking ID:</strong> {{ insertedSummary.bookingId }}</p>
-          <p><strong>Date:</strong> {{ firstFormGroup.get("date")?.value | date }}</p>
+          <p><strong>Date:</strong> {{ insertedSummary.date | date }}</p>
           <p><strong>Time:</strong> {{ insertedSummary.time }}</p>
           <p><strong>Location:</strong> {{ insertedSummary.location }}</p>
           <p>

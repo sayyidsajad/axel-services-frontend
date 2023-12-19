@@ -17,15 +17,38 @@
             placeholder="example (Water Service)"
             required
           />
-          <span
-            class="validation text-red-500"
+          <mat-error
             *ngIf="
               additionalServices.get('service')?.hasError('required') &&
               additionalServices.get('service')?.touched
             "
           >
             Service name is required
-          </span>
+          </mat-error>
+          <mat-error
+            *ngIf="
+              additionalServices.get('service')?.hasError('noSpaceAllowed') &&
+              additionalServices.get('service')?.touched
+            "
+          >
+            Spaces not allowed
+          </mat-error>
+          <mat-error
+            *ngIf="
+              additionalServices.get('service')?.hasError('whitespace') &&
+              additionalServices.get('service')?.touched
+            "
+          >
+            White Spaces not allowed
+          </mat-error>
+          <mat-error
+            *ngIf="
+              additionalServices.get('service')?.hasError('noNumbers') &&
+              additionalServices.get('service')?.touched
+            "
+          >
+            Numbers not allowed
+          </mat-error>
         </mat-form-field>
       </div>
       <div class="mb-6 w-full">
@@ -36,15 +59,22 @@
             id="description"
             matInput
           ></textarea>
-          <span
-            class="validation text-red-500"
+          <mat-error
+            *ngIf="
+              additionalServices.get('description')?.hasError('whitespace') &&
+              additionalServices.get('description')?.touched
+            "
+          >
+            White Spaces not allowed
+          </mat-error>
+          <mat-error
             *ngIf="
               additionalServices.get('description')?.hasError('required') &&
               additionalServices.get('description')?.touched
             "
           >
             Description is required
-          </span>
+          </mat-error>
         </mat-form-field>
       </div>
       <div class="mb-6 w-full">
@@ -52,15 +82,30 @@
           <mat-label>Amount</mat-label>
           <span matPrefix style="margin-right: 8px">₹</span>
           <input formControlName="amount" id="amount" matInput />
-          <span
-            class="validation text-red-500"
+          <mat-error
             *ngIf="
               additionalServices.get('amount')?.hasError('required') &&
               additionalServices.get('amount')?.touched
             "
           >
             Amount is required
-          </span>
+          </mat-error>
+          <mat-error
+            *ngIf="
+              additionalServices.get('amount')?.hasError('noSpaceAllowed') &&
+              additionalServices.get('amount')?.touched
+            "
+          >
+            Spaces not allowed
+          </mat-error>
+          <mat-error
+            *ngIf="
+              additionalServices.get('amount')?.hasError('whitespace') &&
+              additionalServices.get('amount')?.touched
+            "
+          >
+            White spaces not allowed
+          </mat-error>
         </mat-form-field>
       </div>
       <div class="mb-4">
@@ -71,23 +116,25 @@
         >
         <form [formGroup]="additionalServices">
           <input
-          id="image"
-          type="file"
-          (change)="onFileSelected($event)"
-          accept="image/jpeg, image/png"
-          required
-        />
-        
-        <div *ngIf="additionalServices.get('image')?.touched && additionalServices.get('image')?.hasError('required')">
-          <p class="text-red-500">Image is required.</p>
-        </div>
-        
+            id="image"
+            type="file"
+            (change)="onFileSelected($event)"
+            accept="image/jpeg, image/png"
+            required
+          />
+
+          <div
+            *ngIf="
+              additionalServices.get('image')?.touched &&
+              additionalServices.get('image')?.hasError('required')
+            "
+          >
+            <p class="text-red-500">Image is required.</p>
+          </div>
         </form>
       </div>
-      <div class="relative mb-4">
-      </div>
-   
-   
+      <div class="relative mb-4"></div>
+
       <button
         type="submit"
         [disabled]="!this.additionalServices.valid"
@@ -103,7 +150,7 @@
           alt="Image Preview"
           class="max-w-full mb-4 rounded-lg"
         />
-      
+
         <button
           class="absolute top-0 right-0 bg-white text-red-500 border border-red-500 px-3 py-1 rounded cursor-pointer transition duration-300 hover:bg-red-500 hover:text-white"
           type="button"
@@ -112,7 +159,7 @@
         >
           <i class="fas fa-trash-alt"></i>
         </button>
-      </div>      
+      </div>
     </form>
   </mat-grid-tile>
 </mat-grid-list>
@@ -167,7 +214,13 @@
         <button
           mat-raised-button
           (click)="
-            editCategory(row._id, row.service, row.description, row.amount,row.image)
+            editCategory(
+              row._id,
+              row.service,
+              row.description,
+              row.amount,
+              row.image
+            )
           "
           class="btn btn-secondary btn-xs"
         >
@@ -225,23 +278,23 @@
             formControlName="amount"
           />
         </mat-form-field>
-          <div class="flex items-center mb-4 relative">
-            <input
-              class="flex-grow text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-              id="image"
-              type="file"
-              accept="image/jpeg, image/png"
-              (change)="onFileSelected($event)"
-            />
-            <button
-              class="bg-white text-red-500 border border-red-500 px-3 py-1 ml-2 rounded cursor-pointer transition duration-300 hover:bg-red-500 hover:text-white"
-              type="button"
-              *ngIf="selectedImage"
-              (click)="removeImage()"
-            >
-              <i class="fas fa-trash-alt"></i>
-            </button>
-          </div>
+        <div class="flex items-center mb-4 relative">
+          <input
+            class="flex-grow text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+            id="image"
+            type="file"
+            accept="image/jpeg, image/png"
+            (change)="onFileSelected($event)"
+          />
+          <button
+            class="bg-white text-red-500 border border-red-500 px-3 py-1 ml-2 rounded cursor-pointer transition duration-300 hover:bg-red-500 hover:text-white"
+            type="button"
+            *ngIf="selectedImage"
+            (click)="removeImage()"
+          >
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
         <img
           *ngIf="selectedImage"
           [src]="selectedImage"
