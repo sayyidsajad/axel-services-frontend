@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   socketEndPointLocal: 'https://server.axelservices.online',
-  socketEndPoint: 'https://server.axelservice.online',
+  socketEndPoint: 'https://server.axelservices.online',
   apiUrl: 'https://server.axelservices.online/',
   servicerSecret: 'servicerSecret',
   adminSecret: 'adminSecret',
