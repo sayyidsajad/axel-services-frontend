@@ -41,5 +41,7 @@ testem.log
 .DS_Store
 Thumbs.db
 
+.angular/cache
+
 # Angular Environment Files
-src/environments/*.ts
+# src/environments/*.ts
